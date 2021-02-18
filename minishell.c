@@ -2,7 +2,6 @@
 
 int		main(void)
 {
-	printf("Hello from branch master\n");
-	printf("hello world\n");
+	printf("Hello from master branch\n");
 	return (0);
 }
