@@ -1,6 +1,7 @@
 NAME=	minishell
 
-SRCS=	srcs/main.c
+SRCS=	srcs/main.c	\
+		srcs/display/prompt.c
 OBJS=	$(SRCS:.c=.o)
 
 CC=	clang

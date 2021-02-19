@@ -1,33 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   display.h                                          :+:      :+:    :+:   */
+/*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/19 20:29:15 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/02/19 20:29:44 by clbrunet         ###   ########.fr       */
+/*   Created: 2021/02/19 20:59:05 by clbrunet          #+#    #+#             */
+/*   Updated: 2021/02/19 21:23:47 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DISPLAY_H
-# define DISPLAY_H
+#include "display.h"
 
-# include <unistd.h>
-# include <stdio.h>
-# include <linux/limits.h>
+int	print_prompt(void)
+{
+	char	cwd[PATH_MAX];
 
-# define RESET		"\x1B[0m"
-# define BLACK		"\x1B[30m"
-# define RED		"\x1B[31m"
-# define GREEN		"\x1B[32m"
-# define YELLOW		"\x1B[33m"
-# define BLUE		"\x1B[34m"
-# define MAGENTA	"\x1B[35m"
-# define CYAN		"\x1B[36m"
-# define WHITE		"\x1B[37m"
-# define BOLD		"\x1B[1m"
-
-int	print_prompt(void);
-
-#endif
+	if (getcwd(cwd, PATH_MAX) == NULL)
+		return (1);
+	printf(CYAN "%s " GREEN "❯ " RESET, cwd);
+	return (0);
+}
