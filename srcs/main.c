@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 20:30:10 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/02/19 21:22:03 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/02/19 22:44:55 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 int	main(int argc, char *argv[], char *envp[])
 {
-	/* char	*command; */
-
 	(void)argc;
 	(void)argv;
 	(void)envp;
