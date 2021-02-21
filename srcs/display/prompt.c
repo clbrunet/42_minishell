@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 20:59:05 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/02/19 22:29:43 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/02/21 20:57:35 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,6 @@ int	print_prompt(void)
 
 	if (getcwd(cwd, PATH_MAX) == NULL)
 		return (1);
-	printf(CYAN "%s " GREEN "❯ " RESET, cwd);
+	printf(CYAN "%s " GREEN "❯ \n" RESET, cwd);
 	return (0);
 }

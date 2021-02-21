@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 20:29:15 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/02/19 22:44:32 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/02/21 20:49:57 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,6 @@
 	Return 1 if an error occurs. */
 
 int	print_prompt(void);
+int	getnextline(char **line);
 
 #endif

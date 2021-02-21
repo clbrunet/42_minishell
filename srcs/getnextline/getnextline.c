@@ -6,7 +6,7 @@
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 18:33:47 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/02/21 20:09:41 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/02/21 20:47:04 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ int	update_line(char **line, char *buffer)
 	int		i;
 	int		line_read;
 	int		size_line;
-	int		size_lbuf;
 	char	*tmp;
 
 	i = 0;
