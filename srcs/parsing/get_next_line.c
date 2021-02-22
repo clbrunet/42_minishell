@@ -6,7 +6,7 @@
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 18:33:47 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/02/22 06:55:29 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/02/22 09:02:18 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,18 @@ static int	update_buffer(int line_read, char *buffer, int i)
 	return (1);
 }
 
+static int		count_byte(int *line_read, char *buffer)
+{
+	int		i;
+
+	i = 0;
+	while (buffer[i] != '\0' && buffer[i] != '\n')
+		i++;
+	if (buffer[i] == '\n')
+		*line_read = 1;
+	return (i);
+}
+
 static int	update_line(char **line, char *buffer)
 {
 	int		i;
@@ -46,22 +58,24 @@ static int	update_line(char **line, char *buffer)
 	int		size_line;
 	char	*tmp;
 
-	i = 0;
-	while (buffer[i] != '\0' && buffer[i] != '\n')
-		i++;
 	line_read = 0;
-	if (buffer[i] == '\n')
-		line_read = 1;
+	i = count_byte(&line_read, buffer);
 	size_line = ft_strlen(*line);
 	tmp = malloc(sizeof(char) * (i + size_line + 1));
 	if (!tmp)
+	{
+		free(*line);
 		return (-1);
+	}
 	ft_strcpy(tmp, *line);
 	ft_strncat(tmp, buffer, i);
 	free(*line);
 	*line = tmp;
 	if (update_buffer(line_read, buffer, i) == -1)
+	{
+		free(*line);
 		return (-1);
+	}
 	return (line_read);
 }
 

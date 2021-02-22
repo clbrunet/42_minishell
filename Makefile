@@ -11,7 +11,7 @@ SRCS=	srcs/main.c	\
 OBJS=	$(SRCS:.c=.o)
 
 CC=		clang
-CFLAGS=	-Wall -Wextra -Werror -I./includes/
+CFLAGS=	-Wall -Wextra -Werror -I./includes/ 
 
 all:	$(NAME)
 
