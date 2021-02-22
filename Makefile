@@ -1,11 +1,11 @@
 NAME=	minishell
 
 SRCS=	srcs/main.c	\
-		srcs/ft/ft_strlen.c	\
-		srcs/ft/ft_strcpy.c	\
-		srcs/ft/ft_strcat.c	\
-		srcs/ft/ft_strncat.c \
-		srcs/ft/ft_putstr.c	\
+		srcs/ft/ft_strlen.c		\
+		srcs/ft/ft_strcpy.c		\
+		srcs/ft/ft_strcat.c		\
+		srcs/ft/ft_strncat.c	\
+		srcs/ft/ft_putstr.c		\
 		srcs/display/prompt.c	\
 		srcs/parsing/get_next_line.c
 OBJS=	$(SRCS:.c=.o)

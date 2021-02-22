@@ -6,7 +6,7 @@
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 18:33:47 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/02/22 09:02:18 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/02/22 09:47:12 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	update_buffer(int line_read, char *buffer, int i)
 	return (1);
 }
 
-static int		count_byte(int *line_read, char *buffer)
+static int	count_byte(int *line_read, char *buffer)
 {
 	int		i;
 

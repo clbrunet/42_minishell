@@ -15,18 +15,19 @@
 
 int	main(int argc, char *argv[], char *envp[])
 {
-	(void)argc;
-	(void)argv;
-	(void)envp;
 	char	*line;
 	int		line_read;
 
+	(void)argc;
+	(void)argv;
+	(void)envp;
 	line_read = 1;
 	while (line_read == 1)
 	{
 		if (print_prompt())
 			return (1);
 		line_read = get_next_line(&line);
+		printf("%s\n", line);
 	}
 	if (line_read == -1)
 		return (1);

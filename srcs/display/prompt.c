@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 20:59:05 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/02/22 08:19:16 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/02/22 09:24:41 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,6 @@ int	print_prompt(void)
 		return (1);
 	ft_putstr(CYAN);
 	ft_putstr(cwd);
-	ft_putstr(GREEN " ❯" RESET);
+	ft_putstr(GREEN " ❯ " RESET);
 	return (0);
 }
