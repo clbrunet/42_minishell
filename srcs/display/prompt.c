@@ -6,11 +6,12 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 20:59:05 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/02/21 20:57:35 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/02/22 07:40:57 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "display.h"
+#include "ft.h"
 
 /*	Print prompt with the current working directory then a symbol '❯' to
 	delimit from the command line.
@@ -23,6 +24,8 @@ int	print_prompt(void)
 
 	if (getcwd(cwd, PATH_MAX) == NULL)
 		return (1);
-	printf(CYAN "%s " GREEN "❯ \n" RESET, cwd);
+	ft_putstr(CYAN);
+	ft_putstr(cwd);
+	ft_putstr(GREEN " ❯" RESET);
 	return (0);
 }
