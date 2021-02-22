@@ -1,23 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strncat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/19 20:30:10 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/02/22 07:16:53 by clbrunet         ###   ########.fr       */
+/*   Created: 2021/02/22 06:48:22 by clbrunet          #+#    #+#             */
+/*   Updated: 2021/02/22 06:49:58 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "display.h"
+#include "ft.h"
 
-int	main(int argc, char *argv[], char *envp[])
+char	*ft_strncat(char *dest, char const *src, size_t n)
 {
-	(void)argc;
-	(void)argv;
-	(void)envp;
-	if (print_prompt())
-		return (1);
-	return (0);
+	size_t	i;
+	size_t	j;
+
+	i = ft_strlen(dest);
+	j = 0;
+	while (src[j] != '\0' && j < n)
+	{
+		dest[i + j] = src[j];
+		j++;
+	}
+	dest[i + j] = '\0';
+	return (dest);
 }

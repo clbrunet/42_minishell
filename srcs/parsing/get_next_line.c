@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   getnextline.c                                      :+:      :+:    :+:   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 18:33:47 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/02/21 20:47:04 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/02/22 06:55:29 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "getnextline.h"
+#include "parsing.h"
+#include "ft.h"
 
-int	init_line(char **line)
+static int	init_line(char **line)
 {
 	*line = malloc(sizeof(char) * (1));
 	if (!line)
@@ -21,7 +22,7 @@ int	init_line(char **line)
 	return (1);
 }
 
-int	update_buffer(int line_read, char *buffer, int i)
+static int	update_buffer(int line_read, char *buffer, int i)
 {
 	char	*tmp;
 
@@ -38,7 +39,7 @@ int	update_buffer(int line_read, char *buffer, int i)
 	return (1);
 }
 
-int	update_line(char **line, char *buffer)
+static int	update_line(char **line, char *buffer)
 {
 	int		i;
 	int		line_read;
@@ -64,7 +65,7 @@ int	update_line(char **line, char *buffer)
 	return (line_read);
 }
 
-int	getnextline(char **line)
+int	get_next_line(char **line)
 {
 	static char		buffer[1001] = {0};
 	int				byte_read;

@@ -1,23 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/19 20:30:10 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/02/22 07:16:53 by clbrunet         ###   ########.fr       */
+/*   Created: 2021/02/22 06:38:17 by clbrunet          #+#    #+#             */
+/*   Updated: 2021/02/22 06:38:17 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "display.h"
+#ifndef PARSING_H
+# define PARSING_H
 
-int	main(int argc, char *argv[], char *envp[])
-{
-	(void)argc;
-	(void)argv;
-	(void)envp;
-	if (print_prompt())
-		return (1);
-	return (0);
-}
+# include <stdlib.h>
+# include <unistd.h>
+# include <sys/stat.h>
+# include <sys/types.h>
+# include <fcntl.h>
+
+int		get_next_line(char **line);
+
+#endif

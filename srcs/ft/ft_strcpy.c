@@ -1,23 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/19 20:30:10 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/02/22 07:16:53 by clbrunet         ###   ########.fr       */
+/*   Created: 2021/02/22 06:50:08 by clbrunet          #+#    #+#             */
+/*   Updated: 2021/02/22 06:51:06 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "display.h"
+#include "ft.h"
 
-int	main(int argc, char *argv[], char *envp[])
+char	*ft_strcpy(char *dest, char const *src)
 {
-	(void)argc;
-	(void)argv;
-	(void)envp;
-	if (print_prompt())
-		return (1);
-	return (0);
+	int		i;
+
+	i = 0;
+	while (src[i] != '\0')
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
 }

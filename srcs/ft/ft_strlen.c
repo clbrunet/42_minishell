@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/19 20:30:10 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/02/22 07:16:53 by clbrunet         ###   ########.fr       */
+/*   Created: 2021/02/22 06:41:04 by clbrunet          #+#    #+#             */
+/*   Updated: 2021/02/22 06:41:58 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "display.h"
+#include "ft.h"
 
-int	main(int argc, char *argv[], char *envp[])
+size_t	ft_strlen(char const *str)
 {
-	(void)argc;
-	(void)argv;
-	(void)envp;
-	if (print_prompt())
-		return (1);
-	return (0);
+	size_t	i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		i++;
+	}
+	return (i);
 }
