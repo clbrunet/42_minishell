@@ -1,29 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.h                                          :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/22 06:38:17 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/02/23 14:38:42 by clbrunet         ###   ########.fr       */
+/*   Created: 2021/02/22 18:02:26 by clbrunet          #+#    #+#             */
+/*   Updated: 2021/02/23 14:38:28 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSING_H
-# define PARSING_H
+#include "parsing.h"
+#include "ft.h"
 
-# include <stdlib.h>
-# include <unistd.h>
-# include <sys/stat.h>
-# include <sys/types.h>
-# include <fcntl.h>
+void	free_strs(char	**strs)
+{
+	char	**iter;
 
-void	free_strs(char	**strs);
-int		syntax_error(char const *unexpected_token);
+	iter = strs;
+	while (*iter)
+	{
+		free(*iter);
+		iter++;
+	}
+	free(strs);
+}
 
-char	**parse_line(char const *line);
-
-int		get_next_line(char **line);
-
-#endif
+int	syntax_error(char const *unexpected_token)
+{
+	ft_putstr_fd(2, "minishell: syntax error near unexpected token `");
+	ft_putstr_fd(2, unexpected_token);
+	ft_putstr_fd(2, "'\n");
+	return (1);
+}

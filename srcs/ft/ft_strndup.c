@@ -1,29 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.h                                          :+:      :+:    :+:   */
+/*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/22 06:38:17 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/02/23 14:38:42 by clbrunet         ###   ########.fr       */
+/*   Created: 2021/02/22 15:16:40 by clbrunet          #+#    #+#             */
+/*   Updated: 2021/02/23 14:53:41 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSING_H
-# define PARSING_H
+#include "ft.h"
 
-# include <stdlib.h>
-# include <unistd.h>
-# include <sys/stat.h>
-# include <sys/types.h>
-# include <fcntl.h>
+char	*ft_strndup(char const *s, size_t n)
+{
+	char	*dup;
+	size_t	len;
+	char	*dup_bp;
 
-void	free_strs(char	**strs);
-int		syntax_error(char const *unexpected_token);
-
-char	**parse_line(char const *line);
-
-int		get_next_line(char **line);
-
-#endif
+	len = ft_strlen(s);
+	if (n < len)
+		len = n;
+	dup = malloc((len + 1) * sizeof(char));
+	if (dup == NULL)
+		return ((char *) NULL);
+	dup_bp = dup;
+	while (len)
+	{
+		*dup = *s;
+		dup++;
+		s++;
+		len--;
+	}
+	*dup = '\0';
+	return (dup_bp);
+}
