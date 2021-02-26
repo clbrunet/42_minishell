@@ -1,31 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt.c                                           :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/19 20:59:05 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/02/22 17:00:33 by clbrunet         ###   ########.fr       */
+/*   Created: 2021/02/22 18:02:26 by clbrunet          #+#    #+#             */
+/*   Updated: 2021/02/23 14:38:28 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "display.h"
+#include "parsing.h"
 #include "ft.h"
 
-/*	Print prompt with the current working directory then a symbol '❯' to
-	delimit from the command line.
-
-	Return 1 if an error occurs. */
-
-int	print_prompt(void)
+void	free_strs(char	**strs)
 {
-	char	cwd[PATH_MAX];
+	char	**iter;
 
-	if (getcwd(cwd, PATH_MAX) == NULL)
-		return (1);
-	ft_putstr_fd(1, CYAN);
-	ft_putstr_fd(1, cwd);
-	ft_putstr_fd(1, GREEN " ❯ " RESET);
-	return (0);
+	iter = strs;
+	while (*iter)
+	{
+		free(*iter);
+		iter++;
+	}
+	free(strs);
+}
+
+int	syntax_error(char const *unexpected_token)
+{
+	ft_putstr_fd(2, "minishell: syntax error near unexpected token `");
+	ft_putstr_fd(2, unexpected_token);
+	ft_putstr_fd(2, "'\n");
+	return (1);
 }

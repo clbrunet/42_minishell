@@ -1,19 +1,24 @@
 NAME=	minishell
 
-SRCS=	srcs/main.c	\
-		srcs/ft/ft_strlen.c		\
-		srcs/ft/ft_strcpy.c		\
-		srcs/ft/ft_strncpy.c		\
-		srcs/ft/ft_strcat.c		\
-		srcs/ft/ft_strncat.c	\
-		srcs/ft/ft_putstr.c		\
-		srcs/ft/ft_strncmp.c	\
-		srcs/display/prompt.c	\
-		srcs/parsing/get_next_line.c
+SRCS=	srcs/main.c						\
+		srcs/ft/ft_strlen.c				\
+		srcs/ft/ft_strcpy.c				\
+		srcs/ft/ft_strncpy.c			\
+		srcs/ft/ft_strcat.c				\
+		srcs/ft/ft_strncat.c			\
+		srcs/ft/ft_putstr.c				\
+		srcs/ft/ft_strncmp.c			\
+		srcs/ft/ft_putstr_fd.c			\
+		srcs/ft/ft_strndup.c			\
+		srcs/display/prompt.c			\
+		srcs/parsing/get_next_line.c	\
+		srcs/parsing/parse_line.c		\
+		srcs/parsing/parse_path.c		\
+		srcs/parsing/error.c
 OBJS=	$(SRCS:.c=.o)
 
 CC=		clang
-CFLAGS=	-Wall -Wextra -Werror -I./includes/ 
+CFLAGS=	-Wall -Wextra -Werror -I./includes/ -g3 -fsanitize=address
 
 all:	$(NAME)
 

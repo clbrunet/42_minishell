@@ -1,31 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt.c                                           :+:      :+:    :+:   */
+/*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/19 20:59:05 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/02/22 17:00:33 by clbrunet         ###   ########.fr       */
+/*   Created: 2021/02/22 15:16:40 by clbrunet          #+#    #+#             */
+/*   Updated: 2021/02/23 14:53:41 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "display.h"
 #include "ft.h"
 
-/*	Print prompt with the current working directory then a symbol '❯' to
-	delimit from the command line.
-
-	Return 1 if an error occurs. */
-
-int	print_prompt(void)
+char	*ft_strndup(char const *s, size_t n)
 {
-	char	cwd[PATH_MAX];
+	char	*dup;
+	size_t	len;
+	char	*dup_bp;
 
-	if (getcwd(cwd, PATH_MAX) == NULL)
-		return (1);
-	ft_putstr_fd(1, CYAN);
-	ft_putstr_fd(1, cwd);
-	ft_putstr_fd(1, GREEN " ❯ " RESET);
-	return (0);
+	len = ft_strlen(s);
+	if (n < len)
+		len = n;
+	dup = malloc((len + 1) * sizeof(char));
+	if (dup == NULL)
+		return ((char *) NULL);
+	dup_bp = dup;
+	while (len)
+	{
+		*dup = *s;
+		dup++;
+		s++;
+		len--;
+	}
+	*dup = '\0';
+	return (dup_bp);
 }

@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 20:29:15 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/02/25 10:26:25 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/02/26 15:03:33 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <linux/limits.h>
-# include <sys/types.h>
-# include <sys/wait.h>
 
 # define RESET		"\x1B[0m"
 # define BLACK		"\x1B[30m"

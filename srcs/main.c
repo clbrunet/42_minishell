@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 20:30:10 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/02/26 14:17:58 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/02/26 15:28:54 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,102 +15,25 @@
 #include "ft.h"
 #include <errno.h>
 
-int		find_path_id(char *envp[])
+void	print_free_commands(char **commands)
 {
-	int		i;
+	char	**iter;
 
-	i = 0;
-	while (envp[i] != NULL)
+	iter = commands;
+	while (*iter)
 	{
-		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
-			return (i);	
-		i++;
+		printf("|%s|\n", *iter);
+		free(*iter);
+		iter++;
 	}
-	return (-1);
-}
-
-char	*create_path(char *sub_path, char *cmd)
-{
-	int		size_cmd;
-	int		size_sub_path;
-	char	*path;
-	int		slash_ended;
-
-	size_sub_path = ft_strlen(sub_path);
-	size_cmd = ft_strlen(cmd);
-	slash_ended = 0;
-	if (sub_path[size_sub_path - 1] == '/')
-		slash_ended = 1;
-	path = malloc(sizeof(char) * (size_sub_path + size_cmd + slash_ended + 1));
-	if (!path)
-		return (NULL);
-	ft_strcpy(path, sub_path);
-	if (!slash_ended)
-		ft_strcat(path, "/");
-	ft_strcat(path, cmd);
-	return (path);
-}
-
-int		try_path(char *sub_path, char **argv, char **envp, char *cmd)
-{
-	int		pid;
-	int		error;
-	char	*path;
-	int		fd;
-
-	path = create_path(sub_path, cmd);
-	if (!path)
-		return (0);
-	fd = open(path, O_RDONLY);
-	if (fd < 0)
-		return (0);
-	close(fd);
-	pid = fork();
-	if (pid == 0)
-	{
-		error = execve(path, argv, envp);
-		if (error == -1)
-			return (-1);
-	}
-	wait(NULL);
-	return (1);
-}
-
-int		find_exec(char *envp[], char *cmd)
-{
-	int		path_id;
-	int		size_sub_path;
-	char	*sub_path;
-	int		i;
-	char	*argv_test[] = {"pwd", NULL};
-
-	path_id = find_path_id(envp);
-	if (path_id == -1)
-		return (0);
-	i = 4;
-	while (envp[path_id][i] != '\n' && envp[path_id][i] != '\0')
-	{
-		size_sub_path = 0;
-		while (envp[path_id][i + size_sub_path] != ':' && envp[path_id][i + size_sub_path] != '\0')
-			size_sub_path++;
-		sub_path = malloc(sizeof(char) * (size_sub_path + 1));
-		if (!sub_path)
-			return (-1);
-		ft_strncpy(sub_path, envp[path_id] + i, size_sub_path);
-		if (try_path(sub_path, argv_test, envp, cmd))
-			return (1);
-		if (envp[path_id][i + size_sub_path] == '\0')
-			i += size_sub_path;
-		else
-			i += size_sub_path + 1;
-	}
-	return (0);
+	free(commands);
 }
 
 int	main(int argc, char *argv[], char *envp[])
 {
 	char	*line;
 	int		line_read;
+	char	**commands;
 
 	(void)argc;
 	(void)argv;
@@ -121,7 +44,11 @@ int	main(int argc, char *argv[], char *envp[])
 		if (print_prompt())
 			return (1);
 		line_read = get_next_line(&line);
+		commands = parse_line(line);
+		free(line);
 		find_exec(envp, "pwd");
+		if (commands)
+			print_free_commands(commands);
 	}
 	if (line_read == -1)
 		return (1);

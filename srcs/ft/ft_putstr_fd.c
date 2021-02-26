@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr.c                                        :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 07:20:40 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/02/22 07:36:28 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/02/22 14:08:41 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft.h"
 
-void	ft_putstr(char *str)
+void	ft_putstr_fd(int fd, char const *str)
 {
 	int		i;
 
 	i = 0;
 	while (str[i] != '\0')
 	{
-		write(1, &str[i], 1);
+		write(fd, &str[i], 1);
 		i++;
 	}
 }
