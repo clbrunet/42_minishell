@@ -6,7 +6,6 @@ SRCS=	srcs/main.c						\
 		srcs/ft/ft_strncpy.c			\
 		srcs/ft/ft_strcat.c				\
 		srcs/ft/ft_strncat.c			\
-		srcs/ft/ft_putstr.c				\
 		srcs/ft/ft_strncmp.c			\
 		srcs/ft/ft_putstr_fd.c			\
 		srcs/ft/ft_strndup.c			\

@@ -6,13 +6,13 @@
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/26 14:57:07 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/02/26 15:49:58 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/02/26 17:54:33 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 #include "ft.h"
-
+#include <stdio.h>
 static int	find_path_id(char *envp[])
 {
 	int		i;
@@ -36,14 +36,14 @@ static char	*create_path(char *sub_path, char *cmd)
 
 	size_sub_path = ft_strlen(sub_path);
 	size_cmd = ft_strlen(cmd);
-	slash_ended = 0;
+	slash_ended = 1;
 	if (sub_path[size_sub_path - 1] == '/')
-		slash_ended = 1;
+		slash_ended = 0;
 	path = malloc(sizeof(char) * (size_sub_path + size_cmd + slash_ended + 1));
 	if (!path)
 		return (NULL);
 	ft_strcpy(path, sub_path);
-	if (!slash_ended)
+	if (slash_ended)
 		ft_strcat(path, "/");
 	ft_strcat(path, cmd);
 	return (path);
