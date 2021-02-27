@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_path.c                                       :+:      :+:    :+:   */
+/*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/26 14:57:07 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/02/26 17:54:33 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/02/27 11:15:44 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 #include "ft.h"
-#include <stdio.h>
+
 static int	find_path_id(char *envp[])
 {
 	int		i;
@@ -74,7 +74,8 @@ int	try_path(char *sub_path, char **argv, char **envp, char *cmd)
 	return (1);
 }
 
-static char	*create_sub_path(char **envp, int i, int path_id, int *size_sub_path)
+static char	*create_sub_path(char **envp, int i, int path_id,
+		int *size_sub_path)
 {
 	char	*sub_path;
 
