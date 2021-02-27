@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 20:59:05 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/02/22 17:00:33 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/02/27 11:20:58 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	print_prompt(void)
 
 	if (getcwd(cwd, PATH_MAX) == NULL)
 		return (1);
-	ft_putstr_fd(1, CYAN);
+	ft_putstr_fd(1, BOLD CYAN);
 	ft_putstr_fd(1, cwd);
 	ft_putstr_fd(1, GREEN " ❯ " RESET);
 	return (0);
