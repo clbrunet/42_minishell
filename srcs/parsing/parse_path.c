@@ -6,13 +6,13 @@
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/26 14:57:07 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/02/26 17:54:33 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/02/26 17:58:57 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 #include "ft.h"
-#include <stdio.h>
+
 static int	find_path_id(char *envp[])
 {
 	int		i;
