@@ -6,14 +6,13 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 20:30:10 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/02/28 07:32:41 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/02/28 14:46:23 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "display.h"
 #include "parsing.h"
 #include "ft.h"
-#include <errno.h>
 
 void	print_free_commands(char **commands)
 {
@@ -28,6 +27,7 @@ void	print_free_commands(char **commands)
 		free(*iter);
 		iter++;
 	}
+	printf("|%s|\n", *iter);
 	free(commands);
 }
 
@@ -39,7 +39,6 @@ int	main(int argc, char *argv[], char *envp[])
 
 	(void)argc;
 	(void)argv;
-	(void)envp;
 	line_read = 1;
 	while (line_read == 1)
 	{

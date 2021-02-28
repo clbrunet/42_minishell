@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 14:19:22 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/02/28 11:36:11 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/02/28 14:49:33 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,46 +64,36 @@ static	int	check_semicolons(char const *line)
 	return (0);
 }
 
-/* static	int	check_brackets(char const *command) */
-/* { */
-/* 	char	is_escaped; */
+static int	check_commands_ending(char const *line)
+{
+	char	is_escaped;
+	char	is_smth_expected;
 
-/* 	is_escaped = 0; */
-/* 	while (*command && !(*command == ';' && !is_escaped)) */
-/* 	{ */
-/* 		if ((*command == '\'' || *command == '"') && !is_escaped) */
-/* 			command = trim_inner_quotes(command, *command); */
-/* 		else if (*command == '(' && !is_escaped) */
-/* 		{ */
-/* 			command = trim_inner_brackets(command); */
-/* 			if (command == NULL) */
-/* 				return (syntax_error("newline")); */
-/* 		} */
-/* 		else if (*command == ')' && !is_escaped) */
-/* 			return (syntax_error(")")); */
-/* 		else if (*command == '\\') */
-/* 			is_escaped = !is_escaped; */
-/* 		else */
-/* 			is_escaped = 0; */
-/* 		command++; */
-/* 	} */
-/* 	return (0); */
-/* } */
-
-/* static int	check_ending(char const *command) */
-/* { */
-/* 	char const	*backup; */
-
-/* 	backup = command; */
-/* 	command += ft_strlen(command) - 1; */
-/* 	while (backup <= command) */
-/* 	{ */
-/* 		/1* if (*command == '|') *1/ */
-/* 	} */
-/* 	return (0); */
-/* } */
+	is_escaped = 0;
+	is_smth_expected = 0;
+	while (*line)
+	{
+		if (ft_strchr("'\"", *line) && !is_escaped)
+			line = trim_inner_quotes(line, *line);
+		else if (ft_strchr("<>|", *line) && !is_escaped)
+			is_smth_expected = 1;
+		else if (*line == ';' && !is_escaped && is_smth_expected)
+			return (syntax_error(";"));
+		else if (*line == '\\')
+			is_escaped = !is_escaped;
+		else
+			is_escaped = 0;
+		if (!ft_strchr("<>| ", *line))
+			is_smth_expected = 0;
+		line++;
+	}
+	if (is_smth_expected)
+		return (syntax_error("newline"));
+	return (0);
+}
 
 int	check_line(char const *line)
 {
-	return (check_quotes(line) || check_semicolons(line));
+	return (check_quotes(line) || check_semicolons(line)
+		|| check_commands_ending(line));
 }

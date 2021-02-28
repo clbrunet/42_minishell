@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 06:38:17 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/02/27 14:33:30 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/02/28 14:48:55 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 int			get_next_line(char **line);
 
 char const	*trim_inner_quotes(char const *line, char quote);
-char const	*trim_inner_brackets(char const *line);
+char		*str_substitute(char *str, char old, char new);
 
 void		free_strs(char	**strs);
 int			syntax_error(char const *unexpected_token);
