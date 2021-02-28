@@ -6,7 +6,7 @@
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/26 14:57:07 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/02/28 17:13:20 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/02/28 18:13:15 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static char	*create_path(char *sub_path, char *cmd)
 	return (path);
 }
 
-int	try_path(char *sub_path, char **argv, char **envp, char *cmd)
+static int	try_path(char *sub_path, char **argv, char **envp, char *cmd)
 {
 	int		pid;
 	int		error;

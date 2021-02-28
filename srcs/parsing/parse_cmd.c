@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command.h                                          :+:      :+:    :+:   */
+/*   parse_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/28 14:54:44 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/02/28 14:57:52 by clbrunet         ###   ########.fr       */
+/*   Created: 2021/02/28 07:16:13 by clbrunet          #+#    #+#             */
+/*   Updated: 2021/02/28 18:11:08 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef COMMAND_H
-# define COMMAND_H
+#include "parsing.h"
 
-typedef struct s_command	t_command;
-struct						s_command
+t_cmd	*parse_cmd(char const *str_cmd, int len)
 {
-	char		*command;
-	char		**arguments;
-	t_command	*pipe;
-};
+	t_cmd	*cmd;
 
-#endif
+	if (check_cmd(str_cmd, len))
+		return (NULL);
+	cmd = NULL;
+	return (cmd);
+}
+

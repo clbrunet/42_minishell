@@ -14,7 +14,7 @@
 #include "ft.h"
 
 /*	Print prompt with the current working directory then a symbol '❯' to
-	delimit from the command line.
+	delimit from the cmd line.
 
 	Return 1 if an error occurs. */
 

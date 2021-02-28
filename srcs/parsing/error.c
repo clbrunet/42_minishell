@@ -13,9 +13,9 @@
 #include "parsing.h"
 #include "ft.h"
 
-void	free_commands(t_command **commands)
+void	free_cmds(t_cmd **cmds)
 {
-	(void)commands;
+	(void)cmds;
 	/* free */
 }
 

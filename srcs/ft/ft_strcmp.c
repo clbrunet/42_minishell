@@ -1,24 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_command.c                                    :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/28 07:16:13 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/02/28 15:31:39 by clbrunet         ###   ########.fr       */
+/*   Created: 2020/11/16 13:54:03 by clbrunet          #+#    #+#             */
+/*   Updated: 2021/02/28 18:18:35 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "ft.h"
 
-t_command	*parse_command(char const *str_command, int len)
+int		ft_strcmp(const char *s1, const char *s2)
 {
-	t_command	*command;
+	const unsigned char	*u_s1;
+	const unsigned char	*u_s2;
 
-	if (check_command(str_command, len))
-		return (NULL);
-	command = NULL;
-	return (command);
+	u_s1 = (unsigned char *)s1;
+	u_s2 = (unsigned char *)s2;
+	while (*u_s1 && *u_s1 == *u_s2)
+	{
+		u_s1++;
+		u_s2++;
+	}
+	return ((int)(*u_s1 - *u_s2));
 }
-

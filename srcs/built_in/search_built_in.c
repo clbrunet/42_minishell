@@ -1,24 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   search_built_in.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
+/*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/28 11:32:44 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/02/28 17:54:15 by clbrunet         ###   ########.fr       */
+/*   Created: 2021/02/28 17:36:01 by clbrunet          #+#    #+#             */
+/*   Updated: 2021/02/28 18:20:47 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
+#include "ft.h"
 
-int	cd(t_cmd *cmd)
+int		(*search_built_in(t_cmd *cmd))(t_cmd *cmd)
 {
-	/*temporary variable (wait for parsing) */
-	char	*path = "../fnem";
-
-	(void)cmd;
-	if (printf("ret = %d", chdir(path) == -1))
-		return (-1);
-	return (1);
+	if (ft_strcmp(cmd->exe, "echo") == 0)
+		return (&echo);
+	return (NULL);
 }

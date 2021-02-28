@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_command.c                                    :+:      :+:    :+:   */
+/*   check_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 07:28:04 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/02/28 15:32:17 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/02/28 18:10:58 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 #include "ft.h"
 
-int	check_command(char const *command, int len)
+int	check_cmd(char const *cmd, int len)
 {
-	(void)command;
+	(void)cmd;
 	(void)len;
 	return (0);
 }

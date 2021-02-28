@@ -11,16 +11,18 @@ SRCS=	srcs/main.c	\
 		srcs/ft/ft_putchar_fd.c	\
 		srcs/ft/ft_strndup.c	\
 		srcs/ft/ft_strchr.c		\
+		srcs/ft/ft_strcmp.c		\
 		srcs/display/prompt.c	\
 		srcs/parsing/get_next_line.c	\
 		srcs/parsing/utils.c			\
 		srcs/parsing/error.c			\
 		srcs/parsing/parse_line.c		\
 		srcs/parsing/check_line.c		\
-		srcs/parsing/parse_command.c	\
-		srcs/parsing/check_command.c	\
+		srcs/parsing/parse_cmd.c		\
+		srcs/parsing/check_cmd.c		\
 		srcs/parsing/parse_path.c		\
-		srcs/built_in/echo.c	\
+		srcs/built_in/search_built_in.c	\
+		srcs/built_in/echo.c			\
 		srcs/built_in/cd.c
 OBJS=	$(SRCS:.c=.o)
 

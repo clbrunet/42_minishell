@@ -13,26 +13,26 @@
 #include "parsing.h"
 #include "ft.h"
 
-static int	count_commands(char const *line)
+static int	count_cmds(char const *line)
 {
 	int		count;
-	char	is_new_command;
+	char	is_new_cmd;
 	char	is_escaped;
 
 	is_escaped = 0;
-	is_new_command = 1;
+	is_new_cmd = 1;
 	count = 0;
 	while (*line)
 	{
-		if (*line != ' ' && is_new_command)
+		if (*line != ' ' && is_new_cmd)
 		{
 			count++;
-			is_new_command = 0;
+			is_new_cmd = 0;
 		}
 		if (ft_strchr("'\"", *line) && !is_escaped)
 			line = trim_inner_quotes(line, *line);
 		else if (*line == ';' && !is_escaped)
-			is_new_command = 1;
+			is_new_cmd = 1;
 		else if (*line == '\\')
 			is_escaped = !is_escaped;
 		else
@@ -42,7 +42,7 @@ static int	count_commands(char const *line)
 	return (count);
 }
 
-static int	fill_commands(t_command **commands, char const *line, int count)
+static int	fill_cmds(t_cmd **cmds, char const *line, int count)
 {
 	char const	*backup;
 	char		is_escaped;
@@ -61,32 +61,32 @@ static int	fill_commands(t_command **commands, char const *line, int count)
 				is_escaped = 0;
 			line++;
 		}
-		*commands = parse_command(backup, line - backup);
-		if (*commands == NULL)
+		*cmds = parse_cmd(backup, line - backup);
+		if (*cmds == NULL)
 			return (1);
 		line++;
-		commands++;
+		cmds++;
 	}
-	*commands = NULL;
+	*cmds = NULL;
 	return (0);
 }
 
-t_command	**parse_line(char *line)
+t_cmd	**parse_line(char *line)
 {
-	t_command	**commands;
+	t_cmd	**cmds;
 	int			count;
 
 	str_substitute(line, '\t', ' ');
 	if (check_line(line))
 		return (NULL);
-	count = count_commands(line);
-	commands = malloc((count + 1) * sizeof(t_command *));
-	if (commands == NULL)
+	count = count_cmds(line);
+	cmds = malloc((count + 1) * sizeof(t_cmd *));
+	if (cmds == NULL)
 		return (NULL);
-	if (fill_commands(commands, line, count))
+	if (fill_cmds(cmds, line, count))
 	{
-		free_commands(commands);
+		free_cmds(cmds);
 		return (NULL);
 	}
-	return (commands);
+	return (cmds);
 }

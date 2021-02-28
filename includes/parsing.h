@@ -21,23 +21,23 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 
-# include "command.h"
+# include "cmd.h"
 
 int			get_next_line(char **line);
 
 char const	*trim_inner_quotes(char const *line, char quote);
 char		*str_substitute(char *str, char old, char new);
 
-void		free_commands(t_command	**commands);
+void		free_cmds(t_cmd	**cmds);
 int			syntax_error(char const *unexpected_token);
 
-int			check_command(char const *command, int len);
+int			check_cmd(char const *cmd, int len);
 
-t_command	*parse_command(char const *command, int len);
+t_cmd	*parse_cmd(char const *cmd, int len);
 
 int			check_line(char const *line);
 
-t_command	**parse_line(char *line);
+t_cmd	**parse_line(char *line);
 
 
 int			find_exec(char *envp[], char *cmd);

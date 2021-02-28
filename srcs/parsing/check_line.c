@@ -64,7 +64,7 @@ static	int	check_semicolons(char const *line)
 	return (0);
 }
 
-static int	check_commands_ending(char const *line)
+static int	check_cmds_ending(char const *line)
 {
 	char	is_escaped;
 	char	is_smth_expected;
@@ -95,5 +95,5 @@ static int	check_commands_ending(char const *line)
 int	check_line(char const *line)
 {
 	return (check_quotes(line) || check_semicolons(line)
-		|| check_commands_ending(line));
+		|| check_cmds_ending(line));
 }
