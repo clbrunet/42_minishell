@@ -6,7 +6,11 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 20:30:10 by clbrunet          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2021/02/28 13:33:52 by mlebrun          ###   ########.fr       */
+=======
+/*   Updated: 2021/02/28 15:29:02 by clbrunet         ###   ########.fr       */
+>>>>>>> command-line-parsing
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +18,18 @@
 #include "parsing.h"
 #include "ft.h"
 #include "built_in.h"
-
-void	print_free_commands(char **commands)
-{
-	char	**iter;
-
-	iter = commands;
-	while (*iter)
-	{
-		printf("|%s|\n", *iter);
-		free(*iter);
-		iter++;
-	}
-	free(commands);
-}
+#include "command.h"
 
 
 int	main(int argc, char *argv[], char *envp[])
 {
 	char	*line;
 	int		line_read;
-	char	**commands;
+	t_command	**commands;
 
-	(void)argc;
 	(void)argv;
-	(void)envp;
+	if (argc != 1)
+		return (1);
 	line_read = 1;
 	while (line_read == 1)
 	{
@@ -49,8 +40,7 @@ int	main(int argc, char *argv[], char *envp[])
 		free(line);
 		if (find_exec(envp, "pwd") == 0)
 			ft_putstr_fd(1, "<inserted command>: command not found\n");
-		if (commands)
-			print_free_commands(commands);
+		free_commands(commands);
 	}
 	if (line_read == -1)
 		return (1);

@@ -1,28 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   parse_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/22 18:02:26 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/02/23 14:38:28 by clbrunet         ###   ########.fr       */
+/*   Created: 2021/02/28 07:16:13 by clbrunet          #+#    #+#             */
+/*   Updated: 2021/02/28 15:31:39 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
-#include "ft.h"
 
-void	free_commands(t_command **commands)
+t_command	*parse_command(char const *str_command, int len)
 {
-	(void)commands;
-	/* free */
+	t_command	*command;
+
+	if (check_command(str_command, len))
+		return (NULL);
+	command = NULL;
+	return (command);
 }
 
-int	syntax_error(char const *unexpected_token)
-{
-	ft_putstr_fd(2, "minishell: syntax error near unexpected token `");
-	ft_putstr_fd(2, unexpected_token);
-	ft_putstr_fd(2, "'\n");
-	return (1);
-}

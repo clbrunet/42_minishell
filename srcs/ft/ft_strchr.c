@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/22 18:02:26 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/02/23 14:38:28 by clbrunet         ###   ########.fr       */
+/*   Created: 2020/11/16 13:47:28 by clbrunet          #+#    #+#             */
+/*   Updated: 2021/02/28 11:31:57 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
 #include "ft.h"
 
-void	free_commands(t_command **commands)
+char	*ft_strchr(const char *s, int c)
 {
-	(void)commands;
-	/* free */
-}
+	char	c_c;
 
-int	syntax_error(char const *unexpected_token)
-{
-	ft_putstr_fd(2, "minishell: syntax error near unexpected token `");
-	ft_putstr_fd(2, unexpected_token);
-	ft_putstr_fd(2, "'\n");
-	return (1);
+	c_c = (char)c;
+	while (*s && *s != c_c)
+		s++;
+	if (!c_c || *s == c_c)
+		return ((char *)s);
+	return ((char *) NULL);
 }
