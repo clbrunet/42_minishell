@@ -16,7 +16,7 @@ SRCS=	srcs/main.c	\
 		srcs/parsing/parse_line.c		\
 		srcs/parsing/error.c			\
 		srcs/parsing/check_line.c		\
-		srcs/parsing/parse_commands.c	\
+		srcs/parsing/parse_command.c	\
 		srcs/parsing/check_command.c	\
 		srcs/parsing/parse_path.c
 OBJS=	$(SRCS:.c=.o)

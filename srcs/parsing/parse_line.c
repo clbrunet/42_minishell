@@ -42,7 +42,7 @@ static int	count_commands(char const *line)
 	return (count);
 }
 
-static int	fill_commands(char **commands, char const *line, int count)
+static int	fill_commands(t_command **commands, char const *line, int count)
 {
 	char const	*backup;
 	char		is_escaped;
@@ -61,7 +61,7 @@ static int	fill_commands(char **commands, char const *line, int count)
 				is_escaped = 0;
 			line++;
 		}
-		*commands = ft_strndup(backup, line - backup);
+		*commands = parse_command(backup, line - backup);
 		if (*commands == NULL)
 			return (1);
 		line++;
@@ -71,21 +71,21 @@ static int	fill_commands(char **commands, char const *line, int count)
 	return (0);
 }
 
-char	**parse_line(char *line)
+t_command	**parse_line(char *line)
 {
-	char	**commands;
-	int		count;
+	t_command	**commands;
+	int			count;
 
 	str_substitute(line, '\t', ' ');
 	if (check_line(line))
 		return (NULL);
 	count = count_commands(line);
-	commands = malloc((count + 1) * sizeof(char *));
+	commands = malloc((count + 1) * sizeof(t_command *));
 	if (commands == NULL)
 		return (NULL);
 	if (fill_commands(commands, line, count))
 	{
-		free_strs(commands);
+		free_commands(commands);
 		return (NULL);
 	}
 	return (commands);
