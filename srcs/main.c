@@ -6,14 +6,14 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 20:30:10 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/02/27 11:30:14 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/02/28 11:28:25 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "display.h"
 #include "parsing.h"
 #include "ft.h"
-#include <errno.h>
+#include "built_in.h"
 
 void	print_free_commands(char **commands)
 {
@@ -28,6 +28,7 @@ void	print_free_commands(char **commands)
 	}
 	free(commands);
 }
+
 
 int	main(int argc, char *argv[], char *envp[])
 {
@@ -46,8 +47,9 @@ int	main(int argc, char *argv[], char *envp[])
 		line_read = get_next_line(&line);
 		commands = parse_line(line);
 		free(line);
-		if (find_exec(envp, "pw") == 0)
+		if (find_exec(envp, "pwd") == 0)
 			ft_putstr_fd(1, "<inserted command>: command not found\n");
+		echo();
 		if (commands)
 			print_free_commands(commands);
 	}

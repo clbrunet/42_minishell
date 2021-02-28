@@ -1,27 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncpy.c                                       :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/22 11:54:41 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/02/22 11:56:00 by mlebrun          ###   ########.fr       */
+/*   Created: 2021/02/28 11:25:09 by mlebrun           #+#    #+#             */
+/*   Updated: 2021/02/28 11:28:54 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft.h"
+#include "built_in.h" 
 
-char	*ft_strncpy(char *dest, char const *src, int n)
+int		echo()
 {
+	/*temporary variable(need parsing): arguments and -n option*/
+	char	*args[] = {"hello", "to", "you", NULL};
+	int		n_op = 1;
 	int		i;
 
 	i = 0;
-	while (src[i] != '\0' && i < n)
+	while (args[i] != NULL)
 	{
-		dest[i] = src[i];
+		ft_putstr_fd(1, args[i]);
 		i++;
 	}
-	dest[i] = '\0';
-	return (dest);
+	if (n_op)
+		ft_putchar_fd(1, '\n');
+	return (1);
 }

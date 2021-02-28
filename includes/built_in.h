@@ -1,27 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncpy.c                                       :+:      :+:    :+:   */
+/*   built_in.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/22 11:54:41 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/02/22 11:56:00 by mlebrun          ###   ########.fr       */
+/*   Created: 2021/02/28 11:26:28 by mlebrun           #+#    #+#             */
+/*   Updated: 2021/02/28 11:27:18 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft.h"
+#ifndef BUILT_IN_H
+# define BUILT_IN_H
 
-char	*ft_strncpy(char *dest, char const *src, int n)
-{
-	int		i;
+int		echo();
 
-	i = 0;
-	while (src[i] != '\0' && i < n)
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
-}
+#endif
