@@ -6,13 +6,13 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 13:54:03 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/02/28 18:18:35 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/02/28 18:32:07 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft.h"
 
-int		ft_strcmp(const char *s1, const char *s2)
+int	ft_strcmp(const char *s1, const char *s2)
 {
 	const unsigned char	*u_s1;
 	const unsigned char	*u_s2;

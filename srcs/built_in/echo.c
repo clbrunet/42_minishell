@@ -6,16 +6,17 @@
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 11:25:09 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/02/28 17:54:41 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/02/28 18:33:03 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h" 
 #include "ft.h"
 
+/* args: temporary variable(need parsing): arguments and -n option */
+
 int	echo(t_cmd *cmd)
 {
-	/*temporary variable(need parsing): arguments and -n option*/
 	char	*args[] = {"hello", "to", "you", NULL};
 	int		n_op = 1;
 	int		i;

@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 13:34:20 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/02/28 14:39:51 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/02/28 18:31:30 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static int	fill_cmds(t_cmd **cmds, char const *line, int count)
 t_cmd	**parse_line(char *line)
 {
 	t_cmd	**cmds;
-	int			count;
+	int		count;
 
 	str_substitute(line, '\t', ' ');
 	if (check_line(line))

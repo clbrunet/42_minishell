@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 07:16:13 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/02/28 18:11:08 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/02/28 18:31:50 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,4 +21,3 @@ t_cmd	*parse_cmd(char const *str_cmd, int len)
 	cmd = NULL;
 	return (cmd);
 }
-
