@@ -15,7 +15,8 @@ SRCS=	srcs/main.c	\
 		srcs/parsing/line.c				\
 		srcs/parsing/path.c				\
 		srcs/parsing/error.c			\
-		srcs/built_in/echo.c
+		srcs/built_in/echo.c			\
+		srcs/built_in/cd.c
 OBJS=	$(SRCS:.c=.o)
 
 CC=		clang

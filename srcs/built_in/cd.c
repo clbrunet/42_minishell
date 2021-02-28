@@ -1,22 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built_in.h                                         :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/28 11:26:28 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/02/28 11:56:36 by mlebrun          ###   ########.fr       */
+/*   Created: 2021/02/28 11:32:44 by mlebrun           #+#    #+#             */
+/*   Updated: 2021/02/28 11:59:38 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILT_IN_H
-# define BUILT_IN_H
+#include "built_in.h"
 
-#include <stdio.h>
-#include <unistd.h>
+int		cd()
+{
+	/*temporary variable (wait for parsing) */
+	char	*path = "../fnem";
 
-int		echo();
-int		cd();
-
-#endif
+	if (printf("ret = %d", chdir(path) == -1))
+		return (-1);
+	return (1);
+}

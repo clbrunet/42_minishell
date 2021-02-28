@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 20:30:10 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/02/28 11:28:25 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/02/28 13:33:52 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ int	main(int argc, char *argv[], char *envp[])
 		free(line);
 		if (find_exec(envp, "pwd") == 0)
 			ft_putstr_fd(1, "<inserted command>: command not found\n");
-		echo();
 		if (commands)
 			print_free_commands(commands);
 	}
