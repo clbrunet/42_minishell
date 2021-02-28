@@ -25,5 +25,6 @@ void	ft_putstr(char *str);
 int		ft_strncmp(const char *s1, const char *s2, int n);
 void	ft_putstr_fd(int fd, char const *str);
 char	*ft_strndup(char const *s, size_t n);
+char	*ft_strchr(const char *s, int c);
 
 #endif

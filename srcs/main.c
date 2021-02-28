@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 20:30:10 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/02/26 15:28:54 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/02/28 07:32:41 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	print_free_commands(char **commands)
 {
 	char	**iter;
 
+	if (parse_commands(commands))
+		return ;
 	iter = commands;
 	while (*iter)
 	{

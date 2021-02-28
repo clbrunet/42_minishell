@@ -9,11 +9,16 @@ SRCS=	srcs/main.c	\
 		srcs/ft/ft_strncmp.c	\
 		srcs/ft/ft_putstr_fd.c	\
 		srcs/ft/ft_strndup.c	\
+		srcs/ft/ft_strchr.c		\
 		srcs/display/prompt.c	\
 		srcs/parsing/get_next_line.c	\
-		srcs/parsing/line.c				\
-		srcs/parsing/path.c				\
-		srcs/parsing/error.c
+		srcs/parsing/utils.c			\
+		srcs/parsing/parse_line.c		\
+		srcs/parsing/error.c			\
+		srcs/parsing/check_line.c		\
+		srcs/parsing/parse_commands.c	\
+		srcs/parsing/check_command.c	\
+		srcs/parsing/parse_path.c
 OBJS=	$(SRCS:.c=.o)
 
 CC=		clang
