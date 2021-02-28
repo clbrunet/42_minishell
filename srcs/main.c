@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 20:30:10 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/02/28 17:56:54 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/02/28 18:54:19 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@
 
 int	execute_cmds(t_cmd **cmds, char *envp[])
 {
-	int			(*built_in_ptr)(t_cmd *cmd);
+	built_in_ft	built_in_ft;
 
 	while (*cmds)
 	{
-		built_in_ptr = search_built_in(*cmds);
-		if (built_in_ptr)
-			(*built_in_ptr)(*cmds);
+		built_in_ft = search_built_in(*cmds);
+		if (built_in_ft)
+			(*built_in_ft)(*cmds);
 		else if (find_exec(envp, "pwd") == 0)
 			ft_putstr_fd(1, "<inserted cmd>: cmd not found\n");
 		cmds++;
