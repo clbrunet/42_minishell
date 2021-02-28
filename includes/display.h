@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 20:29:15 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/02/26 15:03:33 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/02/28 19:00:46 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,11 @@
 # define WHITE		"\x1B[37m"
 # define BOLD		"\x1B[1m"
 
-/*	Print prompt with the current working directory then a symbol '❯' to
-	delimit from the cmd line.
+/*	Print prompt with the current working directory then a symbol '$' to
+	delimit from the command line.
 
 	Return 1 if an error occurs. */
 
 int	print_prompt(void);
-int	getnextline(char **line);
 
 #endif
