@@ -20,10 +20,12 @@ SRCS=	srcs/main.c	\
 		srcs/parsing/check_line.c		\
 		srcs/parsing/parse_cmd.c		\
 		srcs/parsing/check_cmd.c		\
-		srcs/parsing/parse_path.c		\
-		srcs/built_in/search_built_in.c	\
-		srcs/built_in/echo.c			\
-		srcs/built_in/cd.c
+		srcs/built_in/echo.c	\
+		srcs/built_in/cd.c		\
+		srcs/execution/execute_cmds.c		\
+		srcs/execution/search_built_in.c	\
+		srcs/execution/search_path.c
+
 OBJS=	$(SRCS:.c=.o)
 
 CC=		clang

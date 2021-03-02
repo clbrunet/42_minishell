@@ -6,7 +6,7 @@
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 11:25:09 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/02/28 18:33:03 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/01 06:22:39 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 /* args: temporary variable(need parsing): arguments and -n option */
 
-int	echo(t_cmd *cmd)
+int	echo(t_cmd const *cmd)
 {
 	int		n_op = 1;
 	int		i;

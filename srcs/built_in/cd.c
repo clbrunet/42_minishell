@@ -6,7 +6,7 @@
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 11:32:44 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/02/28 18:33:41 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/01 06:22:45 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /* path: temporary variable (wait for parsing) */
 
-int	cd(t_cmd *cmd)
+int	cd(t_cmd const *cmd)
 {
 	char	*path = "../fnem";
 

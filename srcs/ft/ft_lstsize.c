@@ -1,24 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built_in.h                                         :+:      :+:    :+:   */
+/*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
+/*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/28 11:26:28 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/03/01 06:22:29 by clbrunet         ###   ########.fr       */
+/*   Created: 2020/11/16 13:54:00 by clbrunet          #+#    #+#             */
+/*   Updated: 2021/03/01 06:39:54 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILT_IN_H
-# define BUILT_IN_H
+#include "ft.h"
 
-# include <stdio.h>
-# include <unistd.h>
+int	ft_lstsize(t_cmd const *lst)
+{
+	int		count;
 
-# include "cmd.h"
-
-int			echo(t_cmd const *cmd);
-int			cd(t_cmd const *cmd);
-
-#endif
+	count = 0;
+	while (lst)
+	{
+		count++;
+		lst = lst->pipe;
+	}
+	return (count);
+}

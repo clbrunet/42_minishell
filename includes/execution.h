@@ -1,39 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.h                                          :+:      :+:    :+:   */
+/*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/22 06:38:17 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/02/28 18:34:49 by clbrunet         ###   ########.fr       */
+/*   Created: 2021/03/01 06:28:22 by clbrunet          #+#    #+#             */
+/*   Updated: 2021/03/02 06:27:46 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSING_H
-# define PARSING_H
+#ifndef EXECUTION_H
+# define EXECUTION_H
 
-# include <stdlib.h>
-# include <unistd.h>
+# include <sys/stat.h>
+# include <sys/types.h>
+# include <fcntl.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 
 # include "cmd.h"
 
-int			get_next_line(char **line);
-
-char const	*trim_inner_quotes(char const *line, char quote);
-char		*str_substitute(char *str, char old, char new);
-
-void		free_cmds(t_cmd	**cmds);
-int			syntax_error(char const *unexpected_token);
-
-int			check_cmd(char const *cmd, int len);
-
-t_cmd		*parse_cmd(char const *cmd, int len);
-
-int			check_line(char const *line);
-
-t_cmd		**parse_line(char *line);
+typedef int	(*built_in_ft)(t_cmd const *cmd);
+built_in_ft	search_built_in(t_cmd const *cmd);
 
 int			find_exec(char *envp[], char *cmd);
+
+int			execute_cmds(t_cmd const *const *cmds, char *envp[]);
 
 #endif

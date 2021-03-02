@@ -16,6 +16,8 @@
 # include <unistd.h>
 # include <stdlib.h>
 
+# include "cmd.h"
+
 size_t	ft_strlen(char const *str);
 char	*ft_strcpy(char *dest, char const *src);
 char	*ft_strncpy(char *dest, char const *src, int n);
