@@ -6,24 +6,91 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 06:27:50 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/01 06:33:15 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/03 14:25:32 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 #include "ft.h"
 
+static int	dup_pipes(int **pipes, unsigned int i, t_cmd *pipe)
+{
+	if (i != 0 && dup2(pipes[i][1], STDIN_FILENO) == -1)
+		return (1);
+	if (pipe && dup2(pipes[i][0], STDOUT_FILENO) == -1)
+		return (1);
+	return (0);
+}
+
+static int	cmd_process(int const *const *pipes, t_cmd const *cmd, char *envp[])
+{
+	t_built_in_ft	built_in_ft;
+
+	close_pipes_fds(pipes);
+	built_in_ft = search_built_in(cmd);
+	if (built_in_ft)
+		return ((*built_in_ft)(cmd));
+	else if (find_exec(envp, "pwd") == 0)
+	{
+		ft_putstr_fd(2, cmd->exe);
+		ft_putstr_fd(2, ": command not found\n");
+		return (1);
+	}
+	else
+		return (0);
+}
+
+static int	execute_cmd_end(t_cmd const *cmd, int *pids, unsigned int i,
+		int **pipes)
+{
+	if (cmd && kill_cmd_processes(pids))
+		return (1);
+	else
+	{
+		while (i)
+		{
+			wait(NULL);
+			i--;
+		}
+	}
+	close_pipes_fds((int const *const *)pipes);
+	free_pipes(pipes);
+	return (0);
+}
+
+static int	execute_cmd(t_cmd const *cmd, int pipes_nb, char *envp[])
+{
+	int				*pids;
+	int				**pipes;
+	unsigned int	i;
+
+	pids = malloc((pipes_nb + 1) * sizeof(int));
+	if (pids == NULL || get_pipes(&pipes, pipes_nb))
+		return (1);
+	i = 0;
+	while (cmd)
+	{
+		if (pipes && dup_pipes(pipes, i, cmd->pipe))
+			return (1);
+		pids[i] = fork();
+		if (pids[i] == 0)
+			exit(cmd_process((int const *const *)pipes, cmd, envp));
+		else if (pids[i] == -1)
+			break ;
+		cmd = cmd->pipe;
+		i++;
+	}
+	if (execute_cmd_end(cmd, pids, i, pipes))
+		return (1);
+	return (0);
+}
+
 int	execute_cmds(t_cmd const *const *cmds, char *envp[])
 {
-	built_in_ft	built_in_ft;
-
 	while (*cmds)
 	{
-		built_in_ft = search_built_in(*cmds);
-		if (built_in_ft)
-			(*built_in_ft)(*cmds);
-		else if (find_exec(envp, "pwd") == 0)
-			ft_putstr_fd(1, "<inserted cmd>: cmd not found\n");
+		if (execute_cmd(*cmds, ft_lstsize(*cmds) - 1, envp))
+			return (1);
 		cmds++;
 	}
 	return (0);

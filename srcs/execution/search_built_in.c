@@ -14,7 +14,7 @@
 #include "built_in.h"
 #include "ft.h"
 
-built_in_ft	search_built_in(t_cmd const *cmd)
+t_built_in_ft	search_built_in(t_cmd const *cmd)
 {
 	if (ft_strcmp(cmd->exe, "echo") == 0)
 		return (&echo);
