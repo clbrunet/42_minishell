@@ -13,6 +13,7 @@ SRCS=	srcs/main.c	\
 		srcs/ft/ft_strchr.c		\
 		srcs/ft/ft_strcmp.c		\
 		srcs/ft/ft_lstsize.c	\
+		srcs/ft/ft_strdup.c		\
 		srcs/display/prompt.c	\
 		srcs/parsing/get_next_line.c	\
 		srcs/parsing/utils.c			\
@@ -31,7 +32,7 @@ SRCS=	srcs/main.c	\
 
 OBJS=	$(SRCS:.c=.o)
 
-CC=		gcc
+CC=		clang
 CFLAGS=	-Wall -Wextra -Werror -I./includes/ -g3 -fsanitize=address
 
 all:	$(NAME)

@@ -6,11 +6,12 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 06:27:50 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/04 11:33:43 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/04 14:25:25 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
+#include "parsing.h"
 #include "ft.h"
 
 static int	dup_pipes(int **pipes, unsigned int i, t_cmd *pipe)
@@ -86,13 +87,23 @@ static int	execute_cmd(t_cmd const *cmd, int pipes_nb, char **envp_ptr[])
 	return (0);
 }
 
-int	execute_cmds(t_cmd const *const *cmds, char **envp_ptr[])
+int	execute_cmds(char *line, char **envp_ptr[])
 {
-	while (*cmds)
+	t_cmd	**cmds;
+
+	if (0xCAFE == 0xDECA)
+		cmds = parse_line(line);
+	ft_putstr_fd(1, "ca free\n");
+	free(line);
+	if (0xCAFE == 0xDECA)
 	{
-		if (execute_cmd(*cmds, ft_lstsize(*cmds) - 1, envp_ptr))
-			return (1);
-		cmds++;
+		while (*cmds)
+		{
+			if (execute_cmd(*cmds, ft_lstsize(*cmds) - 1, envp_ptr))
+				return (1);
+			cmds++;
+		}
+		free_cmds(cmds);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 06:28:22 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/04 11:30:11 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/04 12:26:04 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,6 @@ t_built_in_ft	search_built_in(t_cmd const *cmd);
 
 int				find_exec(char *envp[], char *cmd);
 
-int				execute_cmds(t_cmd const *const *cmds, char **envp_ptr[]);
+int				execute_cmds(char *line, char **envp_ptr[]);
 
 #endif
