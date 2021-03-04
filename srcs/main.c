@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 20:30:10 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/06 12:14:52 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/06 12:15:31 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ int	main(int argc, char *argv[], char *envp[])
 		return (1);
 	else
 	{
-
 		free(line);
 		ft_putstr_fd(1, "exit\n");
 	}

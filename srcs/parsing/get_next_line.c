@@ -6,7 +6,7 @@
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 18:33:47 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/02/22 09:47:12 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/04 15:09:09 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,23 +19,6 @@ static int	init_line(char **line)
 	if (!line)
 		return (0);
 	line[0][0] = '\0';
-	return (1);
-}
-
-static int	update_buffer(int line_read, char *buffer, int i)
-{
-	char	*tmp;
-
-	if (line_read)
-	{
-		tmp = malloc(sizeof(char) * (ft_strlen(buffer + i + 1) + 1));
-		if (!tmp)
-			return (-1);
-		ft_strcpy(tmp, (buffer + i + 1));
-		ft_strcpy(buffer, tmp);
-	}
-	else
-		buffer[0] = '\0';
 	return (1);
 }
 
@@ -71,11 +54,7 @@ static int	update_line(char **line, char *buffer)
 	ft_strncat(tmp, buffer, i);
 	free(*line);
 	*line = tmp;
-	if (update_buffer(line_read, buffer, i) == -1)
-	{
-		free(*line);
-		return (-1);
-	}
+	ft_strcpy(buffer, buffer + i + 1);
 	return (line_read);
 }
 
