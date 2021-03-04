@@ -6,7 +6,7 @@
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 11:26:28 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/03/01 06:22:29 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/04 07:15:49 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@
 
 # include "cmd.h"
 
-int			echo(t_cmd const *cmd);
-int			cd(t_cmd const *cmd);
+int		echo(t_cmd const *cmd, char **envp_ptr[]);
+int		cd(t_cmd const *cmd, char **envp_ptr[]);
+int		env(t_cmd const *cmd, char **envp_ptr[]);
 
 #endif

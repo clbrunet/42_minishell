@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 06:27:50 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/03 14:25:32 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/04 11:33:43 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,16 @@ static int	dup_pipes(int **pipes, unsigned int i, t_cmd *pipe)
 	return (0);
 }
 
-static int	cmd_process(int const *const *pipes, t_cmd const *cmd, char *envp[])
+static int	cmd_process(int const *const *pipes, t_cmd const *cmd,
+		char **envp_ptr[])
 {
 	t_built_in_ft	built_in_ft;
 
 	close_pipes_fds(pipes);
 	built_in_ft = search_built_in(cmd);
 	if (built_in_ft)
-		return ((*built_in_ft)(cmd));
-	else if (find_exec(envp, "pwd") == 0)
+		return ((*built_in_ft)(cmd, envp_ptr));
+	else if (find_exec(*envp_ptr, "pwd") == 0)
 	{
 		ft_putstr_fd(2, cmd->exe);
 		ft_putstr_fd(2, ": command not found\n");
@@ -58,7 +59,7 @@ static int	execute_cmd_end(t_cmd const *cmd, int *pids, unsigned int i,
 	return (0);
 }
 
-static int	execute_cmd(t_cmd const *cmd, int pipes_nb, char *envp[])
+static int	execute_cmd(t_cmd const *cmd, int pipes_nb, char **envp_ptr[])
 {
 	int				*pids;
 	int				**pipes;
@@ -74,7 +75,7 @@ static int	execute_cmd(t_cmd const *cmd, int pipes_nb, char *envp[])
 			return (1);
 		pids[i] = fork();
 		if (pids[i] == 0)
-			exit(cmd_process((int const *const *)pipes, cmd, envp));
+			exit(cmd_process((int const *const *)pipes, cmd, envp_ptr));
 		else if (pids[i] == -1)
 			break ;
 		cmd = cmd->pipe;
@@ -85,11 +86,11 @@ static int	execute_cmd(t_cmd const *cmd, int pipes_nb, char *envp[])
 	return (0);
 }
 
-int	execute_cmds(t_cmd const *const *cmds, char *envp[])
+int	execute_cmds(t_cmd const *const *cmds, char **envp_ptr[])
 {
 	while (*cmds)
 	{
-		if (execute_cmd(*cmds, ft_lstsize(*cmds) - 1, envp))
+		if (execute_cmd(*cmds, ft_lstsize(*cmds) - 1, envp_ptr))
 			return (1);
 		cmds++;
 	}

@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 06:28:22 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/03 14:27:34 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/04 11:30:11 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ void			close_pipes_fds(int const *const *pipes);
 int				kill_cmd_processes(int *pids);
 int				get_pipes(int ***pipes, int pipes_nb);
 
-typedef int		(*t_built_in_ft)(t_cmd const *cmd);
+typedef int		(*t_built_in_ft)(t_cmd const *cmd, char **envp[]);
 t_built_in_ft	search_built_in(t_cmd const *cmd);
 
 int				find_exec(char *envp[], char *cmd);
 
-int				execute_cmds(t_cmd const *const *cmds, char *envp[]);
+int				execute_cmds(t_cmd const *const *cmds, char **envp_ptr[]);
 
 #endif

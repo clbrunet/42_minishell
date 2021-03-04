@@ -23,9 +23,11 @@ SRCS=	srcs/main.c	\
 		srcs/parsing/check_cmd.c		\
 		srcs/built_in/echo.c	\
 		srcs/built_in/cd.c		\
+		srcs/built_in/env.c		\
+		srcs/execution/utils.c				\
 		srcs/execution/execute_cmds.c		\
 		srcs/execution/search_built_in.c	\
-		srcs/execution/search_path.c
+		srcs/execution/search_cmd.c
 
 OBJS=	$(SRCS:.c=.o)
 
