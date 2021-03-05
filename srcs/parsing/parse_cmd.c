@@ -43,18 +43,19 @@ static int	size_component(char const *str_cmd, int i, int len)
 	return (size);
 }
 
-static void fill_exe(char *elem, char const *str_cmd, int i, int size)
+static void fill_exe(t_parse_cmd *p, int i, int size)
 {
 	int		j;
 
+	p->cmd->exe = malloc(sizeof(char) * (size + 1));
 	j = 0;
 	while (j < size)
 	{
-		elem[j] = str_cmd[i];
+		p->cmd->exe[j] = p->str_cmd[i];
 		i++;
 		j++;
 	}
-	elem[j] = '\0';
+	p->cmd->exe[j] = '\0';
 }
 
 static int	count_arg(char const *str, int i, int len)
@@ -180,16 +181,15 @@ static char	**fill_args(const char *str_cmd, int *i, int len, int arg_nb)
 	return (args);
 }
 
-static int	set_previous_pipe(t_cmd *cmd, t_cmd *p_cmd, const char *str_cmd,
-			int *i)
+static int	set_previous_pipe(t_parse_cmd *p, int *i)
 {
-	if (!p_cmd)
-		cmd->pipe = NULL;
+	if (!p->p_cmd)
+		p->cmd->pipe = NULL;
 	else
-		p_cmd->pipe = cmd;
-	if (str_cmd[*i] != '|')
+		p->p_cmd->pipe = p->cmd;
+	if (p->str_cmd[*i] != '|')
 		return (0);
-	p_cmd = cmd;
+	p->p_cmd = p->cmd;
 	*i = *i + 1;
 	return (1);
 }
@@ -207,82 +207,74 @@ char	**parse_arguments(int *i, int size, int len, const char *str_cmd)
 	return (args);
 }
 
-t_cmd	*init_cmd(int *i, t_cmd *first_cmd, char const *str_cmd)
+int	init_cmd_exe(int *i, t_parse_cmd *p, int len, int *size)
 {
 	t_cmd	*cmd;
 
 	cmd = malloc(sizeof(t_cmd) * (1));
 	if (!cmd)
-		return (NULL);
+	{
+		p->cmd = 0;
+		return (0);
+	}
 	if (*i == 0)
-		first_cmd = cmd;
-	while (str_cmd[*i] == ' ')
+		p->first_cmd = cmd;
+	while (p->str_cmd[*i] == ' ')
 		*i = *i + 1;
-	return (cmd);
+	p->cmd = cmd;
+	*size = size_component(p->str_cmd, *i, len);
+	fill_exe(p, *i, *size);
+	return (1);
 }
 
-int		pipe_no_arg(int i, int len, t_cmd *cmd, t_cmd *p_cmd)
+int		pipe_no_arg(int *i, int len, t_parse_cmd *p, int size)
 {
-	if (i > len)
+	*i = *i + (size + 1);
+	if (*i > len)
 		return (0);
-	if (!p_cmd)
+	if (!p->p_cmd)
 	{
-		cmd->pipe = NULL;
+		p->cmd->pipe = NULL;
 		return (1);
 	}
-	p_cmd->pipe = cmd;
-	cmd->args = NULL;
-	p_cmd = cmd;
+	p->p_cmd->pipe = p->cmd;
+	p->cmd->args = NULL;
+	p->p_cmd = p->cmd;
 	return (1);
+}
+
+void	init_parsing(t_parse_cmd *p, char const *str_cmd)
+{
+	p->p_cmd = NULL;
+	p->first_cmd = NULL;
+	p->str_cmd = str_cmd;
 }
 
 t_cmd	*parse_cmd(char const *str_cmd, int len)
 {
-	//t_cmd	*cmd;
-//	t_cmd	*p_cmd;
 	int		i;
 	int		size;
-	//t_cmd	*first_cmd;
 	t_parse_cmd		p;
 
-	
-
 	i = 0;
-	p.p_cmd = NULL;
-	p.first_cmd = NULL;
+	init_parsing(&p, str_cmd);
 	while (1)
 	{
-		cmd = init_cmd(&i, first_cmd, str_cmd);
-		if (!cmd)
+		if (!init_cmd_exe(&i, &p, len, &size))
 			return (NULL);
-		size = size_component(str_cmd, i, len);
-		cmd->exe = malloc(sizeof(char) * (size + 1));
-		fill_exe(cmd->exe, str_cmd, i, size);
-		if (str_cmd[i + size] == '|')
+		if (p.str_cmd[i + size] == '|')
 		{
-			i += size + 1;
-			if (!pipe_no_arg(i, len, cmd, p_cmd))
+			if (!pipe_no_arg(&i, len, &p, size))
 				break ;
 		}
 		else
 		{
-			cmd->args = parse_arguments(&i, size, len, str_cmd);
-			if (!cmd->args)
+			p.cmd->args = parse_arguments(&i, size, len, p.str_cmd);
+			if (!p.cmd->args)
 				return (NULL);
-			if (i > len || !set_previous_pipe(cmd, p_cmd, str_cmd, &i))
+			if (i > len || !set_previous_pipe(&p, &i))
 				break ;
 		}
 	}
-	return (cmd);
+	return (p.cmd);
 }
-			/*
-			printf("exe = %s\n", cmd->exe);
-			int j;
-			j = 0;
-			while (cmd->args[j] != NULL)
-			{
-				printf("a: %s\n", cmd->args[j]);
-				fflush(stdout);
-				j++;
-			}
-			*/
