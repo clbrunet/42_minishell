@@ -7,6 +7,7 @@
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 20:30:10 by clbrunet          #+#    #+#             */
 /*   Updated: 2021/02/28 18:54:19 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/01 13:48:26 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +40,7 @@ int	main(int argc, char *argv[], char *envp[])
 	t_cmd	**cmds;
 
 	(void)argv;
+	(void)envp;
 	if (argc != 1)
 		return (1);
 	line_read = 1;
@@ -49,8 +51,9 @@ int	main(int argc, char *argv[], char *envp[])
 		line_read = get_next_line(&line);
 		cmds = parse_line(line);
 		free(line);
-		if (cmds)
+/*		if (cmds)
 			execute_cmds(cmds, envp);
+			*/
 		free_cmds(cmds);
 	}
 	if (line_read == -1)
