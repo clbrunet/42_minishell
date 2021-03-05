@@ -183,10 +183,13 @@ static char	**fill_args(const char *str_cmd, int *i, int len, int arg_nb)
 
 static int	set_previous_pipe(t_parse_cmd *p, int *i)
 {
-	if (!p->p_cmd)
-		p->cmd->pipe = NULL;
-	else
+	if (p->p_cmd)
+	{
 		p->p_cmd->pipe = p->cmd;
+		printf("there is a previous: %p\n", p->p_cmd);
+	}
+	else
+		printf("there is no previous\n");
 	if (p->str_cmd[*i] != '|')
 		return (0);
 	p->p_cmd = p->cmd;
@@ -199,7 +202,7 @@ char	**parse_arguments(int *i, int size, int len, const char *str_cmd)
 	int		arg_nb;
 	char	**args;
 
-	*i = *i + (size + 1);
+	*i = *i + size;
 	arg_nb = count_arg(str_cmd, *i, len);
 	args = fill_args(str_cmd, i, len, arg_nb);
 	if (!args)
@@ -222,12 +225,17 @@ int	init_cmd_exe(int *i, t_parse_cmd *p, int len, int *size)
 	while (p->str_cmd[*i] == ' ')
 		*i = *i + 1;
 	p->cmd = cmd;
+	p->cmd->exe = NULL;
+	p->cmd->args = NULL;
+	p->cmd->pipe = NULL;
 	*size = size_component(p->str_cmd, *i, len);
 	fill_exe(p, *i, *size);
+	while (p->str_cmd[*i] == ' ')
+		*i = *i + 1;
 	return (1);
 }
 
-int		pipe_no_arg(int *i, int len, t_parse_cmd *p, int size)
+int		no_arg(int *i, int len, t_parse_cmd *p, int size)
 {
 	*i = *i + (size + 1);
 	if (*i > len)
@@ -264,17 +272,30 @@ t_cmd	*parse_cmd(char const *str_cmd, int len)
 			return (NULL);
 		if (p.str_cmd[i + size] == '|')
 		{
-			if (!pipe_no_arg(&i, len, &p, size))
+//			printf("%d | %d\n", i, size);
+			if (!no_arg(&i, len, &p, size))
 				break ;
+			printf("exe: %s\n", p.cmd->exe);
+			printf("arg = %p", p.args);
 		}
 		else
 		{
+//			printf("salut\n");
 			p.cmd->args = parse_arguments(&i, size, len, p.str_cmd);
+			printf("exe: %s\n", p.cmd->exe);
+			int	j;
+			j = 0;
+			while (p.cmd->args[j] != NULL)
+			{
+				printf("a: %s\n", p.cmd->args[j]);
+				j++;
+			}
 			if (!p.cmd->args)
 				return (NULL);
-			if (i > len || !set_previous_pipe(&p, &i))
+			if (!set_previous_pipe(&p, &i) || i > len)
 				break ;
 		}
 	}
-	return (p.cmd);
+//	printf("pipe: %s\n", p.first_cmd->pipe->args[0]);
+	return (p.first_cmd);
 }

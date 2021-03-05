@@ -51,7 +51,8 @@ int	main(int argc, char *argv[], char *envp[])
 		line_read = get_next_line(&line);
 		cmds = parse_line(line);
 		free(line);
-/*		if (cmds)
+		/*
+		if (cmds)
 			execute_cmds(cmds, envp);
 			*/
 		free_cmds(cmds);

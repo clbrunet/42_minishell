@@ -17,15 +17,14 @@
 
 int	echo(t_cmd *cmd)
 {
-	char	*args[] = {"hello", "to", "you", NULL};
 	int		n_op = 1;
 	int		i;
 
 	(void)cmd;
 	i = 0;
-	while (args[i] != NULL)
+	while (cmd->args[i] != NULL)
 	{
-		ft_putstr_fd(1, args[i]);
+		ft_putstr_fd(1, cmd->args[i]);
 		ft_putchar_fd(1, ' ');
 		i++;
 	}
