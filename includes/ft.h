@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 06:42:22 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/04 11:54:10 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/06 08:09:33 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*ft_strncpy(char *dest, char const *src, int n);
 char	*ft_strcat(char *dest, char const *src);
 char	*ft_strncat(char *dest, char const *src, size_t n);
 void	ft_putstr(char *str);
-int		ft_strncmp(const char *s1, const char *s2, int n);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void	ft_putstr_fd(int fd, char const *str);
 void	ft_putchar_fd(int fd, char const c);
 char	*ft_strndup(char const *s, size_t n);

@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 20:29:15 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/02/28 19:00:46 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/06 08:04:35 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,7 @@
 
 /*	Print prompt with the current working directory then a symbol '$' to
 	delimit from the command line.
-
 	Return 1 if an error occurs. */
-
-int	print_prompt(void);
+int	print_prompt(char *envp[]);
 
 #endif

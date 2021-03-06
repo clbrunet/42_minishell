@@ -65,12 +65,12 @@ int	main(int argc, char *argv[], char *envp[])
 	int		line_read;
 
 	(void)argv;
-	if (argc != 1 || print_prompt() || malloc_envp(&envp))
+	if (argc != 1 || print_prompt(envp) || malloc_envp(&envp))
 		return (1);
 	line_read = get_next_line(&line);
 	while (line_read == 1)
 	{
-		if (execute_cmds(line, &envp) || print_prompt())
+		if (execute_cmds(line, &envp) || print_prompt(envp))
 		{
 			free_strs(envp);
 			return (1);
