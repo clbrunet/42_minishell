@@ -15,19 +15,20 @@ SRCS=	srcs/main.c	\
 		srcs/ft/ft_lstsize.c	\
 		srcs/ft/ft_strdup.c		\
 		srcs/display/prompt.c	\
-		srcs/parsing/get_next_line.c	\
-		srcs/parsing/utils.c			\
-		srcs/parsing/error.c			\
-		srcs/parsing/parse_line.c		\
-		srcs/parsing/check_line.c		\
-		srcs/parsing/parse_cmd.c		\
-		srcs/parsing/check_cmd.c		\
+		srcs/parsing/get_next_line.c\
+		srcs/parsing/utils.c		\
+		srcs/parsing/error.c		\
+		srcs/parsing/parse_line.c	\
+		srcs/parsing/check_line.c	\
+		srcs/parsing/parse_cmd.c	\
+		srcs/parsing/check_cmd.c	\
 		srcs/built_in/echo.c	\
 		srcs/built_in/cd.c		\
 		srcs/built_in/export.c	\
 		srcs/built_in/env.c		\
-		srcs/execution/utils.c				\
 		srcs/execution/execute_cmds.c		\
+		srcs/execution/execute_cmds_utils.c	\
+		srcs/execution/execute_cmds_utils2.c\
 		srcs/execution/search_built_in.c	\
 		srcs/execution/search_cmd.c
 

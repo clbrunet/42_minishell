@@ -14,15 +14,6 @@
 #include "parsing.h"
 #include "ft.h"
 
-static int	dup_pipes(int **pipes, unsigned int i, t_cmd *pipe)
-{
-	if (i != 0 && dup2(pipes[i][1], STDIN_FILENO) == -1)
-		return (1);
-	if (pipe && dup2(pipes[i][0], STDOUT_FILENO) == -1)
-		return (1);
-	return (0);
-}
-
 static int	cmd_process(int const *const *pipes, t_cmd const *cmd,
 		char **envp_ptr[])
 {
@@ -87,7 +78,7 @@ static int	execute_cmd(t_cmd const *cmd, int pipes_nb, char **envp_ptr[])
 	return (0);
 }
 
-static int	execute_pipeless_cmd(t_cmd const *cmd, char **envp_ptr[])
+int	execute_pipeless_cmd(t_cmd const *cmd, char **envp_ptr[])
 {
 	int				pid;
 	t_built_in_ft	built_in_ft;
