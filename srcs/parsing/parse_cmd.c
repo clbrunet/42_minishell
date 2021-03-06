@@ -238,10 +238,28 @@ void	init_parsing(t_parse_cmd *p, char const *str_cmd)
 	p->str_cmd = str_cmd;
 }
 
+void	print_pipe(t_cmd *p)
+{
+	int	i;
+
+	while (p != NULL)
+	{
+		printf("cmd = %p\n", p);
+		printf("exe = %s\n", p->exe);
+		i = 0;
+		while (p->args[i] != NULL)
+		{
+			printf("arg #%d: %s\n", i, p->args[i]);
+			i++;
+		}
+		p = p->pipe;
+	}
+}
+
 t_cmd	*parse_cmd(char const *str_cmd, int len)
 {
-	int		i;
-	int		size;
+	int			i;
+	int			size;
 	t_parse_cmd		p;
 
 	i = 0;
