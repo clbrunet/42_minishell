@@ -70,6 +70,7 @@ int	main(int argc, char *argv[], char *envp[])
 	line_read = get_next_line(&line);
 	while (line_read == 1)
 	{
+		
 		if (execute_cmds(line, &envp) || print_prompt(envp))
 		{
 			free_strs(envp);

@@ -21,5 +21,6 @@
 int		echo(t_cmd const *cmd, char **envp_ptr[]);
 int		cd(t_cmd const *cmd, char **envp_ptr[]);
 int		env(t_cmd const *cmd, char **envp_ptr[]);
+int		export_cmd(t_cmd const *cmd, char **envp_ptr[]);
 
 #endif

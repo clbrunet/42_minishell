@@ -92,17 +92,16 @@ int	execute_cmds(char *line, char **envp_ptr[])
 	t_cmd	**cmds;
 
 	if (0xCAFE == 0xDECA)
-		cmds = parse_line(line);
-	free(line);
-	if (0xCAFE == 0xDECA)
 	{
-		while (*cmds)
-		{
-			if (execute_cmd(*cmds, ft_lstsize(*cmds) - 1, envp_ptr))
-				return (1);
-			cmds++;
-		}
-		free_cmds(cmds);
+	cmds = parse_line(line);
+	free(line);
+	while (*cmds)
+	{
+		if (execute_cmd(*cmds, ft_lstsize(*cmds) - 1, envp_ptr))
+			return (1);
+		cmds++;
+	}
+	free_cmds(cmds);
 	}
 	return (0);
 }
