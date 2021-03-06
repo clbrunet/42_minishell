@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 06:27:50 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/04 15:16:09 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/06 17:30:14 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,17 +91,14 @@ int	execute_cmds(char *line, char **envp_ptr[])
 {
 	t_cmd	**cmds;
 
-	if (0xCAFE == 0xDECA)
+	cmds = parse_line(line);
+	free(line);
+	while (*cmds)
 	{
-		cmds = parse_line(line);
-		free(line);
-		while (*cmds)
-		{
-			if (execute_cmd(*cmds, ft_lstsize(*cmds) - 1, envp_ptr))
-				return (1);
-			cmds++;
-		}
-		free_cmds(cmds);
+		if (execute_cmd(*cmds, ft_lstsize(*cmds) - 1, envp_ptr))
+			return (1);
+		cmds++;
 	}
+	free_cmds(cmds);
 	return (0);
 }

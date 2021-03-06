@@ -6,14 +6,14 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 20:59:05 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/06 08:24:54 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/06 17:43:21 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "display.h"
 #include "ft.h"
 
-void	replace_home(char cwd[PATH_MAX], char *envp[])
+static void	replace_home(char cwd[PATH_MAX], char *envp[])
 {
 	char	home_len;
 

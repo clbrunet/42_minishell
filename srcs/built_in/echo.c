@@ -6,7 +6,7 @@
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 11:25:09 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/03/06 12:14:16 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/06 17:47:03 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	echo(t_cmd const *cmd, char **envp_ptr[])
 
 	(void)envp_ptr;
 	iter = cmd->args + 1;
-	if (ft_strcmp(*iter, "-n") == 0)
+	if (*iter && ft_strcmp(*iter, "-n") == 0)
 	{
 		iter++;
 		n_flag = 1;
@@ -30,8 +30,9 @@ int	echo(t_cmd const *cmd, char **envp_ptr[])
 	while (*iter != NULL)
 	{
 		ft_putstr_fd(1, *iter);
-		ft_putchar_fd(1, ' ');
 		iter++;
+		if (*iter)
+			ft_putchar_fd(1, ' ');
 	}
 	if (!n_flag)
 		ft_putchar_fd(1, '\n');

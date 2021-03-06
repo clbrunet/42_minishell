@@ -24,8 +24,8 @@ SRCS=	srcs/main.c	\
 		srcs/parsing/check_cmd.c		\
 		srcs/built_in/echo.c	\
 		srcs/built_in/cd.c		\
+		srcs/built_in/export.c	\
 		srcs/built_in/env.c		\
-		srcs/built_in/export.c		\
 		srcs/execution/utils.c				\
 		srcs/execution/execute_cmds.c		\
 		srcs/execution/search_built_in.c	\

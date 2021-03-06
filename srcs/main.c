@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 20:30:10 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/06 12:15:31 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/06 17:45:06 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ int	main(int argc, char *argv[], char *envp[])
 	line_read = get_next_line(&line);
 	while (line_read == 1)
 	{
-		
 		if (execute_cmds(line, &envp) || print_prompt(envp))
 		{
 			free_strs(envp);
