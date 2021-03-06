@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 06:27:50 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/06 17:30:14 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/06 18:44:43 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ static int	cmd_process(int const *const *pipes, t_cmd const *cmd,
 		ft_putstr_fd(2, ": command not found\n");
 		return (1);
 	}
-	else
-		return (0);
+	return (0);
 }
 
 static int	execute_cmd_end(t_cmd const *cmd, int *pids, unsigned int i,
@@ -51,7 +50,8 @@ static int	execute_cmd_end(t_cmd const *cmd, int *pids, unsigned int i,
 	{
 		while (i)
 		{
-			wait(NULL);
+			if (wait(NULL) == -1)
+				return (1);
 			i--;
 		}
 	}
@@ -87,6 +87,34 @@ static int	execute_cmd(t_cmd const *cmd, int pipes_nb, char **envp_ptr[])
 	return (0);
 }
 
+static int	execute_pipeless_cmd(t_cmd const *cmd, char **envp_ptr[])
+{
+	int				pid;
+	t_built_in_ft	built_in_ft;
+
+	built_in_ft = search_built_in(cmd);
+	if (built_in_ft)
+		return ((*built_in_ft)(cmd, envp_ptr));
+	else
+	{
+		pid = fork();
+		if (pid == -1)
+			return (1);
+		else if (pid == 0)
+		{
+			if (find_exec(*envp_ptr, "pwd") == 0)
+			{
+				ft_putstr_fd(2, cmd->exe);
+				ft_putstr_fd(2, ": command not found\n");
+			}
+			exit(1);
+		}
+		else if (wait(NULL) == -1)
+			return (1);
+	}
+	return (0);
+}
+
 int	execute_cmds(char *line, char **envp_ptr[])
 {
 	t_cmd	**cmds;
@@ -95,7 +123,12 @@ int	execute_cmds(char *line, char **envp_ptr[])
 	free(line);
 	while (*cmds)
 	{
-		if (execute_cmd(*cmds, ft_lstsize(*cmds) - 1, envp_ptr))
+		if ((*cmds)->pipe)
+		{
+			if (execute_cmd(*cmds, ft_lstsize(*cmds) - 1, envp_ptr))
+				return (1);
+		}
+		else if (execute_pipeless_cmd(*cmds, envp_ptr))
 			return (1);
 		cmds++;
 	}
