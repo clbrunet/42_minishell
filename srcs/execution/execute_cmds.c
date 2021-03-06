@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 06:27:50 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/06 18:44:43 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/06 19:10:19 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static int	execute_cmd(t_cmd const *cmd, int pipes_nb, char **envp_ptr[])
 	return (0);
 }
 
-int	execute_pipeless_cmd(t_cmd const *cmd, char **envp_ptr[])
+static int	execute_pipeless_cmd(t_cmd const *cmd, char **envp_ptr[])
 {
 	int				pid;
 	t_built_in_ft	built_in_ft;
@@ -90,7 +90,7 @@ int	execute_pipeless_cmd(t_cmd const *cmd, char **envp_ptr[])
 	{
 		pid = fork();
 		if (pid == -1)
-			return (1);
+			return (-1);
 		else if (pid == 0)
 		{
 			if (find_exec(*envp_ptr, "pwd") == 0)
@@ -101,7 +101,7 @@ int	execute_pipeless_cmd(t_cmd const *cmd, char **envp_ptr[])
 			exit(1);
 		}
 		else if (wait(NULL) == -1)
-			return (1);
+			return (-1);
 	}
 	return (0);
 }
@@ -119,7 +119,7 @@ int	execute_cmds(char *line, char **envp_ptr[])
 			if (execute_cmd(*cmds, ft_lstsize(*cmds) - 1, envp_ptr))
 				return (1);
 		}
-		else if (execute_pipeless_cmd(*cmds, envp_ptr))
+		else if (execute_pipeless_cmd(*cmds, envp_ptr) == -1)
 			return (1);
 		cmds++;
 	}
