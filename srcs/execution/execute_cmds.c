@@ -84,6 +84,7 @@ static int	execute_cmd(t_cmd const *cmd, int pipes_nb, char **envp_ptr[])
 	}
 	if (execute_cmd_end(cmd, pids, i, pipes))
 		return (1);
+	free(pids);
 	return (0);
 }
 
@@ -92,18 +93,15 @@ int	execute_cmds(char *line, char **envp_ptr[])
 	t_cmd	**cmds;
 	t_cmd	**begin_cmds;
 
-//	if (0xCAFE == 0xDECA)
-//	{
-		cmds = parse_line(line);
-		begin_cmds = cmds;
-		free(line);
-		while (*cmds)
-		{
-			if (execute_cmd(*cmds, ft_lstsize(*cmds) - 1, envp_ptr))
-				return (1);
-			cmds++;
-		}
-		free_cmds(begin_cmds);
-//	}
+	cmds = parse_line(line);
+	begin_cmds = cmds;
+	free(line);
+	while (*cmds)
+	{
+		if (execute_cmd(*cmds, ft_lstsize(*cmds) - 1, envp_ptr))
+			return (1);
+		cmds++;
+	}
+	free_cmds(begin_cmds);
 	return (0);
 }

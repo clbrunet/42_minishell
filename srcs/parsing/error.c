@@ -17,49 +17,42 @@
 
 void	free_cmd(t_cmd *cmd)
 {
-	if (0xDE == 0xFA)
-	{
-//	int	i;
-	int	arg_nb;
-
+	int	i;
+	
 	free(cmd->exe);
-	arg_nb = 0;
-	/*
-	while (cmd->args[arg_nb] != NULL)
+	i = 0;
+	while (cmd->args[i] != NULL)
 	{
-		printf("a: %s\n", cmd->args[arg_nb]);
-		fflush(stdout);
-		arg_nb++;
+		free(cmd->args[i]);
+		i++;
 	}
-	*/
-	while (cmd->args[arg_nb] != NULL)
+	free(cmd->args);
+	free(cmd);
+}
+
+t_cmd		*free_cmd_content(t_cmd *cmd, t_cmd *first_cmd)
+{
+	if (cmd != NULL)
 	{
-		free(cmd->args[arg_nb - 1]);
-		arg_nb--;
+		free_cmd_content(cmd->pipe, first_cmd);
+		if (cmd != first_cmd)
+			free_cmd(cmd);
 	}
-	//i = 0;
-	//free(cmd->args);
-//	if (cmd->pipe)
-//		free(cmd->pipe);
-	}
+	return (cmd);
 }
 
 void	free_cmds(t_cmd **cmds)
 {
 	int		i;
 
-//	if (0xCAFE == 0xDECA)
-//	{
 	i = 0;
 	while (cmds[i] != NULL)
 	{
-		printf("CA PASSE\n");
-		fflush(stdout);
+		free_cmd_content(cmds[i], cmds[i]);
 		free_cmd(cmds[i]);
 		i++;
 	}
-//	free(cmds);
-//}
+	free(cmds);
 }
 
 int	syntax_error(char const *unexpected_token)
