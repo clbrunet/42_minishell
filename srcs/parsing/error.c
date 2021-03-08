@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 18:02:26 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/08 16:41:11 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/08 17:06:38 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 void	free_cmd(t_cmd *cmd)
 {
 	int	i;
-	
+
 	free(cmd->exe);
 	i = 0;
 	while (cmd->args[i] != NULL)
@@ -28,7 +28,7 @@ void	free_cmd(t_cmd *cmd)
 	free(cmd);
 }
 
-t_cmd		*free_cmd_content(t_cmd *cmd, t_cmd *first_cmd)
+t_cmd	*free_cmd_content(t_cmd *cmd, t_cmd *first_cmd)
 {
 	if (cmd != NULL)
 	{

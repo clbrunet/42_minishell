@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 20:30:10 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/08 16:59:03 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/08 17:07:17 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,6 @@ int	main(int argc, char *argv[], char *envp[])
 			return (1);
 		}
 		line_read = get_next_line(&line);
-		
-		
 	}
 	free_strs(envp);
 	if (line_read == -1)

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_path.c                                       :+:      :+:    :+:   */
+/*   search_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/26 14:57:07 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/02/28 18:13:15 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/08 17:08:01 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static char	*create_path(char *sub_path, char *cmd)
 {
 	int		size_cmd;
 	int		size_sub_path;
-	char		*path;
+	char	*path;
 	int		slash_ended;
 
 	size_sub_path = ft_strlen(sub_path);
@@ -51,7 +51,7 @@ static char	*create_path(char *sub_path, char *cmd)
 
 static int	try_path(char *sub_path, char **argv, char **envp, char *cmd)
 {
-	char		*path;
+	char	*path;
 	int		fd;
 
 	path = create_path(sub_path, cmd);
@@ -86,7 +86,7 @@ int	find_exec(t_cmd const *cmd, char *envp[])
 {
 	int		path_id;
 	int		size_sub_path;
-	char		*sub_path;
+	char	*sub_path;
 	int		i;
 
 	path_id = find_path_id(envp);
