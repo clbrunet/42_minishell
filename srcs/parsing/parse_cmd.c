@@ -164,6 +164,7 @@ static char	**fill_args(t_parse_cmd p, int *i, int len, int arg_nb)
 	if (!args)
 		return (0);
 	args[0] = ft_strdup(p.cmd->exe);
+	printf("arg_nb = %d\n", arg_nb);
 	args[arg_nb + 1] = NULL;
 	if (!args[0])
 		return (0);
@@ -240,7 +241,7 @@ static void	init_parsing(t_parse_cmd *p, char const *str_cmd)
 	p->first_cmd = NULL;
 	p->str_cmd = str_cmd;
 }
-/*
+
 static void	print_pipe(t_cmd *p)
 {
 	int	i;
@@ -258,7 +259,7 @@ static void	print_pipe(t_cmd *p)
 		p = p->pipe;
 	}
 }
-*/
+
 t_cmd	*parse_cmd(char const *str_cmd, int len)
 {
 	int			i;
@@ -277,6 +278,6 @@ t_cmd	*parse_cmd(char const *str_cmd, int len)
 		if (!set_previous_pipe(&p, &i) || i > len)
 			break ;
 	}
-//	print_pipe(p.first_cmd);
+	print_pipe(p.first_cmd);
 	return (p.first_cmd);
 }

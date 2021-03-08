@@ -17,22 +17,29 @@
 
 void	free_cmd(t_cmd *cmd)
 {
-	int	i;
+//	int	i;
+	int	arg_nb;
 
 	free(cmd->exe);
-	i = 0;
-	while (cmd->args[i] != NULL)
+	arg_nb = 0;
+	/*
+	while (cmd->args[arg_nb] != NULL)
 	{
-		free(cmd->args[i]);
-		i++;
+		printf("a: %s\n", cmd->args[arg_nb]);
+		fflush(stdout);
+		arg_nb++;
 	}
-	free(cmd->args);
-	if (cmd->pipe)
-		free(cmd->pipe);
-	free(cmd);
-
+	*/
+	while (cmd->args[arg_nb] != NULL)
+	{
+		free(cmd->args[arg_nb - 1]);
+		arg_nb--;
+	}
+	//i = 0;
+	//free(cmd->args);
+//	if (cmd->pipe)
+//		free(cmd->pipe);
 }
-
 
 void	free_cmds(t_cmd **cmds)
 {
@@ -40,18 +47,17 @@ void	free_cmds(t_cmd **cmds)
 
 //	if (0xCAFE == 0xDECA)
 //	{
-
 	i = 0;
 	while (cmds[i] != NULL)
 	{
+		printf("CA PASSE\n");
+		fflush(stdout);
 		free_cmd(cmds[i]);
 		i++;
 	}
 //	free(cmds);
 //}
 }
-
-
 
 int	syntax_error(char const *unexpected_token)
 {

@@ -90,10 +90,12 @@ static int	execute_cmd(t_cmd const *cmd, int pipes_nb, char **envp_ptr[])
 int	execute_cmds(char *line, char **envp_ptr[])
 {
 	t_cmd	**cmds;
+	t_cmd	**begin_cmds;
 
 //	if (0xCAFE == 0xDECA)
 //	{
 		cmds = parse_line(line);
+		begin_cmds = cmds;
 		free(line);
 		while (*cmds)
 		{
@@ -101,7 +103,7 @@ int	execute_cmds(char *line, char **envp_ptr[])
 				return (1);
 			cmds++;
 		}
-		free_cmds(cmds);
+		free_cmds(begin_cmds);
 //	}
 	return (0);
 }
