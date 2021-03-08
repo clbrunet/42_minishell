@@ -23,7 +23,7 @@ static int	cmd_process(int const *const *pipes, t_cmd const *cmd,
 	built_in_ft = search_built_in(cmd);
 	if (built_in_ft)
 		return ((*built_in_ft)(cmd, envp_ptr));
-	else if (find_exec(*envp_ptr, "pwd") == 0)
+	else if (find_exec(cmd, *envp_ptr) == 0)
 	{
 		ft_putstr_fd(2, cmd->exe);
 		ft_putstr_fd(2, ": command not found\n");
@@ -94,7 +94,7 @@ static int	execute_pipeless_cmd(t_cmd const *cmd, char **envp_ptr[])
 			return (-1);
 		else if (pid == 0)
 		{
-			if (find_exec(*envp_ptr, "pwd") == 0)
+			if (find_exec(cmd, *envp_ptr) == 0)
 			{
 				ft_putstr_fd(2, cmd->exe);
 				ft_putstr_fd(2, ": command not found\n");

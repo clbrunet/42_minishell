@@ -51,9 +51,7 @@ static char	*create_path(char *sub_path, char *cmd)
 
 static int	try_path(char *sub_path, char **argv, char **envp, char *cmd)
 {
-	int		pid;
-	int		error;
-	char	*path;
+	char		*path;
 	int		fd;
 
 	path = create_path(sub_path, cmd);
@@ -66,19 +64,9 @@ static int	try_path(char *sub_path, char **argv, char **envp, char *cmd)
 		return (0);
 	}
 	close(fd);
-	pid = fork();
-	if (pid == 0)
-	{
-		error = execve(path, argv, envp);
-		if (error == -1)
-		{
-			free(path);
-			return (-1);
-		}
-	}
-	wait(NULL);
+	execve(path, argv, envp);
 	free(path);
-	return (1);
+	return (-1);
 }
 
 static char	*create_sub_path(char **envp, int i, int path_id,
@@ -94,13 +82,12 @@ static char	*create_sub_path(char **envp, int i, int path_id,
 	return (sub_path);
 }
 
-int	find_exec(char *envp[], char *cmd)
+int	find_exec(t_cmd const *cmd, char *envp[])
 {
 	int		path_id;
 	int		size_sub_path;
-	char	*sub_path;
+	char		*sub_path;
 	int		i;
-	char	*argv_test[] = {"pwd", NULL};
 
 	path_id = find_path_id(envp);
 	if (path_id == -1)
@@ -112,7 +99,7 @@ int	find_exec(char *envp[], char *cmd)
 		if (!sub_path)
 			return (-1);
 		ft_strncpy(sub_path, envp[path_id] + i, size_sub_path);
-		if (try_path(sub_path, argv_test, envp, cmd))
+		if (try_path(sub_path, cmd->args, envp, cmd->exe))
 		{
 			free(sub_path);
 			return (1);

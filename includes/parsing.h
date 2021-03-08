@@ -34,6 +34,4 @@ int			check_line(char const *line);
 
 t_cmd		**parse_line(char *line);
 
-int			find_exec(char *envp[], char *cmd);
-
 #endif

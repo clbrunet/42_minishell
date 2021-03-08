@@ -32,7 +32,7 @@ int				dup_pipes(int **pipes, unsigned int i, t_cmd *pipe);
 typedef int		(*t_built_in_ft)(t_cmd const *cmd, char **envp[]);
 t_built_in_ft	search_built_in(t_cmd const *cmd);
 
-int				find_exec(char *envp[], char *cmd);
+int				find_exec(t_cmd const *cmd, char *envp[]);
 
 int				execute_cmds(char *line, char **envp_ptr[]);
 
