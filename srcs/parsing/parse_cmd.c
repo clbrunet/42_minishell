@@ -97,7 +97,10 @@ char	*trim_d_quote(char *arg, int size)
 		|| (arg[0] == '\'' && arg[size - 1] == '\''))
 	{
 		arg_trimmed = malloc(sizeof(char) * (size - 1));
+		if (!arg_trimmed)
+			return(NULL);
 		ft_strncpy(arg_trimmed, arg + 1, size - 2);
+		free(arg);
 		return (arg_trimmed);
 	}
 	else
@@ -172,12 +175,14 @@ static char	**fill_args(t_parse_cmd p, int *i, int len, int arg_nb)
 	{
 		while (p.str_cmd[*i] == ' ')
 			*i = *i + 1;
-		if (p.str_cmd[*i] == '|' || p.str_cmd[*i] == '\0')
+		if (p.str_cmd[*i] == '|' || p.str_cmd[*i] == '\0' || *i >= len)
 			return (args);
 		size = size_component(p.str_cmd, *i, len);
 		args[j] = malloc(sizeof(char) * (size_arg(p.str_cmd, *i, len) + 1));
 		strncpy_arg(args[j], p.str_cmd + *i, size);
 		args[j] = trim_d_quote(args[j], size_arg(p.str_cmd, *i, len));
+		if (!args[j])
+			return(NULL);
 		*i = *i + size;
 		j++;
 	}

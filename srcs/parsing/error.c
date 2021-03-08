@@ -6,18 +6,53 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 18:02:26 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/02/28 18:31:44 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/06 18:40:56 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 #include "ft.h"
-
+#include <stdio.h>
 /* free structs */
+
+void	free_cmd(t_cmd *cmd)
+{
+	int	i;
+	
+	free(cmd->exe);
+	i = 0;
+	while (cmd->args[i] != NULL)
+	{
+		free(cmd->args[i]);
+		i++;
+	}
+	free(cmd->args);
+	free(cmd);
+}
+
+t_cmd		*free_cmd_content(t_cmd *cmd, t_cmd *first_cmd)
+{
+	if (cmd != NULL)
+	{
+		free_cmd_content(cmd->pipe, first_cmd);
+		if (cmd != first_cmd)
+			free_cmd(cmd);
+	}
+	return (cmd);
+}
 
 void	free_cmds(t_cmd **cmds)
 {
-	(void)cmds;
+	int		i;
+
+	i = 0;
+	while (cmds[i] != NULL)
+	{
+		free_cmd_content(cmds[i], cmds[i]);
+		free_cmd(cmds[i]);
+		i++;
+	}
+	free(cmds);
 }
 
 int	syntax_error(char const *unexpected_token)

@@ -76,6 +76,8 @@ int	main(int argc, char *argv[], char *envp[])
 			return (1);
 		}
 		line_read = get_next_line(&line);
+		
+		
 	}
 	free_strs(envp);
 	if (line_read == -1)

@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 06:27:50 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/06 19:10:19 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/06 17:36:16 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ static int	execute_cmd(t_cmd const *cmd, int pipes_nb, char **envp_ptr[])
 	}
 	if (execute_cmd_end(cmd, pids, i, pipes))
 		return (1);
+	free(pids);
 	return (0);
 }
 
@@ -109,9 +110,11 @@ static int	execute_pipeless_cmd(t_cmd const *cmd, char **envp_ptr[])
 int	execute_cmds(char *line, char **envp_ptr[])
 {
 	t_cmd	**cmds;
+	t_cmd	**begin_cmds;
 
 	cmds = parse_line(line);
 	free(line);
+	begin_cmds = cmds;
 	while (*cmds)
 	{
 		if ((*cmds)->pipe)
@@ -123,6 +126,6 @@ int	execute_cmds(char *line, char **envp_ptr[])
 			return (1);
 		cmds++;
 	}
-	free_cmds(cmds);
+	free_cmds(begin_cmds);
 	return (0);
 }
