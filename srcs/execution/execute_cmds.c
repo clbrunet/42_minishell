@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 06:27:50 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/08 16:56:43 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/08 19:20:20 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ static int	cmd_process(int const *const *pipes, t_cmd const *cmd,
 static int	execute_cmd_end(t_cmd const *cmd, int *pids, unsigned int i,
 		int **pipes)
 {
+	close_pipes_fds((int const *const *)pipes);
 	if (cmd && kill_cmd_processes(pids))
 		return (1);
 	else
@@ -47,7 +48,6 @@ static int	execute_cmd_end(t_cmd const *cmd, int *pids, unsigned int i,
 		}
 	}
 	free(pids);
-	close_pipes_fds((int const *const *)pipes);
 	free_pipes(pipes);
 	return (0);
 }
