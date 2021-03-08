@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 20:29:15 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/06 08:04:35 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/08 16:40:17 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define DISPLAY_H
 
 # include <unistd.h>
-# include <stdio.h>
 # include <linux/limits.h>
 
 # define RESET		"\x1B[0m"

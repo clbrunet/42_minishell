@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 06:27:50 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/06 17:36:16 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/03/08 16:56:43 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,28 +46,31 @@ static int	execute_cmd_end(t_cmd const *cmd, int *pids, unsigned int i,
 			i--;
 		}
 	}
+	free(pids);
 	close_pipes_fds((int const *const *)pipes);
 	free_pipes(pipes);
 	return (0);
 }
 
-static int	execute_cmd(t_cmd const *cmd, int pipes_nb, char **envp_ptr[])
+static int	execute_cmd(t_cmd const *cmd, int len, char **envp_ptr[])
 {
 	int				*pids;
 	int				**pipes;
 	unsigned int	i;
 
-	pids = malloc((pipes_nb + 1) * sizeof(int));
-	if (pids == NULL || get_pipes(&pipes, pipes_nb))
+	pids = malloc((len) * sizeof(int));
+	if (pids == NULL || get_pipes(&pipes, len))
 		return (1);
 	i = 0;
 	while (cmd)
 	{
-		if (pipes && dup_pipes(pipes, i, cmd->pipe))
-			return (1);
 		pids[i] = fork();
 		if (pids[i] == 0)
+		{
+			if (dup_pipes(pipes, i, cmd->pipe))
+				return (1);
 			exit(cmd_process((int const *const *)pipes, cmd, envp_ptr));
+		}
 		else if (pids[i] == -1)
 			break ;
 		cmd = cmd->pipe;
@@ -75,7 +78,6 @@ static int	execute_cmd(t_cmd const *cmd, int pipes_nb, char **envp_ptr[])
 	}
 	if (execute_cmd_end(cmd, pids, i, pipes))
 		return (1);
-	free(pids);
 	return (0);
 }
 
@@ -114,12 +116,14 @@ int	execute_cmds(char *line, char **envp_ptr[])
 
 	cmds = parse_line(line);
 	free(line);
+	if (cmds == NULL)
+		return (1);
 	begin_cmds = cmds;
 	while (*cmds)
 	{
 		if ((*cmds)->pipe)
 		{
-			if (execute_cmd(*cmds, ft_lstsize(*cmds) - 1, envp_ptr))
+			if (execute_cmd(*cmds, ft_lstsize(*cmds), envp_ptr))
 				return (1);
 		}
 		else if (execute_pipeless_cmd(*cmds, envp_ptr) == -1)

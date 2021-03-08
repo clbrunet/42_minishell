@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 13:55:27 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/06 18:59:20 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/08 16:39:37 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,26 +65,22 @@ static int	get_pipes_error(int **pipes, int **iter)
 	return (1);
 }
 
-int	get_pipes(int ***pipes, int pipes_nb)
+int	get_pipes(int ***pipes, int len)
 {
 	int			**iter;
 
-	if (pipes_nb <= 0)
-	{
-		*pipes = NULL;
-		return (0);
-	}
-	*pipes = malloc((pipes_nb) * sizeof(int *));
+	*pipes = malloc((len + 1) * sizeof(int *));
 	if (*pipes == NULL)
 		return (1);
 	iter = *pipes;
-	while (pipes_nb)
+	while (len)
 	{
 		*iter = malloc(2 * sizeof(int));
 		if (*iter == NULL || pipe(*iter) == -1)
 			return (get_pipes_error(*pipes, iter));
 		iter++;
-		pipes_nb--;
+		len--;
 	}
+	*iter = NULL;
 	return (0);
 }

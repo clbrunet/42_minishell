@@ -6,14 +6,12 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 18:02:26 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/06 18:40:56 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/03/08 16:41:11 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 #include "ft.h"
-#include <stdio.h>
-/* free structs */
 
 void	free_cmd(t_cmd *cmd)
 {

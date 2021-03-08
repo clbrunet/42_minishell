@@ -6,13 +6,12 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 07:16:13 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/04 15:21:47 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/03/08 16:39:55 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 #include "ft.h"
-#include <stdio.h>
 
 static int	size_component(char const *str_cmd, int i, int len)
 {
