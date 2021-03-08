@@ -31,7 +31,7 @@ static char	*create_path(char *sub_path, char *cmd)
 {
 	int		size_cmd;
 	int		size_sub_path;
-	char	*path;
+	char		*path;
 	int		slash_ended;
 
 	size_sub_path = ft_strlen(sub_path);
@@ -61,16 +61,23 @@ static int	try_path(char *sub_path, char **argv, char **envp, char *cmd)
 		return (0);
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
+	{
+		free(path);
 		return (0);
+	}
 	close(fd);
 	pid = fork();
 	if (pid == 0)
 	{
 		error = execve(path, argv, envp);
 		if (error == -1)
+		{
+			free(path);
 			return (-1);
+		}
 	}
 	wait(NULL);
+	free(path);
 	return (1);
 }
 
@@ -106,11 +113,15 @@ int	find_exec(char *envp[], char *cmd)
 			return (-1);
 		ft_strncpy(sub_path, envp[path_id] + i, size_sub_path);
 		if (try_path(sub_path, argv_test, envp, cmd))
+		{
+			free(sub_path);
 			return (1);
+		}
 		if (envp[path_id][i + size_sub_path] == '\0')
 			i += size_sub_path;
 		else
 			i += size_sub_path + 1;
+		free(sub_path);
 	}
 	return (0);
 }

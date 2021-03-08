@@ -15,36 +15,43 @@
 #include <stdio.h>
 /* free structs */
 
+void	free_cmd(t_cmd *cmd)
+{
+	int	i;
+
+	free(cmd->exe);
+	i = 0;
+	while (cmd->args[i] != NULL)
+	{
+		free(cmd->args[i]);
+		i++;
+	}
+	free(cmd->args);
+	if (cmd->pipe)
+		free(cmd->pipe);
+	free(cmd);
+
+}
+
+
 void	free_cmds(t_cmd **cmds)
 {
 	int		i;
-	int		j;
-	t_cmd	*cmd;
 
 //	if (0xCAFE == 0xDECA)
 //	{
-	printf("AH\n");
-	fflush(stdout);
+
 	i = 0;
 	while (cmds[i] != NULL)
 	{
-		cmd = cmds[i];
-		while (cmd != NULL)
-		{
-			free(cmd->exe);
-			j = 0;
-			while (cmd->args[j] != NULL)
-			{
-				free(cmd->args[j]);
-				j++;
-			}
-			cmd = cmd->pipe;
-		}
-		free(cmds[i]->args[i]);
+		free_cmd(cmds[i]);
 		i++;
 	}
-//	}
+//	free(cmds);
+//}
 }
+
+
 
 int	syntax_error(char const *unexpected_token)
 {
