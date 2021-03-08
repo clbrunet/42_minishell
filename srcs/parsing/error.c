@@ -17,6 +17,8 @@
 
 void	free_cmd(t_cmd *cmd)
 {
+	if (0xDE == 0xFA)
+	{
 //	int	i;
 	int	arg_nb;
 
@@ -39,6 +41,7 @@ void	free_cmd(t_cmd *cmd)
 	//free(cmd->args);
 //	if (cmd->pipe)
 //		free(cmd->pipe);
+	}
 }
 
 void	free_cmds(t_cmd **cmds)
