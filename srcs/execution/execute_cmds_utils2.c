@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 18:56:56 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/08 16:41:57 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/08 18:15:36 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	dup_pipes(int **pipes, unsigned int i, t_cmd *pipe)
 {
-	if (i != 0 && dup2(pipes[i][1], STDIN_FILENO) == -1)
+	if (i != 0 && dup2(pipes[i - 1][0], STDIN_FILENO) == -1)
 		return (1);
-	if (pipe != NULL && dup2(pipes[i][0], STDOUT_FILENO) == -1)
+	if (pipe != NULL && dup2(pipes[i][1], STDOUT_FILENO) == -1)
 		return (1);
 	return (0);
 }
