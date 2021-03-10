@@ -28,6 +28,7 @@ SRCS=	srcs/main.c	\
 		srcs/built_in/export.c	\
 		srcs/built_in/env.c		\
 		srcs/execution/execute_cmds.c		\
+		srcs/execution/execute_cmds2.c		\
 		srcs/execution/execute_cmds_utils.c	\
 		srcs/execution/dup_pipes.c			\
 		srcs/execution/search_built_in.c	\
