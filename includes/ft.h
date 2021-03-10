@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 06:42:22 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/06 08:09:33 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/10 11:42:24 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,8 @@ char	*ft_strchr(const char *s, int c);
 int		ft_strcmp(const char *s1, const char *s2);
 int		ft_lstsize(t_cmd const *lst);
 char	*ft_strdup(char const *s);
+int		ft_isalpha(int c);
+int		ft_isdigit(int c);
+int		ft_isalnum(int c);
 
 #endif

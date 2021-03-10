@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 06:27:50 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/08 19:20:20 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/10 14:30:06 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int	execute_cmds(char *line, char **envp_ptr[])
 	t_cmd	**cmds;
 	t_cmd	**begin_cmds;
 
-	cmds = parse_line(line);
+	cmds = parse_line(line, envp_ptr);
 	free(line);
 	if (cmds == NULL)
 		return (1);
