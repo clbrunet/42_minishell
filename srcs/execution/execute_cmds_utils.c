@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 13:55:27 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/08 16:39:37 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/10 15:11:53 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	free_pipes(int **pipes)
 {
-	int			**iter;
+	int		**iter;
 
 	if (pipes == NULL)
 		return ;
