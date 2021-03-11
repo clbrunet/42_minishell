@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 06:28:22 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/10 16:06:54 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/11 06:47:35 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int				find_exec(t_cmd const *cmd, char *envp[]);
 int				pipeless_built_in(t_built_in_ft built_in_ft, t_cmd const *cmd,
 					char **envp_ptr[]);
 int				pipeless_cmd_process(t_cmd const *cmd, char **envp_ptr[]);
-int				execute_cmds(char *line, char **envp_ptr[]);
+int				execute_cmds(char *line, char **envp_ptr[],
+		int *last_exit_code);
 
 #endif

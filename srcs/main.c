@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 20:30:10 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/14 13:26:51 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/14 14:01:22 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,29 +59,39 @@ static int	malloc_envp(char **envp_original_ptr[])
 	return (0);
 }
 
-int	main(int argc, char *argv[], char *envp[])
+static int	main_end(int line_read, char *envp[])
 {
-	char	*line;
-	int		line_read;
-
-	(void)argv;
-	if (argc != 1 || print_prompt(envp) || malloc_envp(&envp))
-		return (1);
-	line_read = get_next_line(&line);
-	while (line_read == 1)
-	{
-		execute_cmds(line, &envp);
-		if (print_prompt(envp))
-		{
-			free_strs(envp);
-			return (1);
-		}
-		line_read = get_next_line(&line);
-	}
 	free_strs(envp);
 	if (line_read == -1)
 		return (1);
 	else
 		ft_putstr_fd(1, "exit\n");
 	return (0);
+}
+
+#include <stdio.h>
+
+int	main(int argc, char *argv[], char *envp[])
+{
+	char	*line;
+	int		line_read;
+	int		last_exit_code;
+
+	(void)argv;
+	last_exit_code = 0;
+	if (argc != 1 || print_prompt(envp, last_exit_code) || malloc_envp(&envp))
+		return (1);
+	line_read = get_next_line(&line);
+	while (line_read == 1)
+	{
+		printf("%d\n", last_exit_code);
+		execute_cmds(line, &envp, &last_exit_code);
+		if (print_prompt(envp, last_exit_code))
+		{
+			free_strs(envp);
+			return (1);
+		}
+		line_read = get_next_line(&line);
+	}
+	return (main_end(line_read, envp));
 }

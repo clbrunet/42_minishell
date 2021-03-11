@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 20:59:05 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/06 17:43:21 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/11 07:23:12 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	replace_home(char cwd[PATH_MAX], char *envp[])
 	delimit from the command line.
 	Return 1 if an error occurs. */
 
-int	print_prompt(char *envp[])
+int	print_prompt(char *envp[], int last_exit_code)
 {
 	char	cwd[PATH_MAX];
 
@@ -46,6 +46,9 @@ int	print_prompt(char *envp[])
 	replace_home(cwd, envp);
 	ft_putstr_fd(1, BOLD CYAN);
 	ft_putstr_fd(1, cwd);
-	ft_putstr_fd(1, GREEN " $ " RESET);
+	if (last_exit_code == 0)
+		ft_putstr_fd(1, GREEN " $ " RESET);
+	else
+		ft_putstr_fd(1, RED " $ " RESET);
 	return (0);
 }
