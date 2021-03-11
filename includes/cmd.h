@@ -28,6 +28,7 @@ typedef struct s_parse_cmd
 	t_cmd		*first_cmd;
 	const char	*str_cmd;
 	char		**envp;
+	char		*buf;
 
 }	t_parse_cmd;
 
