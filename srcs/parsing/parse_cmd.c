@@ -72,25 +72,129 @@ char	*trim_d_quote(char *arg, int size)
 		return (arg);
 }
 
-static char	*fill_elem(char *dest, const char *src)
+int	size_var(t_parse_cmd p, int i, int j, int size_name)
 {
-	//int		j;
+	int		o;
+	int		size_value;
 
-	(void)dest;
-	(void)src;
-	/*
-	j = 0;
-	while (src[j] != '\0')
+	if (ft_strncmp(p.envp[j], p.str_cmd + i, size_name) == 0)
 	{
-		if ()
+		if (p.envp[j][size_name] == '=')
 		{
-			dest[i] = src[j];
+			o = 1;
+			size_value = 0;
+			while (p.envp[j][size_name + o] != '\0')
+			{
+				size_value++;
+				o++;
+			}
+			return (size_value);
+		}
+	}
+	return (-1);
+}
+
+int	fill_dollar(t_parse_cmd p, char *dest, int i, int to_escape)
+{
+	int		size_name;
+	int		size_value;
+	int		j;
+
+	size_name = 0;
+	if (p.str_cmd[i] == '$' && !to_escape)
+	{
+		while (ft_isalnum(p.str_cmd[(i + 1) + size_name]))
+			size_name++;
+		j = 0;
+		while (p.envp[j] != NULL)
+		{
+			size_value = size_var(p, (i + 1), j, size_name);
+			if (size_value != -1)
+			{
+				ft_strncmp(dest, p.str_cmd + i + 1, size_value);
+				return (size_name);
+			}
+			j++;
+		}
+		return (size_name);
+	}
+//	printf("ui %d\n", *size);
+	return (0);
+}
+
+int	is_meta_char(char c)
+{
+	if (c == '>' || c == '<' || c == '*' || c == '?' || c == '['
+		|| c == ']' || c == '|' || c == ';' || c == '&' || c == '('
+		|| c == ')' || c == '#' || c == '$' || c == '\\' || c == '{'
+		|| c == '}' || c == '"' || c == '\'' || c == '`' || c == ';'
+		|| c == '=')
+		return (1);
+	return (0);
+}
+
+int	is_meta_char_quote(char c)
+{
+	if (c == '$' || c == '\\' || c == '"' || c == '`')
+		return (1);
+	return (0);
+}
+
+static char	*fill_elem(t_parse_cmd p, char *dest, int len, int i)
+{
+	int		to_escape;
+	int		name_size;
+	int		j;
+
+	j = 0;
+	to_escape = 0;
+	while (p.str_cmd[i] != '\0' && i < len)
+	{
+		if (p.str_cmd[i] == '"')
+		{
+			i++;
+			while (!(p.str_cmd[i] == '"' && !to_escape))
+			{
+				if (p.str_cmd[i] == '\\' && !to_escape)
+					to_escape = 1;
+				else
+				{
+					if (!is_meta_char_quote(p.str_cmd[i]))
+					{
+						dest[j] = p.str_cmd[i];
+						j++;
+					}
+					name_size = fill_dollar(p, dest + j, i, to_escape);
+					i += name_size;
+					to_escape = 0;
+				}
+				i++;
+			}
 			i++;
 		}
-		j++;
+		else
+		{
+			while (i < len && p.str_cmd[i] != ' ' && !(p.str_cmd[i] == '|' && !to_escape))
+			{
+				if (p.str_cmd[i] == '\\' && !to_escape)
+					to_escape = 1;
+				else
+				{
+					if (!is_meta_char(p.str_cmd[i]))
+					{
+						dest[j] = p.str_cmd[i];
+						j++;
+					}
+					name_size = fill_dollar(p, dest + j, i, to_escape);
+					i += name_size;
+					to_escape = 0;
+				}
+				i++;
+			}
+		}
+
 	}
-	dest[i] = '\0';
-	*/
+	dest[j] = '\0';
 	return (dest);
 }
 
@@ -140,8 +244,7 @@ static char	**fill_args(t_parse_cmd p, int *i, int len, int arg_nb)
 		args[j] = malloc(sizeof(char) * size + 1);
 		if (!args[j])
 			return (NULL);
-		fill_elem(args[j], p.str_cmd);
-//		args[j] = trim_d_quote(args[j], size_arg(p.str_cmd, *i, len));
+		fill_elem(p, args[j], len, *i);
 		*i = *i + size;
 		j++;
 	}
@@ -176,8 +279,6 @@ static char	**parse_arguments(int *i, int size, int len, t_parse_cmd p)
 	return (args);
 }
 
-
-/*
 static void	print_pipe(t_cmd *p)
 {
 	int	i;
@@ -195,7 +296,6 @@ static void	print_pipe(t_cmd *p)
 		p = p->pipe;
 	}
 }
-*/
 
 t_cmd	*free_cmd_and_content(t_cmd *cmd)
 {
@@ -204,45 +304,7 @@ t_cmd	*free_cmd_and_content(t_cmd *cmd)
 	return (NULL);
 }
 
-int	is_meta_char(char c)
-{
-	if (c == '>' || c == '<' || c == '*' || c == '?' || c == '['
-		|| c == ']' || c == '|' || c == ';' || c == '&' || c == '('
-		|| c == ')' || c == '#' || c == '$' || c == '\\' || c == '{'
-		|| c == '}' || c == '"' || c == '\'' || c == '`' || c == ';'
-		|| c == '=')
-		return (1);
-	return (0);
-}
 
-int	is_meta_char_quote(char c)
-{
-	if (c == '$' || c == '\\' || c == '"' || c == '`')
-		return (1);
-	return (0);
-}
-
-int	size_var(t_parse_cmd p, int i, int j, int size_name)
-{
-	int		o;
-	int		size_value;
-
-	if (ft_strncmp(p.envp[j], p.str_cmd + i, size_name) == 0)
-	{
-		if (p.envp[j][size_name] == '=')
-		{
-			o = 1;
-			size_value = 0;
-			while (p.envp[j][size_name + o] != '\0')
-			{
-				size_value++;
-				o++;
-			}
-			return (size_value);
-		}
-	}
-	return (-1);
-}
 
 int	dollar_size(t_parse_cmd p, int *size, int *i, int to_escape)
 {
@@ -250,9 +312,9 @@ int	dollar_size(t_parse_cmd p, int *size, int *i, int to_escape)
 	int		size_value;
 	int		j;
 
+	size_name = 0;
 	if (p.str_cmd[*i] == '$' && !to_escape)
 	{
-		size_name = 0;
 		while (ft_isalnum(p.str_cmd[(*i + 1) + size_name]))
 			size_name++;
 		j = 0;
@@ -266,8 +328,10 @@ int	dollar_size(t_parse_cmd p, int *size, int *i, int to_escape)
 			}
 			j++;
 		}
+		return (size_name);
 	}
-	return (-1);
+//	printf("ui %d\n", *size);
+	return (0);
 }
 
 int	size_component(t_parse_cmd p, int i, int len)
@@ -293,8 +357,7 @@ int	size_component(t_parse_cmd p, int i, int len)
 				if (!is_meta_char_quote(p.str_cmd[i]))
 					size++;
 				name_size = dollar_size(p, &size, &i, to_escape);
-				if (name_size != -1)
-					i += name_size;
+				i += name_size;
 				to_escape = 0;
 			}
 			i++;
@@ -303,10 +366,22 @@ int	size_component(t_parse_cmd p, int i, int len)
 	}
 	else
 	{
-		while (p.str_cmd[i] != ' ' && i < len && p.str_cmd[i] != '|')
+		while (i < len && p.str_cmd[i] != ' ' && !(p.str_cmd[i] == '|' && !to_escape))
 		{
+			if (p.str_cmd[i] == '\\' && !to_escape)
+			{
+				to_escape = 1;
+				size++;
+			}
+			else
+			{
+				if (!is_meta_char(p.str_cmd[i]))
+					size++;
+				name_size = dollar_size(p, &size, &i, to_escape);
+				i += name_size;
+				to_escape = 0;
+			}
 			i++;
-			size++;
 		}
 	}
 	return (size);
@@ -335,20 +410,19 @@ static int	init_cmd_exe(int *i, t_parse_cmd *p, int len, int *size)
 
 	printf("size = %d\n", *size);
 
-	if (0xCAFE == 0xDECA)
+	p->cmd->exe = malloc(sizeof(char) * (*size + 1));
+	if (!p->cmd->exe)
+		return (0);
+	fill_elem(*p, p->cmd->exe, len, *i);
+	printf("exe = %s\n", p->cmd->exe);
+	exit(0);
+	if (!error)
 	{
-		p->cmd->exe = malloc(sizeof(char) * (*size + 1));
-		if (!p->cmd->exe)
-			return (0);
-		fill_elem(p->cmd->exe, p->str_cmd + *i);
-		if (!error)
-		{
-			free(cmd);
-			return (0);
-		}
-		while (p->str_cmd[*i] == ' ')
-			*i = *i + 1;
+		free(cmd);
+		return (0);
 	}
+	while (p->str_cmd[*i] == ' ')
+		*i = *i + 1;
 	return (1);
 }
 
@@ -384,8 +458,7 @@ t_cmd	*parse_cmd(char const *str_cmd, int len, char **envp[])
 		if (!set_previous_pipe(&p, &i) || i > len)
 			break ;
 		}
-		exit(0);
 	}
-	//print_pipe(p.first_cmd);
+	print_pipe(p.first_cmd);
 	return (p.first_cmd);
 }
