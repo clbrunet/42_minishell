@@ -6,113 +6,269 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 07:16:13 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/09 09:58:57 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/03/12 18:55:17 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 #include "ft.h"
+#include <stdio.h>
 
+void	skip_redirection(char const *str, int *i, int len)
+{
+	int		to_escape;
+
+	*i  = *i + 1;
+	to_escape = 0;
+	while (*i < len)
+	{
+		while (*i == ' ')
+			*i = *i + 1
+		if (str[*i] == '"')
+		{
+			*i = *i + 1
+				while (!(str[*i] == '"' && !to_escape))
+				{
+					if (str[*i] == '\\' && !to_escape)
+						to_escape = 1;
+					else
+						to_escape = 0;
+					*i = *i + 1;
+				}
+			*i = *i + 1
+
+		}
+		else
+		{
+			while ()
+			{
+
+			}
+		}
+	}
+}
 
 static int	count_arg(char const *str, int i, int len)
 {
 	int		count;
+	int		to_escape;
 
+	to_escape = 0;
 	count = 0;
 	while (i < len)
 	{
 		while (str[i] == ' ')
 			i++;
-		if (str[i] == '|')
+		if (str[i] == '|' && !to_escape)
 			return (count);
+		if (str[i] == '>' && !to_escape)
+			skip_redirection(str, *i, len);
 		if (i != len)
 			count++;
-		if (str[i] == '"')
+		if (str[i] == '"' && !to_escape)
 		{
 			i++;
-			while (str[i] != '"' || (str[i] == '"' && str[i - 1] == '\\'))
+			while (!(str[i] == '"' && !to_escape))
+			{
+				if (str[i] == '\\' && !to_escape)
+					to_escape = 1;
+				else
+					to_escape = 0;
+				i++;
+			}
+			i++;
+		}
+		else if (str[i] == '\'' && !to_escape)
+		{
+			i++;
+			while (str[i] != '\'')
 				i++;
 			i++;
 		}
 		else
 		{
-			while (str[i] != ' ' && i < len && str[i] != '|')
+			while (str[i] != ' ' && i < len && !(str[i] == '|' && !to_escape))
+			{
+				if (to_escape == 0 && str[i] == '\\')
+					to_escape = 1;
+				else
+					to_escape = 0;
 				i++;
+			}
 		}
+		i++;
 	}
 	return (count);
 }
 
-char	*trim_d_quote(char *arg, int size)
+int	size_var(t_parse_cmd p, int i, int j, int size_name)
 {
-	char	*arg_trimmed;
+	int		o;
+	int		size_value;
 
-	if (!arg)
-		return (NULL);
-	if ((arg[0] == '"' && arg[size - 1] == '"')
-		|| (arg[0] == '\'' && arg[size - 1] == '\''))
+	if (ft_strncmp(p.envp[j], p.str_cmd + i, size_name) == 0)
 	{
-		arg_trimmed = malloc(sizeof(char) * (size - 1));
-		if (!arg_trimmed)
-			return (NULL);
-		ft_strncpy(arg_trimmed, arg + 1, size - 2);
-		free(arg);
-		return (arg_trimmed);
+		if (p.envp[j][size_name] == '=')
+		{
+			o = 1;
+			size_value = 0;
+			while (p.envp[j][size_name + o] != '\0')
+			{
+				size_value++;
+				o++;
+			}
+			return (size_value);
+		}
 	}
-	else
-		return (arg);
+	return (-1);
 }
 
-static char	*strncpy_arg(char *dest, const char *src, int n)
+int	cpy_var(t_parse_cmd *p, int i, int *j, int size_name)
 {
-	int		i;
+	int		o;
+	int		k;
+	int		size_var;
+
+	k = 0;
+	while (p->envp[k] != NULL)
+	{
+		if (ft_strncmp(p->envp[k], p->str_cmd + i + 1, size_name) == 0)
+		{
+			if (p->envp[k][size_name] == '=')
+			{
+				size_var = 0;
+				while (p->envp[k][size_name + 1 + size_var] != '\0')
+					size_var++;
+				o = 0;
+				while (p->envp[k][size_name + o + 1] != '\0')
+				{
+					p->buf[o + *j] = p->envp[k][size_name + o + 1];
+					o++;
+				}
+				p->buf[o + *j] = '\0';
+				*j = *j + size_var;
+			}
+			return (1);
+		}
+		k++;
+	}
+	return (-1);
+}
+
+int	fill_dollar(t_parse_cmd *p, int i, int *j, int to_escape)
+{
+	int		size_name;
+	int		error;
+
+	size_name = 0;
+	if (p->str_cmd[i] == '$' && !to_escape && !ft_isalpha(p->str_cmd[i + 1])
+		&& p->str_cmd[i] != '_')
+	{
+		p->buf[*j] = '$';
+		p->buf[*j + 1] = '\0';
+		*j = *j + 1;
+	}
+	else if (p->str_cmd[i] == '$' && !to_escape)
+	{
+		while (ft_isalnum(p->str_cmd[(i + 1) + size_name]))
+			size_name++;
+		error = cpy_var(p, i, j, size_name);
+		if (error != -1)
+			return (size_name);
+	}
+	return (size_name);
+}
+
+int	is_meta_char(char c)
+{
+	if (c == '>' || c == '<' || c == '*' || c == '?' || c == '['
+		|| c == ']' || c == '|' || c == ';' || c == '&' || c == '('
+		|| c == ')' || c == '#' || c == '$' || c == '\\' || c == '{'
+		|| c == '}' || c == '"' || c == '\'' || c == '`' || c == ';'
+		|| c == '=')
+		return (1);
+	return (0);
+}
+
+int	is_meta_char_quote(char c)
+{
+	if (c == '$' || c == '\\' || c == '"' || c == '`')
+		return (1);
+	return (0);
+}
+
+static void	fill_buf(t_parse_cmd *p, int len, int i)
+{
+	int		to_escape;
+	int		name_size;
 	int		j;
 
-	if (!dest)
-		return (NULL);
-	i = 0;
 	j = 0;
-	while (src[j] != '\0' && j < n)
+	to_escape = 0;
+	if (p->str_cmd[i] == '"')
 	{
-		if (!((src[j] == '\\' && src[j + 1] == '"')))
+		i++;
+		while (!(p->str_cmd[i] == '"' && !to_escape))
 		{
-			dest[i] = src[j];
+			if (p->str_cmd[i] == '\\' && !to_escape)
+				to_escape = 1;
+			else
+			{
+				if (!is_meta_char_quote(p->str_cmd[i]) && to_escape)
+				{
+					p->buf[j] = '\\';
+					j++;
+					p->buf[j] = p->str_cmd[i];
+					j++;
+
+				}
+				else if (!is_meta_char_quote(p->str_cmd[i]) || (is_meta_char_quote(p->str_cmd[i]) && to_escape))
+				{
+					p->buf[j] = p->str_cmd[i];
+					j++;
+				}
+				name_size = fill_dollar(p, i, &j, to_escape);
+				i += name_size;
+				to_escape = 0;
+			}
 			i++;
 		}
-		j++;
+		i++;
 	}
-	dest[i] = '\0';
-	return (dest);
-}
-
-int	size_arg(const char *str, int i, int len)
-{
-	int		size;
-
-	size = 0;
-	if (str[i] == '"')
+	else if (p->str_cmd[i] == '\'')
 	{
 		i++;
-		size++;
-		while (str[i] != '"' || (str[i] == '"' && str[i - 1] == '\\'))
+		while (p->str_cmd[i] != '\'')
 		{
-			if (!(str[i] == '"' && str[i - 1] == '\\'))
-				size++;
+			p->buf[j] = p->str_cmd[i];
+			j++;
 			i++;
 		}
-		i++;
-		size++;
 	}
 	else
 	{
-		while (str[i] != ' ' && i < len)
+		while (i < len && p->str_cmd[i] != ' ' && !(p->str_cmd[i] == '|' && !to_escape))
 		{
+			if (p->str_cmd[i] == '\\' && !to_escape)
+				to_escape = 1;
+			else
+			{
+				if (!is_meta_char(p->str_cmd[i]) || (is_meta_char(p->str_cmd[i]) && to_escape))
+				{
+					p->buf[j] = p->str_cmd[i];
+					j++;
+				}
+				name_size = fill_dollar(p, i, &j, to_escape);
+				i += name_size;
+				to_escape = 0;
+			}
 			i++;
-			size++;
 		}
 	}
-	return (size);
+	p->buf[j] = '\0';
 }
+
+
 
 static char	**init_args(int	arg_nb, t_parse_cmd p)
 {
@@ -138,29 +294,174 @@ static char	**init_args(int	arg_nb, t_parse_cmd p)
 	return (args);
 }
 
-static char	**fill_args(t_parse_cmd p, int *i, int len, int arg_nb)
+int	dollar_size(t_parse_cmd p, int *size, int *i, int to_escape)
+{
+	int		size_name;
+	int		size_value;
+	int		j;
+
+	size_name = 0;
+	if (p.str_cmd[*i] == '$' && !to_escape && !ft_isalpha(p.str_cmd[*i + 1])
+		&& p.str_cmd[*i] != '_')
+	{
+		*size = *size + 1;
+		return (0);
+	}
+	if (p.str_cmd[*i] == '$' && !to_escape)
+	{
+		while (ft_isalnum(p.str_cmd[(*i + 1) + size_name]))
+			size_name++;
+		j = 0;
+		while (p.envp[j] != NULL)
+		{
+			size_value = size_var(p, (*i + 1), j, size_name);
+			if (size_value != -1)
+			{
+				*size = *size + size_value;
+				return (size_name);
+			}
+			j++;
+		}
+		return (size_name);
+	}
+	return (0);
+}
+
+int	real_component_size(t_parse_cmd p, int i, int len)
+{
+	int		size;
+	int		to_escape;
+
+	to_escape = 0;
+	size = 0;
+	if (p.str_cmd[i] == '"')
+	{
+		size++;
+		i++;
+		while (i < len && !(p.str_cmd[i] == '"' && !to_escape))
+		{
+			if (p.str_cmd[i] == '\\' && !to_escape)
+				to_escape = 1;
+			else
+				to_escape = 0;
+			size++;
+			i++;
+		}
+		size++;
+	}
+	else if (p.str_cmd[i] == '\'')
+	{
+		size++;
+		i++;
+		while (p.str_cmd[i] != '\'')
+		{
+			size++;
+			i++;
+		}
+		size++;
+	}
+	else
+	{
+		while (i < len && p.str_cmd[i] != ' ' && !(p.str_cmd[i] == '|' && !to_escape))
+		{
+			if (p.str_cmd[i] == '\\' && !to_escape)
+				to_escape = 1;
+			else
+				to_escape = 0;
+			size++;
+			i++;
+		}
+	}
+	return (size);
+}
+
+int	size_component_formated(t_parse_cmd p, int i, int len)
+{
+	int		size;
+	int		to_escape;
+	int		name_size;
+
+	size = 0;
+	to_escape = 0;
+	if (p.str_cmd[i] == '"')
+	{
+		i++;
+		while (!(p.str_cmd[i] == '"' && !to_escape))
+		{
+			if (p.str_cmd[i] == '\\' && !to_escape)
+			{
+				to_escape = 1;
+				size++;
+			}
+			else
+			{
+				if (!is_meta_char_quote(p.str_cmd[i]))
+					size++;
+				name_size = dollar_size(p, &size, &i, to_escape);
+				i += name_size;
+				to_escape = 0;
+			}
+			i++;
+		}
+		i++;
+	}
+	if (p.str_cmd[i] == '\'')
+	{
+		i++;
+		while (p.str_cmd[i] != '\'')
+		{
+			i++;
+			size++;
+		}
+		i++;
+	}
+	else
+	{
+		while (i < len && p.str_cmd[i] != ' ' && !(p.str_cmd[i] == '|' && !to_escape))
+		{
+			if (p.str_cmd[i] == '\\' && !to_escape)
+			{
+				to_escape = 1;
+				size++;
+			}
+			else
+			{
+				if (!is_meta_char(p.str_cmd[i]))
+					size++;
+				name_size = dollar_size(p, &size, &i, to_escape);
+				i += name_size;
+				to_escape = 0;
+			}
+			i++;
+		}
+	}
+	return (size);
+}
+
+static char	**fill_args(t_parse_cmd *p, int *i, int len, int arg_nb)
 {
 	char		**args;
 	int			size;
 	int			j;
 
-	args = init_args(arg_nb, p);
+	args = init_args(arg_nb, *p);
 	if (!args)
 		return (0);
 	j = 1;
 	while (*i < len)
 	{
-		while (p.str_cmd[*i] == ' ')
+		while (p->str_cmd[*i] == ' ')
 			*i = *i + 1;
-		if (p.str_cmd[*i] == '|' || p.str_cmd[*i] == '\0' || *i >= len)
+		if (p->str_cmd[*i] == '|' || p->str_cmd[*i] == '\0' || *i >= len)
 			return (args);
-		size = size_component(p.str_cmd, *i, len);
-		args[j] = malloc(sizeof(char) * (size_arg(p.str_cmd, *i, len) + 1));
-		strncpy_arg(args[j], p.str_cmd + *i, size);
-		args[j] = trim_d_quote(args[j], size_arg(p.str_cmd, *i, len));
-		if (!args[j])
+		size = size_component_formated(*p, *i, len);
+		p->buf = malloc(sizeof(char) * size + 1);
+		if (!p->buf)
 			return (NULL);
-		*i = *i + size;
+		fill_buf(p, len, *i);
+		args[j] = p->buf;
+		p->buf = NULL;
+		*i = *i + real_component_size(*p, *i, len);
 		j++;
 	}
 	return (args);
@@ -180,21 +481,21 @@ static int	set_previous_pipe(t_parse_cmd *p, int *i)
 	return (1);
 }
 
-static char	**parse_arguments(int *i, int size, int len, t_parse_cmd p)
+static char	**parse_arguments(int *i, int size, int len, t_parse_cmd *p)
 {
 	int		arg_nb;
 	char	**args;
 
 	*i = *i + size;
-	arg_nb = count_arg(p.str_cmd, *i, len);
+	arg_nb = count_arg(p->str_cmd, *i, len);
+	printf("arg_nb = %d i = %d\n", arg_nb, size);
+	exit(0);
 	args = fill_args(p, i, len, arg_nb);
 	if (!args)
 		return (NULL);
 	return (args);
 }
 
-
-/*
 static void	print_pipe(t_cmd *p)
 {
 	int	i;
@@ -212,7 +513,6 @@ static void	print_pipe(t_cmd *p)
 		p = p->pipe;
 	}
 }
-*/
 
 t_cmd	*free_cmd_and_content(t_cmd *cmd)
 {
@@ -221,56 +521,9 @@ t_cmd	*free_cmd_and_content(t_cmd *cmd)
 	return (NULL);
 }
 
-static int	size_component(char const *str_cmd, int i, int len)
-{
-	int		size;
-
-	size = 0;
-	if (str_cmd[i] == '"')
-	{
-		i++;
-		size++;
-		while (str_cmd[i] != '"' || (str_cmd[i] == '"'
-				&& str_cmd[i - 1] == '\\'))
-		{
-			i++;
-			size++;
-		}
-		i++;
-		size++;
-	}
-	else
-	{
-		while (str_cmd[i] != ' ' && i < len && str_cmd[i] != '|')
-		{
-			i++;
-			size++;
-		}
-	}
-	return (size);
-}
-
-static int	fill_exe(t_parse_cmd *p, int i, int size)
-{
-	int		j;
-
-	p->cmd->exe = malloc(sizeof(char) * (size + 1));
-	if (!p->cmd->exe)
-		return (0);
-	j = 0;
-	while (j < size)
-	{
-		p->cmd->exe[j] = p->str_cmd[i];
-		i++;
-		j++;
-	}
-	p->cmd->exe[j] = '\0';
-	return (1);
-}
 static int	init_cmd_exe(int *i, t_parse_cmd *p, int len, int *size)
 {
 	t_cmd	*cmd;
-	int		error;
 
 	cmd = malloc(sizeof(t_cmd) * (1));
 	if (!cmd)
@@ -286,38 +539,44 @@ static int	init_cmd_exe(int *i, t_parse_cmd *p, int len, int *size)
 	p->cmd->exe = NULL;
 	p->cmd->args = NULL;
 	p->cmd->pipe = NULL;
-	*size = size_component(p->str_cmd, *i, len);
-	error = fill_exe(p, *i, *size);
-	if (!error)
+	*size = size_component_formated(*p, *i, len);
+	p->buf = malloc(sizeof(char) * (*size + 1));
+	*size = real_component_size(*p, *i, len);
+	if (!p->buf)
 	{
 		free(cmd);
 		return (0);
 	}
+	fill_buf(p, len, *i);
+	p->cmd->exe = p->buf;
+	p->buf = NULL;
 	while (p->str_cmd[*i] == ' ')
 		*i = *i + 1;
 	return (1);
 }
 
-static void	init_parsing(t_parse_cmd *p, char const *str_cmd)
+static void	init_parsing(t_parse_cmd *p, char const *str_cmd, char **envp)
 {
 	p->p_cmd = NULL;
 	p->first_cmd = NULL;
 	p->str_cmd = str_cmd;
+	p->envp = envp;
 }
 
-t_cmd	*parse_cmd(char const *str_cmd, int len)
+t_cmd	*parse_cmd(char const *str_cmd, int len, char **envp[])
 {
 	int				i;
 	int				size;
 	t_parse_cmd		p;
 
+	printf("%d\n", len);	
 	i = 0;
-	init_parsing(&p, str_cmd);
+	init_parsing(&p, str_cmd, *envp);
 	while (1)
 	{
 		if (!init_cmd_exe(&i, &p, len, &size))
 			return (NULL);
-		p.cmd->args = parse_arguments(&i, size, len, p);
+		p.cmd->args = parse_arguments(&i, size, len, &p);
 		if (!p.cmd->args)
 		{
 			free_cmd_content(p.first_cmd, p.first_cmd);
@@ -327,6 +586,6 @@ t_cmd	*parse_cmd(char const *str_cmd, int len)
 		if (!set_previous_pipe(&p, &i) || i > len)
 			break ;
 	}
-	//print_pipe(p.first_cmd);
+	print_pipe(p.first_cmd);
 	return (p.first_cmd);
 }

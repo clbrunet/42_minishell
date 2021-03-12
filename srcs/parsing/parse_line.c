@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 13:34:20 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/02/28 18:31:30 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/10 14:33:05 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	count_cmds(char const *line)
 	return (count);
 }
 
-static int	fill_cmds(t_cmd **cmds, char const *line, int count)
+static int	fill_cmds(t_cmd **cmds, char const *line, int count, char **envp[])
 {
 	char const	*backup;
 	char		is_escaped;
@@ -61,7 +61,7 @@ static int	fill_cmds(t_cmd **cmds, char const *line, int count)
 				is_escaped = 0;
 			line++;
 		}
-		*cmds = parse_cmd(backup, line - backup);
+		*cmds = parse_cmd(backup, line - backup, envp);
 		if (*cmds == NULL)
 			return (1);
 		line++;
@@ -71,7 +71,7 @@ static int	fill_cmds(t_cmd **cmds, char const *line, int count)
 	return (0);
 }
 
-t_cmd	**parse_line(char *line)
+t_cmd	**parse_line(char *line, char **envp[])
 {
 	t_cmd	**cmds;
 	int		count;
@@ -83,7 +83,7 @@ t_cmd	**parse_line(char *line)
 	cmds = malloc((count + 1) * sizeof(t_cmd *));
 	if (cmds == NULL)
 		return (NULL);
-	if (fill_cmds(cmds, line, count))
+	if (fill_cmds(cmds, line, count, envp))
 	{
 		free_cmds(cmds);
 		return (NULL);
