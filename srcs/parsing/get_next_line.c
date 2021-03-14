@@ -61,6 +61,19 @@ static int	update_line(char **line, char *buffer)
 	return (line_read);
 }
 
+int	finish_buffer(char **line, char *buffer)
+{
+	int		error;
+
+	if (*buffer)
+	{
+		error = update_line(line, buffer);
+		if (error == 1 || error == -1)
+			return (error);
+	}
+	return (0);
+}
+
 int	get_next_line(char **line)
 {
 	static char		buffer[1001] = {0};
@@ -69,18 +82,18 @@ int	get_next_line(char **line)
 
 	if (!init_line(line))
 		return (-1);
-	if (*buffer)
-	{
-		error = update_line(line, buffer);
-		if (error == 1 || error == -1)
-			return (error);
-	}
+	error = finish_buffer(line, buffer);
+	if (error == 1 || error == -1)
+		return (error);
 	byte_read = 1;
 	while (byte_read || **line)
 	{
 		byte_read = read(0, buffer, 1000);
 		if (byte_read == -1)
+		{
+			free(line);
 			return (-1);
+		}
 		buffer[byte_read] = '\0';
 		error = update_line(line, buffer);
 		if (error == -1 || error == 1)
