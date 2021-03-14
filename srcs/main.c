@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 20:30:10 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/08 19:13:52 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/14 13:26:51 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ int	main(int argc, char *argv[], char *envp[])
 	line_read = get_next_line(&line);
 	while (line_read == 1)
 	{
-		if (execute_cmds(line, &envp) || print_prompt(envp))
+		execute_cmds(line, &envp);
+		if (print_prompt(envp))
 		{
 			free_strs(envp);
 			return (1);
@@ -81,9 +82,6 @@ int	main(int argc, char *argv[], char *envp[])
 	if (line_read == -1)
 		return (1);
 	else
-	{
-		free(line);
 		ft_putstr_fd(1, "exit\n");
-	}
 	return (0);
 }
