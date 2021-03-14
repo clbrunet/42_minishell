@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 07:16:13 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/12 18:55:17 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/03/14 19:00:23 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,37 +14,51 @@
 #include "ft.h"
 #include <stdio.h>
 
-void	skip_redirection(char const *str, int *i, int len)
+static void	skip_redirection(char const *str, int *i, int len)
 {
-	int		to_escape;
+	int	to_escape;
 
-	*i  = *i + 1;
-	to_escape = 0;
-	while (*i < len)
+	*i = *i + 1;
+	if ((str[*i] == '>' || str[*i] == '<') && *i < len)
+		*i = *i + 1;
+	while (1)
 	{
-		while (*i == ' ')
-			*i = *i + 1
+		while (str[*i] == ' ')
+			*i = *i + 1;
+		to_escape = 0;
 		if (str[*i] == '"')
 		{
-			*i = *i + 1
-				while (!(str[*i] == '"' && !to_escape))
-				{
-					if (str[*i] == '\\' && !to_escape)
-						to_escape = 1;
-					else
-						to_escape = 0;
-					*i = *i + 1;
-				}
-			*i = *i + 1
-
+			*i = *i + 1;
+			while (str[*i] != '"' && !to_escape)
+			{
+				if (str[*i] == '\\' && !to_escape)
+					to_escape = 1;
+				else
+					to_escape = 0;
+			}
+		}
+		else if (str[*i] == '\'')
+		{
+			*i = *i + 1;
+			while (str[*i] != '\'')
+				*i = *i + 1;
 		}
 		else
 		{
-			while ()
-			{
-
-			}
+			while ((str[*i] != ' ' && str[*i] != '|') && *i < len)
+				*i = *i + 1;
 		}
+
+		while (str[*i] == ' ')
+			*i = *i + 1;
+		if ((str[*i] == '<' || str[*i] == '>') && *i < len)
+		{
+			*i = *i + 1;
+			if ((str[*i] == '>' || str[*i] == '<') && *i < len)
+				*i = *i + 1;
+		}
+		else
+			break ;
 	}
 }
 
@@ -59,10 +73,10 @@ static int	count_arg(char const *str, int i, int len)
 	{
 		while (str[i] == ' ')
 			i++;
+		if ((str[i] == '>' || str[i] == '<'))
+			skip_redirection(str, &i, len);
 		if (str[i] == '|' && !to_escape)
 			return (count);
-		if (str[i] == '>' && !to_escape)
-			skip_redirection(str, *i, len);
 		if (i != len)
 			count++;
 		if (str[i] == '"' && !to_escape)
@@ -362,7 +376,8 @@ int	real_component_size(t_parse_cmd p, int i, int len)
 	}
 	else
 	{
-		while (i < len && p.str_cmd[i] != ' ' && !(p.str_cmd[i] == '|' && !to_escape))
+		while (i < len && p.str_cmd[i] != ' ' && !(p.str_cmd[i] == '|' && !to_escape)
+			&& !(p.str_cmd[i] == '>' && !to_escape) && !(p.str_cmd[i] == '<' && !to_escape))
 		{
 			if (p.str_cmd[i] == '\\' && !to_escape)
 				to_escape = 1;
@@ -437,7 +452,58 @@ int	size_component_formated(t_parse_cmd p, int i, int len)
 	}
 	return (size);
 }
+/*
+static void	fill_redirection(t_parse_cmd *p, int *i, int len)
+{
+	int	to_escape;
+	int	size;
 
+	*i = *i + 1;
+	if ((str[*i] == '>' || str[*i] == '<') && *i < len)
+		*i = *i + 1;
+	while (1)
+	{
+		while (str[*i] == ' ')
+			*i = *i + 1;
+		size_component_formated(*p, *i, len);
+		add_red(p);
+		to_escape = 0;
+		if (str[*i] == '"')
+		{
+			*i = *i + 1;
+			while (str[*i] != '"' && !to_escape)
+			{
+				if (str[*i] == '\\' && !to_escape)
+					to_escape = 1;
+				else
+					to_escape = 0;
+			}
+		}
+		else if (str[*i] == '\'')
+		{
+			*i = *i + 1;
+			while (str[*i] != '\'')
+				*i = *i + 1;
+		}
+		else
+		{
+			while ((str[*i] != ' ' && str[*i] != '|') && *i < len)
+				*i = *i + 1;
+		}
+
+		while (str[*i] == ' ')
+			*i = *i + 1;
+		if ((str[*i] == '<' || str[*i] == '>') && *i < len)
+		{
+			*i = *i + 1;
+			if ((str[*i] == '>' || str[*i] == '<') && *i < len)
+				*i = *i + 1;
+		}
+		else
+			break ;
+	}
+}
+*/
 static char	**fill_args(t_parse_cmd *p, int *i, int len, int arg_nb)
 {
 	char		**args;
@@ -452,6 +518,8 @@ static char	**fill_args(t_parse_cmd *p, int *i, int len, int arg_nb)
 	{
 		while (p->str_cmd[*i] == ' ')
 			*i = *i + 1;
+//		if (p->str_cmd[*i] == '<' || p->str_cmd[*i] == '>')
+//			fill_redirection(p, *i, len);
 		if (p->str_cmd[*i] == '|' || p->str_cmd[*i] == '\0' || *i >= len)
 			return (args);
 		size = size_component_formated(*p, *i, len);
@@ -488,14 +556,12 @@ static char	**parse_arguments(int *i, int size, int len, t_parse_cmd *p)
 
 	*i = *i + size;
 	arg_nb = count_arg(p->str_cmd, *i, len);
-	printf("arg_nb = %d i = %d\n", arg_nb, size);
-	exit(0);
 	args = fill_args(p, i, len, arg_nb);
 	if (!args)
 		return (NULL);
 	return (args);
 }
-
+/*
 static void	print_pipe(t_cmd *p)
 {
 	int	i;
@@ -513,7 +579,7 @@ static void	print_pipe(t_cmd *p)
 		p = p->pipe;
 	}
 }
-
+*/
 t_cmd	*free_cmd_and_content(t_cmd *cmd)
 {
 	free_cmd_content(cmd, cmd);
@@ -569,7 +635,6 @@ t_cmd	*parse_cmd(char const *str_cmd, int len, char **envp[])
 	int				size;
 	t_parse_cmd		p;
 
-	printf("%d\n", len);	
 	i = 0;
 	init_parsing(&p, str_cmd, *envp);
 	while (1)
@@ -586,6 +651,6 @@ t_cmd	*parse_cmd(char const *str_cmd, int len, char **envp[])
 		if (!set_previous_pipe(&p, &i) || i > len)
 			break ;
 	}
-	print_pipe(p.first_cmd);
+//	print_pipe(p.first_cmd);
 	return (p.first_cmd);
 }

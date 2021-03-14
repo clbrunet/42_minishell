@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 06:27:50 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/12 14:55:21 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/03/14 18:58:41 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ static int	execute_pipeless_cmd(t_cmd const *cmd, char **envp_ptr[])
 	}
 	return (0);
 }
-#include <stdio.h>
+
 int	execute_cmds(char *line, char **envp_ptr[])
 {
 	t_cmd	**cmds;
