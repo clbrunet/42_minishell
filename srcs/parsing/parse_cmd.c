@@ -14,6 +14,54 @@
 #include "ft.h"
 #include <stdio.h>
 
+static void	skip_redirection(char const *str, int *i, int len)
+{
+	int	to_escape;
+
+	*i = *i + 1;
+	if ((str[*i] == '>' || str[*i] == '<') && *i < len)
+		*i = *i + 1;
+	while (1)
+	{
+		while (str[*i] == ' ')
+			*i = *i + 1;
+		to_escape = 0;
+		if (str[*i] == '"')
+		{
+			*i = *i + 1;
+			while (str[*i] != '"' && !to_escape)
+			{
+				if (str[*i] == '\\' && !to_escape)
+					to_escape = 1;
+				else
+					to_escape = 0;
+			}
+		}
+		else if (str[*i] == '\'')
+		{
+			*i = *i + 1;
+			while (str[*i] != '\'')
+				*i = *i + 1;
+		}
+		else
+		{
+			while ((str[*i] != ' ' && str[*i] != '|') && *i < len)
+				*i = *i + 1;
+		}
+
+		while (str[*i] == ' ')
+			*i = *i + 1;
+		if ((str[*i] == '<' || str[*i] == '>') && *i < len)
+		{
+			*i = *i + 1;
+			if ((str[*i] == '>' || str[*i] == '<') && *i < len)
+				*i = *i + 1;
+		}
+		else
+			break ;
+	}
+}
+
 static int	count_arg(char const *str, int i, int len)
 {
 	int		count;
@@ -25,6 +73,8 @@ static int	count_arg(char const *str, int i, int len)
 	{
 		while (str[i] == ' ')
 			i++;
+		if ((str[i] == '>' || str[i] == '<'))
+			skip_redirection(str, &i, len);
 		if (str[i] == '|' && !to_escape)
 			return (count);
 		if (i != len)
@@ -326,7 +376,8 @@ int	real_component_size(t_parse_cmd p, int i, int len)
 	}
 	else
 	{
-		while (i < len && p.str_cmd[i] != ' ' && !(p.str_cmd[i] == '|' && !to_escape))
+		while (i < len && p.str_cmd[i] != ' ' && !(p.str_cmd[i] == '|' && !to_escape)
+			&& !(p.str_cmd[i] == '>' && !to_escape) && !(p.str_cmd[i] == '<' && !to_escape))
 		{
 			if (p.str_cmd[i] == '\\' && !to_escape)
 				to_escape = 1;
@@ -453,6 +504,7 @@ static char	**parse_arguments(int *i, int size, int len, t_parse_cmd *p)
 	*i = *i + size;
 	arg_nb = count_arg(p->str_cmd, *i, len);
 	args = fill_args(p, i, len, arg_nb);
+	exit(0);
 	if (!args)
 		return (NULL);
 	return (args);
