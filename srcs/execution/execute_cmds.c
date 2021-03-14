@@ -108,7 +108,7 @@ static int	execute_pipeless_cmd(t_cmd const *cmd, char **envp_ptr[])
 	}
 	return (0);
 }
-
+#include <stdio.h>
 int	execute_cmds(char *line, char **envp_ptr[])
 {
 	t_cmd	**cmds;

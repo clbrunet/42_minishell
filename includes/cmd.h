@@ -24,16 +24,17 @@ typedef struct s_redirection
 {
 	t_redirection_type	type;
 	char				*path_or_endstr;
+	struct s_redirection			*next;
 }	t_redirection;
 
 typedef struct s_cmd	t_cmd;
 struct					s_cmd
 {
-	char	*exe;
-	char	**args;
-	t_redirection	in_redirection;
-	t_redirection	out_redirection;
-	t_cmd	*pipe;
+	char		*exe;
+	char		**args;
+	t_redirection	*in_redirection;
+	t_redirection	*out_redirection;
+	t_cmd		*pipe;
 };
 
 typedef struct s_parse_cmd
