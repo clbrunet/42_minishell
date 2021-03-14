@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 14:19:22 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/02/28 14:49:33 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/14 13:10:36 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,32 @@ static	int	check_semicolons(char const *line)
 	return (0);
 }
 
+static int	check_cmds_ending_tests(char const **line, char *is_escaped,
+		char *is_smth_expected)
+{
+	char	unexpected_token[2];
+
+	unexpected_token[1] = '\0';
+	if (ft_strchr("'\"", **line) && !*is_escaped)
+		*line = trim_inner_quotes(*line, **line);
+	else if (ft_strchr("<>|", **line) && !*is_escaped && *is_smth_expected)
+	{
+		unexpected_token[0] = **line;
+		return (syntax_error(unexpected_token));
+	}
+	else if (ft_strchr("<>|", **line) && !*is_escaped)
+		*is_smth_expected = 1;
+	else if (**line == ';' && !*is_escaped && *is_smth_expected)
+		return (syntax_error(";"));
+	else if (**line == '\\')
+		*is_escaped = !*is_escaped;
+	else
+		*is_escaped = 0;
+	if (!ft_strchr("<>| ", **line))
+		*is_smth_expected = 0;
+	return (0);
+}
+
 static int	check_cmds_ending(char const *line)
 {
 	char	is_escaped;
@@ -73,18 +99,8 @@ static int	check_cmds_ending(char const *line)
 	is_smth_expected = 0;
 	while (*line)
 	{
-		if (ft_strchr("'\"", *line) && !is_escaped)
-			line = trim_inner_quotes(line, *line);
-		else if (ft_strchr("<>|", *line) && !is_escaped)
-			is_smth_expected = 1;
-		else if (*line == ';' && !is_escaped && is_smth_expected)
-			return (syntax_error(";"));
-		else if (*line == '\\')
-			is_escaped = !is_escaped;
-		else
-			is_escaped = 0;
-		if (!ft_strchr("<>| ", *line))
-			is_smth_expected = 0;
+		if (check_cmds_ending_tests(&line, &is_escaped, &is_smth_expected))
+			return (1);
 		line++;
 	}
 	if (is_smth_expected)

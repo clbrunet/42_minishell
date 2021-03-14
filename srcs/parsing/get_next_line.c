@@ -6,15 +6,16 @@
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 18:33:47 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/03/11 11:08:44 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/14 13:14:47 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 #include "ft.h"
 
-static int	init_line(char **line)
+static int	init(char **line, int *byte_read)
 {
+	*byte_read = 1;
 	*line = malloc(sizeof(char) * (1));
 	if (!line)
 		return (0);
@@ -80,18 +81,17 @@ int	get_next_line(char **line)
 	int				byte_read;
 	int				error;
 
-	if (!init_line(line))
+	if (!init(line, &byte_read))
 		return (-1);
 	error = finish_buffer(line, buffer);
 	if (error == 1 || error == -1)
 		return (error);
-	byte_read = 1;
 	while (byte_read || **line)
 	{
 		byte_read = read(0, buffer, 1000);
 		if (byte_read == -1)
 		{
-			free(line);
+			free(*line);
 			return (-1);
 		}
 		buffer[byte_read] = '\0';
@@ -99,5 +99,7 @@ int	get_next_line(char **line)
 		if (error == -1 || error == 1)
 			return (error);
 	}
+	free(*line);
+	*line = NULL;
 	return (0);
 }
