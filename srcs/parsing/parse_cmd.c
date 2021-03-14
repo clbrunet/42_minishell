@@ -453,6 +453,11 @@ int	size_component_formated(t_parse_cmd p, int i, int len)
 	return (size);
 }
 
+static void	fill_redirection(t_parse_cmd *p, int *i, int len)
+{
+	
+}
+
 static char	**fill_args(t_parse_cmd *p, int *i, int len, int arg_nb)
 {
 	char		**args;
@@ -467,6 +472,8 @@ static char	**fill_args(t_parse_cmd *p, int *i, int len, int arg_nb)
 	{
 		while (p->str_cmd[*i] == ' ')
 			*i = *i + 1;
+		if (p->str_cmd[*i] == '<' || p->str_cmd[*i] == '>')
+			fill_redirection(p, *i, len);
 		if (p->str_cmd[*i] == '|' || p->str_cmd[*i] == '\0' || *i >= len)
 			return (args);
 		size = size_component_formated(*p, *i, len);
@@ -504,6 +511,7 @@ static char	**parse_arguments(int *i, int size, int len, t_parse_cmd *p)
 	*i = *i + size;
 	arg_nb = count_arg(p->str_cmd, *i, len);
 	args = fill_args(p, i, len, arg_nb);
+	printf("arg_nb = %d\n", arg_nb);
 	exit(0);
 	if (!args)
 		return (NULL);
