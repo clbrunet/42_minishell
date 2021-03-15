@@ -502,16 +502,18 @@ static void	add_red(t_parse_cmd *p, char *path_or_endstr, int in_out, t_redirect
 			p->cmd->in_redirection->next = red;
 		else
 			p->cmd->in_redirection = red;
-		p->cmd->in_redirection = first_red;
+		if (first_red != NULL)
+			p->cmd->in_redirection = first_red;
 	}
 }
 
-static int	fill_redirection(t_parse_cmd *p, int *i, int len)
+static t_parse_cmd	*fill_redirection(t_parse_cmd *p, int *i, int len)
 {
 	int			to_escape;
 	int			in_out;
 	t_redirection_type 	red_type;
 
+	red_type = NONE;
 	if (p->str_cmd[*i] == '>')
 	{
 		in_out = 0;
@@ -535,11 +537,15 @@ static int	fill_redirection(t_parse_cmd *p, int *i, int len)
 	{
 		while (p->str_cmd[*i] == ' ')
 			*i = *i + 1;
-		p->buf = malloc(sizeof(char) * (size_component_formated(*p, *i, len) + 1));
-		if (!p->buf)
-			return (0);
-		fill_buf(p, len, *i);
-		add_red(p, p->buf, in_out, red_type);
+		if (red_type != 0)
+		{
+			p->buf = malloc(sizeof(char) * (size_component_formated(*p, *i, len) + 1));
+			if (!p->buf)
+				return (NULL);
+			fill_buf(p, len, *i);
+			add_red(p, p->buf, in_out, red_type);
+		}
+		red_type = NONE;
 		to_escape = 0;
 		if (p->str_cmd[*i] == '"')
 		{
@@ -586,7 +592,8 @@ static int	fill_redirection(t_parse_cmd *p, int *i, int len)
 		else
 			break ;
 	}
-	return (1);
+	printf("pathname = %s\n", p->cmd->in_redirection->path_or_endstr);
+	return (p);
 }
 
 static char	**fill_args(t_parse_cmd *p, int *i, int len, int arg_nb)
@@ -604,7 +611,8 @@ static char	**fill_args(t_parse_cmd *p, int *i, int len, int arg_nb)
 		while (p->str_cmd[*i] == ' ')
 			*i = *i + 1;
 		if (p->str_cmd[*i] == '<' || p->str_cmd[*i] == '>')
-			fill_redirection(p, i, len);
+			p = fill_redirection(p, i, len);
+		printf("p = %p\n", p->cmd->in_redirection);
 		if (p->str_cmd[*i] == '|' || p->str_cmd[*i] == '\0' || *i >= len)
 			return (args);
 		size = size_component_formated(*p, *i, len);
@@ -653,18 +661,18 @@ static void	print_cmds(t_cmd *p)
 
 	while (p != NULL)
 	{
-		printf("cmd = %p\n", p);
-		printf("exe = %s\n", p->exe);
+		printf("Cmd = %p\n", p);
+		printf("Exe = %s\n", p->exe);
 		i = 0;
 		while (p->args[i] != NULL)
 		{
-			printf("arg #%d: %s\n", i, p->args[i]);
+			printf("Arg #%d: %s\n", i, p->args[i]);
 			i++;
 		}
 		i = 0;
 		while (p->in_redirection != NULL)
 		{
-			printf("IN red #%d: type = %d path_or_endstr = %s ",
+			printf("In red #%d: type = %d path_or_endstr = %s ",
 			i, p->in_redirection->type, p->in_redirection->path_or_endstr);
 			p->in_redirection = p->in_redirection->next;
 			i++;
@@ -672,7 +680,7 @@ static void	print_cmds(t_cmd *p)
 		i = 0;
 		while (p->out_redirection != NULL)
 		{
-			printf("red #%d: type = %d path_or_endstr = %s ",
+			printf("Out red #%d: type = %d path_or_endstr = %s ",
 			i, p->in_redirection->type, p->in_redirection->path_or_endstr);
 			p->in_redirection = p->in_redirection->next;
 			i++;

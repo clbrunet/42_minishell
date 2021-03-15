@@ -9,7 +9,6 @@ SRCS=	srcs/main.c	\
 		srcs/ft/ft_strncmp.c	\
 		srcs/ft/ft_putstr_fd.c	\
 		srcs/ft/ft_putchar_fd.c	\
-		srcs/ft/ft_strndup.c	\
 		srcs/ft/ft_strchr.c		\
 		srcs/ft/ft_strcmp.c		\
 		srcs/ft/ft_lstsize.c	\
@@ -24,7 +23,6 @@ SRCS=	srcs/main.c	\
 		srcs/parsing/parse_line.c	\
 		srcs/parsing/check_line.c	\
 		srcs/parsing/parse_cmd.c	\
-		srcs/parsing/check_cmd.c	\
 		srcs/built_in/echo.c	\
 		srcs/built_in/cd.c		\
 		srcs/built_in/export.c	\
