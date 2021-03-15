@@ -452,58 +452,137 @@ int	size_component_formated(t_parse_cmd p, int i, int len)
 	}
 	return (size);
 }
-/*
-static void	fill_redirection(t_parse_cmd *p, int *i, int len)
-{
-	int	to_escape;
-	int	size;
 
-	*i = *i + 1;
-	if ((str[*i] == '>' || str[*i] == '<') && *i < len)
+static t_redirection	*create_red(char *path_or_endstr)
+{
+	t_redirection		*red;
+
+	red = malloc(sizeof(t_redirection) * (1));
+	if (!red)
+		return (NULL);
+	red->next = NULL;
+	red->path_or_endstr = path_or_endstr;
+	red->next = NULL;
+	red->type = NONE;
+	return (red);
+}
+
+static void	add_red(t_parse_cmd *p, char *path_or_endstr, int in_out, t_redirection_type red_type)
+{
+	t_redirection	*red;
+	t_redirection	*first_red;
+
+	red = create_red(path_or_endstr);
+	if (in_out)
+	{
+		first_red = p->cmd->out_redirection;
+		while (p->cmd->out_redirection->next != NULL)
+			p->cmd->out_redirection = p->cmd->out_redirection->next;
+		if (red_type == 1)
+			red->type = SIMPLE;
+		else
+			red->type = DOUBLE;
+		p->cmd->out_redirection->next = red;
+		p->cmd->out_redirection = first_red;
+
+	}
+	else
+	{
+		first_red = p->cmd->in_redirection;
+		while (p->cmd->in_redirection->next != NULL)
+			p->cmd->in_redirection = p->cmd->in_redirection->next;
+		if (red_type == 1)
+			red->type = SIMPLE;
+		else
+			red->type = DOUBLE;
+		p->cmd->in_redirection->next = red;
+		p->cmd->in_redirection = first_red;
+	}
+}
+
+static int	fill_redirection(t_parse_cmd *p, int *i, int len)
+{
+	int			to_escape;
+	int			in_out;
+	t_redirection_type 	red_type;
+
+	if (p->str_cmd[*i] == '>')
+	{
+		in_out = 0;
 		*i = *i + 1;
+		if (p->str_cmd[*i] == '>')
+			red_type = DOUBLE;
+		else
+			red_type = SIMPLE;
+	}
+	else
+	{
+		in_out = 1;
+		*i = *i + 1;
+		if (p->str_cmd[*i] == '>')
+			red_type = DOUBLE;
+		else
+			red_type = SIMPLE;
+	}
+	*i = *i + 1;
 	while (1)
 	{
-		while (str[*i] == ' ')
+		while (p->str_cmd[*i] == ' ')
 			*i = *i + 1;
-		size_component_formated(*p, *i, len);
-		add_red(p);
+		p->buf = malloc(sizeof(char) * (size_component_formated(*p, *i, len) + 1));
+		if (!p->buf)
+			return (0);
+		fill_buf(p, len, *i);
+		add_red(p, p->buf, in_out, red_type);
 		to_escape = 0;
-		if (str[*i] == '"')
+		if (p->str_cmd[*i] == '"')
 		{
 			*i = *i + 1;
-			while (str[*i] != '"' && !to_escape)
+			while (p->str_cmd[*i] != '"' && !to_escape)
 			{
-				if (str[*i] == '\\' && !to_escape)
+				if (p->str_cmd[*i] == '\\' && !to_escape)
 					to_escape = 1;
 				else
 					to_escape = 0;
 			}
 		}
-		else if (str[*i] == '\'')
+		else if (p->str_cmd[*i] == '\'')
 		{
 			*i = *i + 1;
-			while (str[*i] != '\'')
+			while (p->str_cmd[*i] != '\'')
 				*i = *i + 1;
 		}
 		else
 		{
-			while ((str[*i] != ' ' && str[*i] != '|') && *i < len)
+			while ((p->str_cmd[*i] != ' ' && p->str_cmd[*i] != '|') && *i < len)
 				*i = *i + 1;
 		}
-
-		while (str[*i] == ' ')
+		while (p->str_cmd[*i] == ' ')
 			*i = *i + 1;
-		if ((str[*i] == '<' || str[*i] == '>') && *i < len)
+		if (p->str_cmd[*i] == '>')
 		{
+			in_out = 1;
 			*i = *i + 1;
-			if ((str[*i] == '>' || str[*i] == '<') && *i < len)
-				*i = *i + 1;
+			if (p->str_cmd[*i] == '>')
+				red_type = DOUBLE;
+			else
+				red_type = SIMPLE;
+		}
+		else if (p->str_cmd[*i] == '<')
+		{
+			in_out = 0;
+			*i = *i + 1;
+			if (p->str_cmd[*i] == '>')
+				red_type = DOUBLE;
+			else
+				red_type = SIMPLE;
 		}
 		else
 			break ;
 	}
+	return (1);
 }
-*/
+
 static char	**fill_args(t_parse_cmd *p, int *i, int len, int arg_nb)
 {
 	char		**args;
@@ -518,8 +597,8 @@ static char	**fill_args(t_parse_cmd *p, int *i, int len, int arg_nb)
 	{
 		while (p->str_cmd[*i] == ' ')
 			*i = *i + 1;
-//		if (p->str_cmd[*i] == '<' || p->str_cmd[*i] == '>')
-//			fill_redirection(p, *i, len);
+		if (p->str_cmd[*i] == '<' || p->str_cmd[*i] == '>')
+			fill_redirection(p, i, len);
 		if (p->str_cmd[*i] == '|' || p->str_cmd[*i] == '\0' || *i >= len)
 			return (args);
 		size = size_component_formated(*p, *i, len);
@@ -605,6 +684,8 @@ static int	init_cmd_exe(int *i, t_parse_cmd *p, int len, int *size)
 	p->cmd->exe = NULL;
 	p->cmd->args = NULL;
 	p->cmd->pipe = NULL;
+	p->cmd->in_redirection = NULL;
+	p->cmd->out_redirection = NULL;
 	*size = size_component_formated(*p, *i, len);
 	p->buf = malloc(sizeof(char) * (*size + 1));
 	*size = real_component_size(*p, *i, len);
