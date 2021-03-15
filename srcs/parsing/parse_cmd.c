@@ -476,26 +476,32 @@ static void	add_red(t_parse_cmd *p, char *path_or_endstr, int in_out, t_redirect
 	if (in_out)
 	{
 		first_red = p->cmd->out_redirection;
-		while (p->cmd->out_redirection->next != NULL)
+		while (p->cmd->out_redirection && p->cmd->out_redirection->next != NULL)
 			p->cmd->out_redirection = p->cmd->out_redirection->next;
 		if (red_type == 1)
 			red->type = SIMPLE;
 		else
 			red->type = DOUBLE;
-		p->cmd->out_redirection->next = red;
+		if (p->cmd->out_redirection)
+			p->cmd->out_redirection->next = red;
+		else
+			p->cmd->out_redirection = red;
 		p->cmd->out_redirection = first_red;
 
 	}
 	else
 	{
 		first_red = p->cmd->in_redirection;
-		while (p->cmd->in_redirection->next != NULL)
+		while (p->cmd->in_redirection && p->cmd->in_redirection->next != NULL)
 			p->cmd->in_redirection = p->cmd->in_redirection->next;
 		if (red_type == 1)
 			red->type = SIMPLE;
 		else
 			red->type = DOUBLE;
-		p->cmd->in_redirection->next = red;
+		if (p->cmd->in_redirection)
+			p->cmd->in_redirection->next = red;
+		else
+			p->cmd->in_redirection = red;
 		p->cmd->in_redirection = first_red;
 	}
 }
@@ -640,8 +646,8 @@ static char	**parse_arguments(int *i, int size, int len, t_parse_cmd *p)
 		return (NULL);
 	return (args);
 }
-/*
-static void	print_pipe(t_cmd *p)
+
+static void	print_cmds(t_cmd *p)
 {
 	int	i;
 
@@ -655,10 +661,26 @@ static void	print_pipe(t_cmd *p)
 			printf("arg #%d: %s\n", i, p->args[i]);
 			i++;
 		}
+		i = 0;
+		while (p->in_redirection != NULL)
+		{
+			printf("IN red #%d: type = %d path_or_endstr = %s ",
+			i, p->in_redirection->type, p->in_redirection->path_or_endstr);
+			p->in_redirection = p->in_redirection->next;
+			i++;
+		}
+		i = 0;
+		while (p->out_redirection != NULL)
+		{
+			printf("red #%d: type = %d path_or_endstr = %s ",
+			i, p->in_redirection->type, p->in_redirection->path_or_endstr);
+			p->in_redirection = p->in_redirection->next;
+			i++;
+		}
 		p = p->pipe;
 	}
 }
-*/
+
 t_cmd	*free_cmd_and_content(t_cmd *cmd)
 {
 	free_cmd_content(cmd, cmd);
@@ -732,6 +754,6 @@ t_cmd	*parse_cmd(char const *str_cmd, int len, char **envp[])
 		if (!set_previous_pipe(&p, &i) || i > len)
 			break ;
 	}
-//	print_pipe(p.first_cmd);
+	print_cmds(p.first_cmd);
 	return (p.first_cmd);
 }
