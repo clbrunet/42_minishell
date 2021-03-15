@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 07:16:13 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/14 19:00:23 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/03/15 17:40:46 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -507,10 +507,10 @@ static void	add_red(t_parse_cmd *p, char *path_or_endstr, int in_out, t_redirect
 	}
 }
 
-static t_parse_cmd	*fill_redirection(t_parse_cmd *p, int *i, int len)
+static int		fill_redirection(t_parse_cmd *p, int *i, int len)
 {
-	int			to_escape;
-	int			in_out;
+	int					to_escape;
+	int					in_out;
 	t_redirection_type 	red_type;
 
 	red_type = NONE;
@@ -541,7 +541,7 @@ static t_parse_cmd	*fill_redirection(t_parse_cmd *p, int *i, int len)
 		{
 			p->buf = malloc(sizeof(char) * (size_component_formated(*p, *i, len) + 1));
 			if (!p->buf)
-				return (NULL);
+				return (0);
 			fill_buf(p, len, *i);
 			add_red(p, p->buf, in_out, red_type);
 		}
@@ -592,8 +592,7 @@ static t_parse_cmd	*fill_redirection(t_parse_cmd *p, int *i, int len)
 		else
 			break ;
 	}
-	printf("pathname = %s\n", p->cmd->in_redirection->path_or_endstr);
-	return (p);
+	return (1);
 }
 
 static char	**fill_args(t_parse_cmd *p, int *i, int len, int arg_nb)
@@ -611,8 +610,7 @@ static char	**fill_args(t_parse_cmd *p, int *i, int len, int arg_nb)
 		while (p->str_cmd[*i] == ' ')
 			*i = *i + 1;
 		if (p->str_cmd[*i] == '<' || p->str_cmd[*i] == '>')
-			p = fill_redirection(p, i, len);
-		printf("p = %p\n", p->cmd->in_redirection);
+			fill_redirection(p, i, len);
 		if (p->str_cmd[*i] == '|' || p->str_cmd[*i] == '\0' || *i >= len)
 			return (args);
 		size = size_component_formated(*p, *i, len);
@@ -672,7 +670,7 @@ static void	print_cmds(t_cmd *p)
 		i = 0;
 		while (p->in_redirection != NULL)
 		{
-			printf("In red #%d: type = %d path_or_endstr = %s ",
+			printf("In red #%d: type = %d path_or_endstr = %s \n",
 			i, p->in_redirection->type, p->in_redirection->path_or_endstr);
 			p->in_redirection = p->in_redirection->next;
 			i++;
@@ -680,7 +678,7 @@ static void	print_cmds(t_cmd *p)
 		i = 0;
 		while (p->out_redirection != NULL)
 		{
-			printf("Out red #%d: type = %d path_or_endstr = %s ",
+			printf("Out red #%d: type = %d path_or_endstr = %s \n",
 			i, p->in_redirection->type, p->in_redirection->path_or_endstr);
 			p->in_redirection = p->in_redirection->next;
 			i++;
