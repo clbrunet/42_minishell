@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 19:04:29 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/10 15:31:02 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/03/15 13:48:15 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,19 @@ typedef enum e_redirection_type
 
 typedef struct s_redirection
 {
-	t_redirection_type	type;
-	char				*path_or_endstr;
-	struct s_redirection			*next;
+	t_redirection_type		type;
+	char					*path_or_endstr;
+	struct s_redirection	*next;
 }	t_redirection;
 
 typedef struct s_cmd	t_cmd;
 struct					s_cmd
 {
-	char		*exe;
-	char		**args;
+	char			*exe;
+	char			**args;
 	t_redirection	*in_redirection;
 	t_redirection	*out_redirection;
-	t_cmd		*pipe;
+	t_cmd			*pipe;
 };
 
 typedef struct s_parse_cmd
