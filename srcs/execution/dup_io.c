@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dup_pipes.c                                        :+:      :+:    :+:   */
+/*   dup_io.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 18:56:56 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/10 18:27:51 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/15 15:12:00 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,19 +76,19 @@ static int	redirect_stdin(char *endstr)
 	return (redirect_stdin_end(line_read, endstr));
 }
 
-static int	redirect_output(t_redirection redirection)
+static int	redirect_output(t_redirection *redirection)
 {
 	int		fd;
 
-	if (redirection.type == SIMPLE)
-		fd = open(redirection.path_or_endstr, O_WRONLY | O_CREAT,
+	if (redirection->type == SIMPLE)
+		fd = open(redirection->path_or_endstr, O_WRONLY | O_CREAT,
 				S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
 	else
-		fd = open(redirection.path_or_endstr, O_WRONLY | O_APPEND | O_CREAT,
+		fd = open(redirection->path_or_endstr, O_WRONLY | O_APPEND | O_CREAT,
 				S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
 	if (fd == -1)
 	{
-		ft_putstr_fd(2, redirection.path_or_endstr);
+		ft_putstr_fd(2, redirection->path_or_endstr);
 		ft_putstr_fd(2, strerror(errno));
 		return (1);
 	}
@@ -101,26 +101,51 @@ static int	redirect_output(t_redirection redirection)
 	return (0);
 }
 
-int	dup_pipes(t_cmd const *cmd, int **pipes, unsigned int i)
+static int	dup_input(t_cmd const *cmd, int **pipes, unsigned int i)
 {
-	if (cmd->in_redirection.type == SIMPLE)
+	t_redirection	*iter;
+
+	if (cmd->in_redirection->type != NONE)
 	{
-		if (redirect_input(cmd->in_redirection.path_or_endstr))
-			return (1);
+		iter = cmd->in_redirection;
+		while (iter)
+		{
+			if ((iter->type == SIMPLE && redirect_input(iter->path_or_endstr))
+				|| (iter->type == DOUBLE
+					&& redirect_stdin(iter->path_or_endstr)))
+				return (1);
+			iter = iter->next;
+		}
 	}
-	else if (cmd->in_redirection.type == DOUBLE)
-	{
-		if (redirect_stdin(cmd->in_redirection.path_or_endstr))
-			return (1);
-	}
-	else if (i != 0 && dup2(pipes[i - 1][0], STDIN_FILENO) == -1)
+	if (i != 0 && dup2(pipes[i - 1][0], STDIN_FILENO) == -1)
 		return (1);
-	if (cmd->out_redirection.type != NONE)
+	return (0);
+}
+
+static int	dup_output(t_cmd const *cmd, int **pipes, unsigned int i)
+{
+	t_redirection	*iter;
+
+	if (cmd->out_redirection->type != NONE)
 	{
-		if (redirect_output(cmd->out_redirection))
-			return (1);
+		iter = cmd->out_redirection;
+		while (iter)
+		{
+			if (redirect_output(iter))
+				return (1);
+			iter = iter->next;
+		}
 	}
-	else if (cmd->pipe != NULL && dup2(pipes[i][1], STDOUT_FILENO) == -1)
+	if (cmd->pipe != NULL && dup2(pipes[i][1], STDOUT_FILENO) == -1)
+		return (1);
+	return (0);
+}
+
+int	dup_io(t_cmd const *cmd, int **pipes, unsigned int i)
+{
+	if (dup_input(cmd, pipes, i))
+		return (1);
+	if (dup_output(cmd, pipes, i))
 		return (1);
 	return (0);
 }

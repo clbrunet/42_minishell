@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 06:27:50 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/16 20:13:01 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/16 20:13:38 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,12 @@ static int	execute_cmd(t_cmd const *cmd, int len, char **envp_ptr[])
 	i = 0;
 	while (cmd)
 	{
-		((t_cmd *)cmd)->in_redirection->type = NONE; // <ESC>dd
-		((t_cmd *)cmd)->out_redirection->type = NONE; // <ESC>Vd
+		((t_cmd *)cmd)->in_redirection->type = NONE; /* <ESC>2dd */
+		((t_cmd *)cmd)->out_redirection->type = NONE;
 		pids[i] = fork();
 		if (pids[i] == 0)
 		{
-			if (dup_pipes(cmd, pipes, i))
+			if (dup_io(cmd, pipes, i))
 				return (-1);
 			exit(cmd_process((int const *const *)pipes, cmd, envp_ptr));
 		}
