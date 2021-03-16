@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 07:16:13 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/15 17:40:46 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/03/16 19:54:56 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,20 +35,22 @@ static void	skip_redirection(char const *str, int *i, int len)
 					to_escape = 1;
 				else
 					to_escape = 0;
+				*i = *i + 1;
 			}
+			*i = *i + 1;
 		}
 		else if (str[*i] == '\'')
 		{
 			*i = *i + 1;
 			while (str[*i] != '\'')
 				*i = *i + 1;
+			*i = *i + 1;
 		}
 		else
 		{
 			while ((str[*i] != ' ' && str[*i] != '|') && *i < len)
 				*i = *i + 1;
 		}
-
 		while (str[*i] == ' ')
 			*i = *i + 1;
 		if ((str[*i] == '<' || str[*i] == '>') && *i < len)
@@ -473,7 +475,6 @@ static void	add_red(t_parse_cmd *p, char *path_or_endstr, int in_out, t_redirect
 	t_redirection	*red;
 	t_redirection	*first_red;
 
-	printf("%d %d\n", red_type, in_out);
 	red = create_red(path_or_endstr);
 	if (in_out)
 	{
@@ -563,13 +564,16 @@ static int		fill_redirection(t_parse_cmd *p, int *i, int len)
 					to_escape = 1;
 				else
 					to_escape = 0;
+				*i = *i + 1;
 			}
+			*i = *i + 1;
 		}
 		else if (p->str_cmd[*i] == '\'')
 		{
 			*i = *i + 1;
 			while (p->str_cmd[*i] != '\'')
 				*i = *i + 1;
+			*i = *i + 1;
 		}
 		else
 		{
@@ -579,8 +583,8 @@ static int		fill_redirection(t_parse_cmd *p, int *i, int len)
 					to_escape = 1;
 				else
 					to_escape = 0;
-			}
 				*i = *i + 1;
+			}
 		}
 		while (p->str_cmd[*i] == ' ')
 			*i = *i + 1;
