@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 07:16:13 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/16 19:54:56 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/03/16 20:01:49 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -675,7 +675,7 @@ static char	**parse_arguments(int *i, int size, int len, t_parse_cmd *p)
 		return (NULL);
 	return (args);
 }
-
+/*
 static void	print_cmds(t_cmd *p)
 {
 	int	i;
@@ -709,7 +709,7 @@ static void	print_cmds(t_cmd *p)
 		p = p->pipe;
 	}
 }
-
+*/
 t_cmd	*free_cmd_and_content(t_cmd *cmd)
 {
 	free_cmd_content(cmd, cmd);
@@ -784,6 +784,6 @@ t_cmd	*parse_cmd(char const *str_cmd, int len, char **envp[])
 		if (!set_previous_pipe(&p, &i) || i > len)
 			break ;
 	}
-	print_cmds(p.first_cmd);
+//	print_cmds(p.first_cmd);
 	return (p.first_cmd);
 }
