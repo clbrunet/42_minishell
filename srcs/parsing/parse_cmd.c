@@ -473,6 +473,7 @@ static void	add_red(t_parse_cmd *p, char *path_or_endstr, int in_out, t_redirect
 	t_redirection	*first_red;
 
 	red = create_red(path_or_endstr);
+	//printf("red = %d\n", in_out);
 	if (in_out)
 	{
 		first_red = p->cmd->out_redirection;
@@ -486,8 +487,8 @@ static void	add_red(t_parse_cmd *p, char *path_or_endstr, int in_out, t_redirect
 			p->cmd->out_redirection->next = red;
 		else
 			p->cmd->out_redirection = red;
-		p->cmd->out_redirection = first_red;
-
+		if (first_red != NULL)
+			p->cmd->out_redirection = first_red;
 	}
 	else
 	{
@@ -511,12 +512,12 @@ static int		fill_redirection(t_parse_cmd *p, int *i, int len)
 {
 	int					to_escape;
 	int					in_out;
-	t_redirection_type 	red_type;
+	t_redirection_type		 	red_type;
 
 	red_type = NONE;
 	if (p->str_cmd[*i] == '>')
 	{
-		in_out = 0;
+		in_out = 1;
 		*i = *i + 1;
 		if (p->str_cmd[*i] == '>')
 			red_type = DOUBLE;
@@ -525,9 +526,9 @@ static int		fill_redirection(t_parse_cmd *p, int *i, int len)
 	}
 	else
 	{
-		in_out = 1;
+		in_out = 0;
 		*i = *i + 1;
-		if (p->str_cmd[*i] == '>')
+		if (p->str_cmd[*i] == '<')
 			red_type = DOUBLE;
 		else
 			red_type = SIMPLE;
@@ -584,7 +585,7 @@ static int		fill_redirection(t_parse_cmd *p, int *i, int len)
 		{
 			in_out = 0;
 			*i = *i + 1;
-			if (p->str_cmd[*i] == '>')
+			if (p->str_cmd[*i] == '<')
 				red_type = DOUBLE;
 			else
 				red_type = SIMPLE;
@@ -679,8 +680,8 @@ static void	print_cmds(t_cmd *p)
 		while (p->out_redirection != NULL)
 		{
 			printf("Out red #%d: type = %d path_or_endstr = %s \n",
-			i, p->in_redirection->type, p->in_redirection->path_or_endstr);
-			p->in_redirection = p->in_redirection->next;
+			i, p->out_redirection->type, p->out_redirection->path_or_endstr);
+			p->out_redirection = p->out_redirection->next;
 			i++;
 		}
 		p = p->pipe;
