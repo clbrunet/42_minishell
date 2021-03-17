@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 20:30:10 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/14 14:01:22 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/17 07:28:12 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,6 @@ static int	main_end(int line_read, char *envp[])
 	return (0);
 }
 
-#include <stdio.h>
-
 int	main(int argc, char *argv[], char *envp[])
 {
 	char	*line;
@@ -84,7 +82,6 @@ int	main(int argc, char *argv[], char *envp[])
 	line_read = get_next_line(&line);
 	while (line_read == 1)
 	{
-		printf("%d\n", last_exit_code);
 		execute_cmds(line, &envp, &last_exit_code);
 		if (print_prompt(envp, last_exit_code))
 		{

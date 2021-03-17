@@ -30,6 +30,7 @@ SRCS=	srcs/main.c	\
 		srcs/execution/execute_cmds.c		\
 		srcs/execution/execute_cmds2.c		\
 		srcs/execution/execute_cmds_utils.c	\
+		srcs/execution/redirect_stdin.c		\
 		srcs/execution/dup_io.c				\
 		srcs/execution/search_built_in.c	\
 		srcs/execution/search_cmd.c

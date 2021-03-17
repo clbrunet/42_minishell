@@ -6,13 +6,13 @@
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 11:32:54 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/03/10 11:35:18 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/03/17 07:28:33 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft.h"
 
-int		ft_isalnum(int c)
+int	ft_isalnum(int c)
 {
 	if (ft_isalpha(c) || ft_isdigit(c))
 		return (1);

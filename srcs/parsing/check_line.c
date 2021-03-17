@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 14:19:22 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/15 13:46:58 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/17 06:03:45 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static int	check_cmds_ending_tests(char const **line, char *is_escaped,
 	else if (ft_strchr("<>|", **line) && !*is_escaped)
 	{
 		 if (**line != '|' && **line == *(*line + 1))
-		 	(*line)++;
+			 (*line)++;
 		*is_smth_expected = 1;
 	}
 	else if (**line == ';' && !*is_escaped && *is_smth_expected)

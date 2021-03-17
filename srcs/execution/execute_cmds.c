@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 06:27:50 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/16 20:13:38 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/17 07:35:58 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,6 @@ static int	execute_cmd(t_cmd const *cmd, int len, char **envp_ptr[])
 	i = 0;
 	while (cmd)
 	{
-		((t_cmd *)cmd)->in_redirection->type = NONE; /* <ESC>2dd */
-		((t_cmd *)cmd)->out_redirection->type = NONE;
 		pids[i] = fork();
 		if (pids[i] == 0)
 		{
@@ -119,8 +117,6 @@ int	execute_cmds(char *line, char **envp_ptr[], int *last_exit_code)
 	begin_cmds = cmds;
 	while (*cmds)
 	{
-		(*cmds)->in_redirection->type = NONE; // <ESC>Jdd
-		(*cmds)->out_redirection->type = NONE;
 		if ((*cmds)->pipe)
 			*last_exit_code = execute_cmd(*cmds, ft_lstsize(*cmds), envp_ptr);
 		else
