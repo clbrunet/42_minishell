@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 16:04:03 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/17 11:11:23 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/17 18:14:34 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,20 @@ int	cmd_process(int const *const *pipes, t_cmd const *cmd,
 		char **envp_ptr[], int last_exit_code)
 {
 	t_built_in_ft	built_in_ft;
+	int				ret;
 
 	close_pipes_fds(pipes);
 	built_in_ft = search_built_in(cmd);
 	if (built_in_ft)
 		return ((*built_in_ft)(cmd, envp_ptr, last_exit_code));
-	else if (find_exec(cmd, *envp_ptr) == 0)
+	else
 	{
-		ft_putstr_fd(2, cmd->exe);
-		ft_putstr_fd(2, ": command not found\n");
+		ret = search_cmd(cmd, *envp_ptr);
+		if (ret == 0)
+		{
+			ft_putstr_fd(2, cmd->exe);
+			ft_putstr_fd(2, ": command not found\n");
+		}
 		return (1);
 	}
 	return (0);
@@ -54,7 +59,7 @@ int	pipeless_cmd_process(t_cmd const *cmd, char **envp_ptr[])
 {
 	if (dup_io(cmd, NULL, 0))
 		return (1);
-	if (find_exec(cmd, *envp_ptr) == 0)
+	if (search_cmd(cmd, *envp_ptr) == 0)
 	{
 		ft_putstr_fd(2, cmd->exe);
 		ft_putstr_fd(2, ": command not found\n");

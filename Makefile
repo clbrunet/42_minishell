@@ -42,6 +42,7 @@ SRCS=	srcs/main.c	\
 		srcs/execution/redirect_stdin.c		\
 		srcs/execution/dup_io.c				\
 		srcs/execution/search_built_in.c	\
+		srcs/execution/search_cmd_utils.c	\
 		srcs/execution/search_cmd.c
 
 OBJS=	$(SRCS:.c=.o)
