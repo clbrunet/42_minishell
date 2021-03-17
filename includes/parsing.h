@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 06:38:17 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/17 16:03:31 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/03/17 18:47:12 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int			check_line(char const *line);
 
 t_cmd		**parse_line(char *line, char **envp[]);
 
-
 t_cmd		*parse_cmd(char const *cmd, int len, char **envp[]);
 int			size_component(t_parse_cmd p, int i, int len);
 void		skip_redirection(char const *str, int *i, int len);
@@ -44,7 +43,6 @@ void		skip_quote(char const *str, int *i);
 int			count_arg(char const *str, int i, int len);
 int			size_var(t_parse_cmd p, int i, int j, int size_name);
 int			fill_dollar(t_parse_cmd *p, int i, int *j, int to_escape);
-
 
 int			is_meta_char(char c);
 int			is_meta_char_quote(char c);
