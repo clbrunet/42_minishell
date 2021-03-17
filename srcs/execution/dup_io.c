@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 18:56:56 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/17 08:28:51 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/17 18:41:09 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static int	dup_input(t_cmd const *cmd, int **pipes, unsigned int i)
 			iter = iter->next;
 		}
 	}
-	if (i != 0 && dup2(pipes[i - 1][0], STDIN_FILENO) == -1)
+	else if (i != 0 && dup2(pipes[i - 1][0], STDIN_FILENO) == -1)
 		return (1);
 	return (0);
 }
@@ -99,7 +99,7 @@ static int	dup_output(t_cmd const *cmd, int **pipes, unsigned int i)
 			iter = iter->next;
 		}
 	}
-	if (cmd->pipe != NULL && dup2(pipes[i][1], STDOUT_FILENO) == -1)
+	else if (cmd->pipe != NULL && dup2(pipes[i][1], STDOUT_FILENO) == -1)
 		return (1);
 	return (0);
 }
