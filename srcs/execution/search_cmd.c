@@ -6,7 +6,7 @@
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/26 14:57:07 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/03/08 17:08:01 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/17 08:30:19 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static char	*create_sub_path(char **envp, int i, int path_id,
 	return (sub_path);
 }
 
-int	find_exec(t_cmd const *cmd, char *envp[])
+int			find_exec(t_cmd const *cmd, char *envp[])
 {
 	int		path_id;
 	int		size_sub_path;

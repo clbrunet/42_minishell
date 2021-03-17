@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 13:47:28 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/02/28 11:31:57 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/17 08:27:51 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,5 @@ char	*ft_strchr(const char *s, int c)
 		s++;
 	if (!c_c || *s == c_c)
 		return ((char *)s);
-	return ((char *) NULL);
+	return ((char *)NULL);
 }

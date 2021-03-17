@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 20:59:05 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/11 07:23:12 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/17 08:26:32 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,7 @@ static void	replace_home(char cwd[PATH_MAX], char *envp[])
 	}
 }
 
-/*	Print prompt with the current working directory then a symbol '$' to
-	delimit from the command line.
-	Return 1 if an error occurs. */
-
-int	print_prompt(char *envp[], int last_exit_code)
+int			print_prompt(char *envp[], int last_exit_code)
 {
 	char	cwd[PATH_MAX];
 

@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 13:34:20 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/10 14:33:05 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/03/17 08:36:05 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static int	fill_cmds(t_cmd **cmds, char const *line, int count, char **envp[])
 	return (0);
 }
 
-t_cmd	**parse_line(char *line, char **envp[])
+t_cmd		**parse_line(char *line, char **envp[])
 {
 	t_cmd	**cmds;
 	int		count;

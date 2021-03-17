@@ -12,7 +12,7 @@
 
 #include "execution.h"
 
-void	free_pipes(int **pipes)
+void		free_pipes(int **pipes)
 {
 	int		**iter;
 
@@ -27,7 +27,7 @@ void	free_pipes(int **pipes)
 	free(pipes);
 }
 
-void	close_pipes_fds(int const *const *pipes)
+void		close_pipes_fds(int const *const *pipes)
 {
 	int const *const	*iter;
 
@@ -42,7 +42,7 @@ void	close_pipes_fds(int const *const *pipes)
 	}
 }
 
-int	kill_cmd_processes(int *pids)
+int			kill_cmd_processes(int *pids)
 {
 	while (*pids > 0)
 	{
@@ -65,7 +65,7 @@ static int	get_pipes_error(int **pipes, int **iter)
 	return (1);
 }
 
-int	get_pipes(int ***pipes, int len)
+int			get_pipes(int ***pipes, int len)
 {
 	int			**iter;
 

@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 18:56:56 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/17 07:41:44 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/17 08:28:51 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ static int	dup_output(t_cmd const *cmd, int **pipes, unsigned int i)
 	return (0);
 }
 
-int	dup_io(t_cmd const *cmd, int **pipes, unsigned int i)
+int			dup_io(t_cmd const *cmd, int **pipes, unsigned int i)
 {
 	if (dup_input(cmd, pipes, i))
 		return (1);

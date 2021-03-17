@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 18:02:26 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/12 15:03:59 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/03/17 08:31:52 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	free_cmds(t_cmd **cmds)
 	free(cmds);
 }
 
-int	syntax_error(char const *unexpected_token)
+int		syntax_error(char const *unexpected_token)
 {
 	ft_putstr_fd(2, "minishell: syntax error near unexpected token `");
 	ft_putstr_fd(2, unexpected_token);

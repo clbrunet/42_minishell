@@ -6,22 +6,22 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 19:04:29 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/15 14:48:28 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/17 08:06:39 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CMD_H
 # define CMD_H
 
-typedef enum e_redirection_type
+typedef enum					e_redirection_type
 {
 	NONE = 0,
 	SIMPLE,
 	DOUBLE
-}	t_redirection_type;
+}								t_redirection_type;
 
 typedef struct s_redirection	t_redirection;
-struct s_redirection
+struct							s_redirection
 {
 	t_redirection_type	type;
 	char				*path_or_endstr;
@@ -29,7 +29,7 @@ struct s_redirection
 };
 
 typedef struct s_cmd			t_cmd;
-struct					s_cmd
+struct							s_cmd
 {
 	char			*exe;
 	char			**args;
@@ -38,7 +38,7 @@ struct					s_cmd
 	t_cmd			*pipe;
 };
 
-typedef struct s_parse_cmd
+typedef struct					s_parse_cmd
 {
 	t_cmd		*cmd;
 	t_cmd		*p_cmd;
@@ -46,6 +46,6 @@ typedef struct s_parse_cmd
 	const char	*str_cmd;
 	char		**envp;
 	char		*buf;
-}	t_parse_cmd;
+}								t_parse_cmd;
 
 #endif

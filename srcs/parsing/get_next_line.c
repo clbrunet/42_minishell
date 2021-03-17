@@ -6,7 +6,7 @@
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 18:33:47 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/03/14 18:57:50 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/03/17 08:32:15 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static int	update_line(char **line, char *buffer)
 	return (line_read);
 }
 
-int	finish_buffer(char **line, char *buffer)
+static int	finish_buffer(char **line, char *buffer)
 {
 	int		error;
 
@@ -75,7 +75,7 @@ int	finish_buffer(char **line, char *buffer)
 	return (0);
 }
 
-int	get_next_line(char **line)
+int			get_next_line(char **line)
 {
 	static char		buffer[1001] = {0};
 	int				byte_read;

@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 14:19:22 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/17 06:03:45 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/17 08:31:24 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,8 @@ static int	check_cmds_ending_tests(char const **line, char *is_escaped,
 	}
 	else if (ft_strchr("<>|", **line) && !*is_escaped)
 	{
-		 if (**line != '|' && **line == *(*line + 1))
-			 (*line)++;
+		if (**line != '|' && **line == *(*line + 1))
+			(*line)++;
 		*is_smth_expected = 1;
 	}
 	else if (**line == ';' && !*is_escaped && *is_smth_expected)
@@ -112,7 +112,7 @@ static int	check_cmds_ending(char const *line)
 	return (0);
 }
 
-int	check_line(char const *line)
+int			check_line(char const *line)
 {
 	return (check_quotes(line) || check_semicolons(line)
 		|| check_cmds_ending(line));

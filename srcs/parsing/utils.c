@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 14:20:56 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/02/28 14:49:49 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/17 08:34:50 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char const	*trim_inner_quotes(char const *line, char quote)
 	return (NULL);
 }
 
-char	*str_substitute(char *str, char old, char new)
+char		*str_substitute(char *str, char old, char new)
 {
 	char	*backup;
 

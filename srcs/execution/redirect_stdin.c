@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dup_io2.c                                          :+:      :+:    :+:   */
+/*   redirect_stdin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 07:40:10 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/17 07:40:34 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/17 08:29:55 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	redirect_stdin_end(int pipe_fds[2], int line_read, char *endstr)
 	return (0);
 }
 
-int	redirect_stdin(char *endstr)
+int			redirect_stdin(char *endstr)
 {
 	int		pipe_fds[2];
 	char	*line;
