@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 16:04:03 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/17 10:26:54 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/17 11:11:23 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int	cmd_process(int const *const *pipes, t_cmd const *cmd,
 	}
 	return (0);
 }
-
 
 int	pipeless_built_in(t_built_in_ft built_in_ft, t_cmd const *cmd,
 		char **envp_ptr[], int last_exit_code)

@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 06:27:50 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/17 10:59:22 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/17 11:10:59 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static int	execute_pipeless_cmd(t_cmd const *cmd, char **envp_ptr[],
 	return (WEXITSTATUS(wstatus));
 }
 
-static int	execute_cmd_node(t_cmd	*cmd, char **envp_ptr[],
+static int	execute_cmd_node(t_cmd *cmd, char **envp_ptr[],
 		int *last_exit_code)
 {
 	if (cmd->pipe)
