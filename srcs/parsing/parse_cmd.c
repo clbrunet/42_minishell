@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 07:16:13 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/17 09:01:37 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/03/17 10:17:24 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,20 +104,7 @@ static int	count_arg(char const *str, int i, int len)
 		else if (str[i] == '\'' && !to_escape)
 			skip_single_quote(str, &i);
 		else
-		{
 			skip_no_quote(str, &i, len);
-			/*
-			while (str[i] != ' ' && i < len && !(str[i] == '|' && !to_escape))
-			{
-				if (to_escape == 0 && str[i] == '\\')
-					to_escape = 1;
-				else
-					to_escape = 0;
-				i++;
-			}
-			*/
-		}
-		i++;
 	}
 	return (count);
 }
@@ -270,7 +257,6 @@ static void	fill_buf(t_parse_cmd *p, int len, int i)
 	{
 		while (i < len && p->str_cmd[i] != ' ' && !(p->str_cmd[i] == '<' && !to_escape) && !(p->str_cmd[i] == '>' && !to_escape) && !(p->str_cmd[i] == '|' && !to_escape))
 		{
-			printf("c = %c\n", p->str_cmd[i]);
 			if (p->str_cmd[i] == '\\' && !to_escape)
 				to_escape = 1;
 			else
@@ -287,7 +273,6 @@ static void	fill_buf(t_parse_cmd *p, int len, int i)
 			i++;
 		}
 	}
-		printf("C = %d\n", j);
 	p->buf[j] = '\0';
 }
 
@@ -586,7 +571,6 @@ static int		fill_redirection(t_parse_cmd *p, int *i, int len)
 		{
 			while ((p->str_cmd[*i] != ' ' && !(p->str_cmd[*i] == '>' && !to_escape) && !(p->str_cmd[*i] == '<' && !to_escape) && !(p->str_cmd[*i] == '|' && !to_escape)) && *i < len)
 			{
-				printf("c = %c\n", p->str_cmd[*i]);
 				if (p->str_cmd[*i] == '\\' && !to_escape)
 					to_escape = 1;
 				else
@@ -640,10 +624,8 @@ static char	**fill_args(t_parse_cmd *p, int *i, int len, int arg_nb)
 	{
 		while (p->str_cmd[*i] == ' ')
 			*i = *i + 1;
-		printf("I = %d\n", *i);
 		if (p->str_cmd[*i] == '<' || p->str_cmd[*i] == '>')
 			fill_redirection(p, i, len);
-		printf("I = %d | %c\n", *i, p->str_cmd[*i]);
 		if (p->str_cmd[*i] == '|' || p->str_cmd[*i] == '\0' || *i >= len)
 			return (args);
 		size = size_component_formated(*p, *i, len);
@@ -680,6 +662,7 @@ static char	**parse_arguments(int *i, int size, int len, t_parse_cmd *p)
 
 	*i = *i + size;
 	arg_nb = count_arg(p->str_cmd, *i, len);
+	printf("arg_nb = %d\n", arg_nb);
 	args = fill_args(p, i, len, arg_nb);
 	if (!args)
 		return (NULL);
@@ -700,6 +683,7 @@ static void	print_cmds(t_cmd *p)
 			printf("Arg #%d: %s\n", i, p->args[i]);
 			i++;
 		}
+		printf("pass\n");
 		i = 0;
 		while (p->in_redirection != NULL)
 		{
