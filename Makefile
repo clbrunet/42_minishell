@@ -13,13 +13,13 @@ SRCS=	srcs/main.c	\
 		srcs/ft/ft_strcmp.c		\
 		srcs/ft/ft_lstsize.c	\
 		srcs/ft/ft_strdup.c		\
-		srcs/ft/ft_isalpha.c		\
-		srcs/ft/ft_isdigit.c		\
-		srcs/ft/ft_isalnum.c		\
+		srcs/ft/ft_isalpha.c	\
+		srcs/ft/ft_isdigit.c	\
+		srcs/ft/ft_isalnum.c	\
 		srcs/display/prompt.c	\
 		srcs/parsing/get_next_line.c\
 		srcs/parsing/utils.c		\
-		srcs/parsing/error.c		\
+		srcs/parsing/free.c			\
 		srcs/parsing/parse_line.c	\
 		srcs/parsing/check_line.c	\
 		srcs/parsing/parse_cmd.c	\
