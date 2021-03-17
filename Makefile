@@ -27,6 +27,7 @@ SRCS=	srcs/main.c	\
 		srcs/built_in/cd.c		\
 		srcs/built_in/export.c	\
 		srcs/built_in/env.c		\
+		srcs/built_in/exit.c		\
 		srcs/execution/execute_cmds.c		\
 		srcs/execution/execute_cmds2.c		\
 		srcs/execution/execute_cmds_utils.c	\

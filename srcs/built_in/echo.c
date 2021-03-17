@@ -6,19 +6,20 @@
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 11:25:09 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/03/06 19:11:39 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/17 10:53:33 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
 #include "ft.h"
 
-int	echo(t_cmd const *cmd, char **envp_ptr[])
+int	echo(t_cmd const *cmd, char **envp_ptr[], int last_exit_code)
 {
 	int		n_flag;
 	char	**iter;
 
 	(void)envp_ptr;
+	(void)last_exit_code;
 	iter = cmd->args + 1;
 	if (*iter && ft_strcmp(*iter, "-n") == 0)
 	{

@@ -6,31 +6,13 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 06:27:50 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/17 08:29:02 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/17 10:59:22 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 #include "parsing.h"
 #include "ft.h"
-
-static int	cmd_process(int const *const *pipes, t_cmd const *cmd,
-		char **envp_ptr[])
-{
-	t_built_in_ft	built_in_ft;
-
-	close_pipes_fds(pipes);
-	built_in_ft = search_built_in(cmd);
-	if (built_in_ft)
-		return ((*built_in_ft)(cmd, envp_ptr));
-	else if (find_exec(cmd, *envp_ptr) == 0)
-	{
-		ft_putstr_fd(2, cmd->exe);
-		ft_putstr_fd(2, ": command not found\n");
-		return (1);
-	}
-	return (0);
-}
 
 static int	execute_cmd_end(t_cmd const *cmd, int *pids, unsigned int i,
 		int **pipes)
@@ -56,7 +38,8 @@ static int	execute_cmd_end(t_cmd const *cmd, int *pids, unsigned int i,
 	return (WEXITSTATUS(wstatus));
 }
 
-static int	execute_cmd(t_cmd const *cmd, int len, char **envp_ptr[])
+static int	execute_cmd(t_cmd const *cmd, int len, char **envp_ptr[],
+		int last_exit_code)
 {
 	int				*pids;
 	int				**pipes;
@@ -73,7 +56,8 @@ static int	execute_cmd(t_cmd const *cmd, int len, char **envp_ptr[])
 		{
 			if (dup_io(cmd, pipes, i))
 				return (-1);
-			exit(cmd_process((int const *const *)pipes, cmd, envp_ptr));
+			exit(cmd_process((int const *const *)pipes, cmd, envp_ptr,
+						last_exit_code));
 		}
 		else if (pids[i] == -1)
 			break ;
@@ -83,7 +67,8 @@ static int	execute_cmd(t_cmd const *cmd, int len, char **envp_ptr[])
 	return (execute_cmd_end(cmd, pids, i, pipes));
 }
 
-static int	execute_pipeless_cmd(t_cmd const *cmd, char **envp_ptr[])
+static int	execute_pipeless_cmd(t_cmd const *cmd, char **envp_ptr[],
+		int last_exit_code)
 {
 	int				pid;
 	t_built_in_ft	built_in_ft;
@@ -91,7 +76,7 @@ static int	execute_pipeless_cmd(t_cmd const *cmd, char **envp_ptr[])
 
 	built_in_ft = search_built_in(cmd);
 	if (built_in_ft)
-		return (pipeless_built_in(built_in_ft, cmd, envp_ptr));
+		return (pipeless_built_in(built_in_ft, cmd, envp_ptr, last_exit_code));
 	else
 	{
 		pid = fork();
@@ -105,6 +90,21 @@ static int	execute_pipeless_cmd(t_cmd const *cmd, char **envp_ptr[])
 	return (WEXITSTATUS(wstatus));
 }
 
+static int	execute_cmd_node(t_cmd	*cmd, char **envp_ptr[],
+		int *last_exit_code)
+{
+	if (cmd->pipe)
+		*last_exit_code = execute_cmd(cmd, ft_lstsize(cmd), envp_ptr,
+				*last_exit_code);
+	else
+	{
+		if (ft_strcmp(cmd->exe, "exit") == 0)
+			return (1);
+		*last_exit_code = execute_pipeless_cmd(cmd, envp_ptr, *last_exit_code);
+	}
+	return (0);
+}
+
 int			execute_cmds(char *line, char **envp_ptr[], int *last_exit_code)
 {
 	t_cmd	**cmds;
@@ -113,16 +113,20 @@ int			execute_cmds(char *line, char **envp_ptr[], int *last_exit_code)
 	cmds = parse_line(line, envp_ptr);
 	free(line);
 	if (cmds == NULL)
-		return (1);
+		return (0);
 	begin_cmds = cmds;
 	while (*cmds)
 	{
-		if ((*cmds)->pipe)
-			*last_exit_code = execute_cmd(*cmds, ft_lstsize(*cmds), envp_ptr);
-		else
-			*last_exit_code = execute_pipeless_cmd(*cmds, envp_ptr);
-		if (*last_exit_code == -1)
+		if (execute_cmd_node(*cmds, envp_ptr, last_exit_code))
+		{
+			free_cmds(begin_cmds);
 			return (1);
+		}
+		else if (*last_exit_code == -1)
+		{
+			free_cmds(begin_cmds);
+			return (-1);
+		}
 		cmds++;
 	}
 	free_cmds(begin_cmds);

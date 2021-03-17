@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 06:28:22 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/17 07:41:28 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/17 10:55:24 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,16 @@ int				get_pipes(int ***pipes, int len);
 int				redirect_stdin(char *endstr);
 int				dup_io(t_cmd const *cmd, int **pipes, unsigned int i);
 
-typedef int		(*t_built_in_ft)(t_cmd const *cmd, char **envp[]);
+typedef int		(*t_built_in_ft)(t_cmd const *cmd, char **envp[],
+		int last_exit_code);
 t_built_in_ft	search_built_in(t_cmd const *cmd);
 
 int				find_exec(t_cmd const *cmd, char *envp[]);
 
 int				pipeless_built_in(t_built_in_ft built_in_ft, t_cmd const *cmd,
-					char **envp_ptr[]);
+		char **envp_ptr[], int last_exit_code);
+int				cmd_process(int const *const *pipes, t_cmd const *cmd,
+		char **envp_ptr[], int last_exit_code);
 int				pipeless_cmd_process(t_cmd const *cmd, char **envp_ptr[]);
 int				execute_cmds(char *line, char **envp_ptr[],
 					int *last_exit_code);
