@@ -6,7 +6,7 @@
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 15:12:58 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/03/17 16:10:57 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/03/18 14:49:47 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int				dollar_size(t_parse_cmd p, int *size, int *i, int to_escape)
 	return (0);
 }
 
+#include <stdio.h>
 void			size_quote(t_parse_cmd p, int *i, int *size)
 {
 	int		to_escape;
@@ -113,19 +114,24 @@ int				size_component_formated(t_parse_cmd p, int i, int len)
 	int		size;
 
 	size = 0;
-	if (p.str_cmd[i] == '"')
-		size_quote(p, &i, &size);
-	if (p.str_cmd[i] == '\'')
+	while (p.str_cmd[i] == '"' || p.str_cmd[i] == '\''
+			|| (p.str_cmd[i] != ' ' && p.str_cmd[i] != '|'
+			&& p.str_cmd[i] != '<' && p.str_cmd[i] != '>' && i < len))
 	{
-		i++;
-		while (p.str_cmd[i] != '\'')
+		if (p.str_cmd[i] == '"')
+			size_quote(p, &i, &size);
+		else if (p.str_cmd[i] == '\'')
 		{
 			i++;
-			size++;
+			while (p.str_cmd[i] != '\'')
+			{
+				i++;
+				size++;
+			}
+			i++;
 		}
-		i++;
+		else
+			size_no_quote(p, &i, &size, len);
 	}
-	else
-		size_no_quote(p, &i, &size, len);
 	return (size);
 }
