@@ -6,13 +6,13 @@
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 15:13:20 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/03/18 16:30:39 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/03/18 16:34:23 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-void			real_no_quote_size(t_parse_cmd p, int *i, int *size, int len)
+void	real_no_quote_size(t_parse_cmd p, int *i, int *size, int len)
 {
 	int		to_escape;
 
