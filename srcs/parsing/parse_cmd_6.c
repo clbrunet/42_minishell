@@ -6,7 +6,7 @@
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 15:12:58 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/03/18 14:49:47 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/03/18 16:02:18 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ int				dollar_size(t_parse_cmd p, int *size, int *i, int to_escape)
 	return (0);
 }
 
-#include <stdio.h>
 void			size_quote(t_parse_cmd p, int *i, int *size)
 {
 	int		to_escape;

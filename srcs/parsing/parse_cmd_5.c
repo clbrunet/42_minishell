@@ -6,7 +6,7 @@
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 15:12:50 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/03/18 15:03:42 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/03/18 16:31:04 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,12 @@ void			fill_buf(t_parse_cmd *p, int len, int i)
 	to_escape = 0;
 	while (p->str_cmd[i] == '"' || p->str_cmd[i] == '\'' ||
 			(p->str_cmd[i] != ' ' && p->str_cmd[i] != '<'
-			&& p->str_cmd[i] != '>' && p->str_cmd[i] != '|' &&  i < len))
+			&& p->str_cmd[i] != '>' && p->str_cmd[i] != '|' && i < len))
 	{
 		if (p->str_cmd[i] == '"')
 			fill_quote(p, &i, &j);
 		else if (p->str_cmd[i] == '\'')
-		{
-			i++;
-			while (p->str_cmd[i] != '\'')
-			{
-				p->buf[j] = p->str_cmd[i];
-				j++;
-				i++;
-			}
-			i++;
-		}
+			fill_single_quote(p, &i, &j);
 		else
 			fill_no_quote(p, &i, &j, len);
 	}
@@ -106,9 +97,7 @@ static void		real_single_quote_size(t_parse_cmd p, int *i, int *size)
 int				real_component_size(t_parse_cmd p, int i, int len)
 {
 	int		size;
-	int		to_escape;
 
-	to_escape = 0;
 	size = 0;
 	while (p.str_cmd[i] == '"' || p.str_cmd[i] == '\'' ||
 		(i < len && p.str_cmd[i] != ' ' && p.str_cmd[i] != '|'
@@ -119,19 +108,7 @@ int				real_component_size(t_parse_cmd p, int i, int len)
 		else if (p.str_cmd[i] == '\'')
 			real_single_quote_size(p, &i, &size);
 		else
-		{
-			while (i < len && p.str_cmd[i] != ' ' && !(p.str_cmd[i] == '|' &&
-						!to_escape) && !(p.str_cmd[i] == '>' && !to_escape)
-					&& !(p.str_cmd[i] == '<' && !to_escape))
-			{
-				if (p.str_cmd[i] == '\\' && !to_escape)
-					to_escape = 1;
-				else
-					to_escape = 0;
-				size++;
-				i++;
-			}
-		}
+			real_no_quote_size(p, &i, &size, len);
 	}
 	return (size);
 }

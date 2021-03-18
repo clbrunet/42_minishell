@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 06:38:17 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/17 16:03:31 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/03/18 16:31:21 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,8 @@ char		**fill_args(t_parse_cmd *p, int *i, int len, int arg_nb);
 
 int			set_previous_pipe(t_parse_cmd *p, int *i);
 char		**parse_arguments(int *i, int size, int len, t_parse_cmd *p);
+void		fill_single_quote(t_parse_cmd *p, int *i, int *j);
+void		skip_strings(char const *str, int *i, int len);
+void		real_no_quote_size(t_parse_cmd p, int *i, int *size, int len);
 
 #endif

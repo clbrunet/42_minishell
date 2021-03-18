@@ -6,7 +6,7 @@
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 15:12:35 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/03/18 15:43:37 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/03/18 16:23:36 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,7 @@
 int				count_arg(char const *str, int i, int len)
 {
 	int		count;
-	int		to_escape;
 
-	to_escape = 0;
 	count = 0;
 	while (i < len)
 	{
@@ -26,21 +24,11 @@ int				count_arg(char const *str, int i, int len)
 			i++;
 		if ((str[i] == '>' || str[i] == '<'))
 			skip_redirection(str, &i, len);
-		if (str[i] == '|' && !to_escape)
+		if (str[i] == '|')
 			return (count);
 		if (i != len)
 			count++;
-		while (str[i] == '"' || str[i] == '\'' ||
-				(i < len && str[i] != ' ' && str[i] != '|' && str[i] != '<'
-				 && str[i] != '>'))
-		{
-			if (str[i] == '"' && !to_escape)
-				skip_quote(str, &i);
-			else if (str[i] == '\'' && !to_escape)
-				skip_single_quote(str, &i);
-			else
-				skip_no_quote(str, &i, len);
-		}
+		skip_strings(str, &i, len);
 	}
 	return (count);
 }

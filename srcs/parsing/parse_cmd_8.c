@@ -6,7 +6,7 @@
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 15:13:13 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/03/18 15:44:04 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/03/18 16:08:34 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,24 +41,24 @@ static void		skip_char_red(t_parse_cmd *p, int *i, int len)
 	to_escape = 0;
 	while (p->str_cmd[*i] == '"' || p->str_cmd[*i] == '\'' ||
 			(*i < len && p->str_cmd[*i] != ' ' && p->str_cmd[*i] != '<'
-			 && p->str_cmd[*i] != '>' && p->str_cmd[*i] != '|'))
-	if (p->str_cmd[*i] == '"')
-		skip_quote(p->str_cmd, i);
-	else if (p->str_cmd[*i] == '\'')
-		skip_single_quote(p->str_cmd, i);
-	else
-	{
-		while ((p->str_cmd[*i] != ' ' && !(p->str_cmd[*i] == '>' &&
-		!to_escape) && !(p->str_cmd[*i] == '<' && !to_escape) &&
-		!(p->str_cmd[*i] == '|' && !to_escape)) && *i < len)
+			&& p->str_cmd[*i] != '>' && p->str_cmd[*i] != '|'))
+		if (p->str_cmd[*i] == '"')
+			skip_quote(p->str_cmd, i);
+		else if (p->str_cmd[*i] == '\'')
+			skip_single_quote(p->str_cmd, i);
+		else
 		{
-			if (p->str_cmd[*i] == '\\' && !to_escape)
-				to_escape = 1;
-			else
-				to_escape = 0;
-			*i = *i + 1;
+			while ((p->str_cmd[*i] != ' ' && !(p->str_cmd[*i] == '>' &&
+					!to_escape) && !(p->str_cmd[*i] == '<' && !to_escape) &&
+					!(p->str_cmd[*i] == '|' && !to_escape)) && *i < len)
+			{
+				if (p->str_cmd[*i] == '\\' && !to_escape)
+					to_escape = 1;
+				else
+					to_escape = 0;
+				*i = *i + 1;
+			}
 		}
-	}
 	while (p->str_cmd[*i] == ' ')
 		*i = *i + 1;
 }
