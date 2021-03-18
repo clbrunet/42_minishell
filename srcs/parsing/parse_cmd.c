@@ -6,14 +6,14 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 07:16:13 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/18 16:35:10 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/03/18 18:32:27 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 #include "ft.h"
 #include <stdio.h>
-/*
+
 static void		print_cmds(t_cmd *p)
 {
 	int	i;
@@ -47,7 +47,7 @@ static void		print_cmds(t_cmd *p)
 		p = p->pipe;
 	}
 }
-*/
+
 static t_cmd	*init_cmd(t_parse_cmd *p, int *i)
 {
 	t_cmd	*cmd;
@@ -124,6 +124,6 @@ t_cmd			*parse_cmd(char const *str_cmd, int len, char **envp[])
 		if (!set_previous_pipe(&p, &i) || i > len)
 			break ;
 	}
-//	print_cmds(p.first_cmd);
+	print_cmds(p.first_cmd);
 	return (p.first_cmd);
 }
