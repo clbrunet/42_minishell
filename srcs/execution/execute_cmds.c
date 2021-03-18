@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 06:27:50 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/17 11:10:59 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/18 06:48:50 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,11 +122,8 @@ int			execute_cmds(char *line, char **envp_ptr[], int *last_exit_code)
 			free_cmds(begin_cmds);
 			return (1);
 		}
-		else if (*last_exit_code == -1)
-		{
-			free_cmds(begin_cmds);
-			return (-1);
-		}
+		if (*last_exit_code == -1)
+			*last_exit_code = 130;
 		cmds++;
 	}
 	free_cmds(begin_cmds);

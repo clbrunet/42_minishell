@@ -1,6 +1,8 @@
 NAME=	minishell
 
-SRCS=	srcs/main.c	\
+SRCS=	srcs/main/main.c		\
+		srcs/main/envp_utils.c	\
+		srcs/main/signals.c		\
 		srcs/ft/ft_strlen.c		\
 		srcs/ft/ft_strcpy.c		\
 		srcs/ft/ft_strncpy.c	\
