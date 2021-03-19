@@ -6,7 +6,7 @@
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 11:26:28 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/03/17 10:38:51 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/19 07:43:31 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define BUILT_IN_H
 
 # include <unistd.h>
+# include <errno.h>
+# include <string.h>
 
 # include "cmd.h"
 
