@@ -37,6 +37,9 @@ SRCS=	srcs/main/main.c		\
 		srcs/built_in/cd.c		\
 		srcs/built_in/export.c	\
 		srcs/built_in/export_2.c	\
+		srcs/built_in/export_3.c	\
+		srcs/built_in/unset.c	\
+		srcs/built_in/unset_2.c	\
 		srcs/built_in/env.c		\
 		srcs/built_in/exit.c		\
 		srcs/execution/execute_cmds.c		\

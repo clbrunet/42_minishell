@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 19:04:47 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/19 15:07:46 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/03/19 21:47:51 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "ft.h"
 #include "main.h"
 
-static int		count_initial_elem(char **envp)
+int				count_initial_elem(char **envp)
 {
 	int		i;
 
@@ -56,9 +56,11 @@ static void		add_new_var(t_cmd const *cmd, char **new_envp,
 				free(new_envp[exist]);
 				new_envp[exist] = ft_strdup(cmd->args[j]);
 			}
-			else
+			else if (is_only(cmd->args, j))
+			{
 				new_envp[i] = ft_strdup(cmd->args[j]);
-			i++;
+				i++;
+			}
 		}
 		j++;
 	}
