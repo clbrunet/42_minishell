@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   export_3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/04 07:10:30 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/18 18:27:30 by mlebrun          ###   ########.fr       */
+/*   Created: 2021/03/19 21:48:12 by mlebrun           #+#    #+#             */
+/*   Updated: 2021/03/19 21:48:44 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
 #include "ft.h"
 
-int	env(t_cmd const *cmd, char **envp_ptr[], int last_exit_code)
+int		is_only(char **args, int i)
 {
-	char	**envp;
+	int		j;
+	int		size_name;
 
-	(void)cmd;
-	(void)last_exit_code;
-	envp = *envp_ptr;
-	while (*envp)
+	j = i + 1;
+	while (args[j] != NULL)
 	{
-		ft_putstr_fd(1, *envp);
-		ft_putstr_fd(1, "\n");
-		envp++;
+		size_name = size_env_name(args[i]);
+		if (ft_strncmp(args[i], args[j], size_name) == 0)
+			return (0);
+		j++;
 	}
-	return (0);
+	return (1);
 }
