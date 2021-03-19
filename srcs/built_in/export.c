@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 19:04:47 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/19 11:33:08 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/03/19 14:09:30 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,8 +132,8 @@ void	add_new_var(t_cmd const *cmd, char **new_envp, int original_size,
 			}
 			else
 				new_envp[i] = ft_strdup(cmd->args[j]);
+			i++;
 		}
-		i++;
 		j++;
 	}
 }
