@@ -6,7 +6,7 @@
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 11:32:44 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/03/17 10:14:05 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/19 07:44:36 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,13 @@ int	cd(t_cmd const *cmd, char **envp_ptr[], int last_exit_code)
 		return (1);
 	}
 	else if (chdir(cmd->args[1]))
+	{
+		ft_putstr_fd(2, "minishell: cd: ");
+		ft_putstr_fd(2, cmd->args[1]);
+		ft_putstr_fd(2, ": ");
+		ft_putstr_fd(2, strerror(errno));
+		ft_putchar_fd(2, '\n');
 		return (1);
+	}
 	return (0);
 }
