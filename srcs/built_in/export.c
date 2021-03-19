@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 19:04:47 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/19 14:37:06 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/03/19 15:07:46 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,81 +14,7 @@
 #include "ft.h"
 #include "main.h"
 
-#include <stdio.h>
-
-int		is_name_valid(char *arg)
-{
-	int		i;
-
-	i = 0;
-	while (arg[i] != '\0' && arg[i] != '=')
-	{
-		if (i == 0 && ft_isdigit(arg[i]))
-			return (0);
-		else if (i != 0)
-		{
-			if (!ft_isalnum(arg[i]) && arg[i] != '_')
-				return (0);
-		}
-		i++;
-	}
-	if (arg[i] == '\0')
-		return (-1);
-	return (1);
-}
-
-int		size_env_name(char *arg)
-{
-	int		i;
-
-	i = 0;
-	while (arg[i] != '=')
-		i++;
-	return (i);
-}
-
-int		var_exist(char **new_envp, char *arg)
-{
-	int		i;
-	int		size_name;
-
-	i = 0;
-	while (new_envp[i] != NULL)
-	{
-		size_name = size_env_name(new_envp[i]);
-		if (ft_strncmp(arg, new_envp[i], size_name) == 0)
-			return (i);
-		i++;		
-	}
-	return (0);
-}
-
-int		count_valid_var(char **args, char **envp, int *exit_code)
-{
-	int		count;
-	int		i;
-	int		name_valid;
-
-	count = 0;
-	i = 1;
-	while (args[i] != NULL)
-	{
-		name_valid = is_name_valid(args[i]);
-		if (name_valid == 1 && !var_exist(envp, args[i]))
-			count++;
-		else if (!name_valid)
-		{
-			ft_putstr_fd(2, "bash: export: `");
-			ft_putstr_fd(2, args[i]);
-			ft_putstr_fd(2, "': not a valid identifier\n");
-			*exit_code = 1;
-		}
-		i++;
-	}
-	return (count);
-}
-
-int		count_initial_elem(char **envp)
+static int		count_initial_elem(char **envp)
 {
 	int		i;
 
@@ -98,7 +24,7 @@ int		count_initial_elem(char **envp)
 	return (i);
 }
 
-char	**cpy_initial_envp(char **new_envp, char **envp)
+static char		**cpy_initial_envp(char **new_envp, char **envp)
 {
 	int		i;
 
@@ -111,8 +37,8 @@ char	**cpy_initial_envp(char **new_envp, char **envp)
 	return (new_envp);
 }
 
-void	add_new_var(t_cmd const *cmd, char **new_envp, int original_size, 
-					char **envp)
+static void		add_new_var(t_cmd const *cmd, char **new_envp,
+				int original_size, char **envp)
 {
 	int		i;
 	int		j;
@@ -138,7 +64,7 @@ void	add_new_var(t_cmd const *cmd, char **new_envp, int original_size,
 	}
 }
 
-void	print_sorted_var(char **envp)
+static void		print_sorted_var(char **envp)
 {
 	int		i;
 	char	*tmp;
@@ -165,7 +91,8 @@ void	print_sorted_var(char **envp)
 	}
 }
 
-int		export_cmd(t_cmd const *cmd, char **envp_ptr[], int last_exit_code)
+int				export_cmd(t_cmd const *cmd, char **envp_ptr[],
+				int last_exit_code)
 {
 	int		count;
 	int		original_size;
