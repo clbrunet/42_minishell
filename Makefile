@@ -19,6 +19,7 @@ SRCS=	srcs/main/main.c		\
 		srcs/ft/ft_isdigit.c	\
 		srcs/ft/ft_isalnum.c	\
 		srcs/ft/ft_size_nb.c	\
+		srcs/ft/ft_atoi.c		\
 		srcs/display/prompt.c	\
 		srcs/parsing/get_next_line.c\
 		srcs/parsing/utils.c		\

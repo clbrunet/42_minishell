@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 06:42:22 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/18 07:15:53 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/20 12:10:46 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,6 @@ int		ft_isalpha(int c);
 int		ft_isdigit(int c);
 int		ft_isalnum(int c);
 int		ft_size_nb(int nb);
+int		ft_atoi(const char *str);
 
 #endif
