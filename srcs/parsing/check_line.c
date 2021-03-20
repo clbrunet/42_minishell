@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 14:19:22 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/17 08:31:24 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/20 14:41:23 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,13 @@ static int	check_cmds_ending(char const *line)
 
 int			check_line(char const *line)
 {
+	char const	*pipe_test;
+
+	pipe_test = line;
+	while (*pipe_test == ' ')
+		pipe_test++;
+	if (*pipe_test == '|')
+		return (syntax_error("|"));
 	return (check_quotes(line) || check_semicolons(line)
 		|| check_cmds_ending(line));
 }
