@@ -94,16 +94,16 @@ static int		init_cmd_exe(int *i, t_parse_cmd *p, int len, int *size)
 	return (1);
 }
 
-static void		init_parsing(t_parse_cmd *p, char const *str_cmd, char **envp, int *last_exit_code)
+static void		init_parsing(t_parse_cmd *p, char const *str_cmd, char **envp, int last_exit_code)
 {
 	p->p_cmd = NULL;
 	p->first_cmd = NULL;
 	p->str_cmd = str_cmd;
 	p->envp = envp;
-	p->last_exit_code = *last_exit_code;
+	p->last_exit_code = last_exit_code;
 }
 
-t_cmd			*parse_cmd(char const *str_cmd, int len, char **envp[], int *last_exit_code)
+t_cmd			*parse_cmd(char const *str_cmd, int len, char **envp[], int last_exit_code)
 {
 	int				i;
 	int				size;

@@ -42,7 +42,6 @@ static int			count_cmds(char const *line)
 	return (count);
 }
 
-<<<<<<< HEAD
 static char const	*get_cmd_end(char const *line)
 {
 	char	is_escaped;
@@ -65,6 +64,7 @@ static int			fill_cmds(t_cmd **cmds, char const *line, char **envp[], int last_e
 {
 	char const	*backup;
 	int			count;
+	int			is_escaped;
 
 	count = count_cmds(line);
 	while (count--)
