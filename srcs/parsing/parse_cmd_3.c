@@ -90,7 +90,6 @@ static int		cpy_var(t_parse_cmd *p, int i, int *j, int size_name)
 	}
 	return (-1);
 }
-#include <stdio.h>
 
 void				fill_last_exit_code(int last_exit_code, char *buf, int *j)
 {
