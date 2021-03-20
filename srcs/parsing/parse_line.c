@@ -6,14 +6,14 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 13:34:20 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/20 09:51:15 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/20 10:01:22 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 #include "ft.h"
 
-static int	count_cmds(char const *line)
+static int			count_cmds(char const *line)
 {
 	int		count;
 	char	is_new_cmd;
@@ -60,7 +60,8 @@ static char const	*get_cmd_end(char const *line)
 	return (line);
 }
 
-static int	fill_cmds(t_cmd **cmds, char const *line, char **envp[], int last_exit_code)
+static int			fill_cmds(t_cmd **cmds, char const *line, char **envp[],
+		int last_exit_code)
 {
 	char const	*backup;
 	int			count;
@@ -80,7 +81,7 @@ static int	fill_cmds(t_cmd **cmds, char const *line, char **envp[], int last_exi
 	return (0);
 }
 
-t_cmd		**parse_line(char *line, char **envp[], int last_exit_code)
+t_cmd				**parse_line(char *line, char **envp[], int last_exit_code)
 {
 	t_cmd	**cmds;
 
