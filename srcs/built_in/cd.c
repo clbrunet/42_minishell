@@ -6,7 +6,7 @@
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 11:32:44 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/03/19 07:44:36 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/20 16:09:13 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,16 @@ int	cd(t_cmd const *cmd, char **envp_ptr[], int last_exit_code)
 	(void)envp_ptr;
 	(void)last_exit_code;
 	if (cmd->args[1] == NULL)
-	{
 		ft_putstr_fd(2, "minishell: cd: relative or absolute path missing\n");
-		return (1);
+	else if (cmd->args[1][0] == '-' && cmd->args[1][1])
+	{
+		ft_putstr_fd(2, "minishell: cd: -");
+		ft_putchar_fd(2, cmd->args[1][1]);
+		ft_putstr_fd(2, ": invalid option\ncd: usage: cd [dir]\n");
+		return (2);
 	}
 	else if (cmd->args[2])
-	{
 		ft_putstr_fd(2, "minishell: cd: too many arguments\n");
-		return (1);
-	}
 	else if (chdir(cmd->args[1]))
 	{
 		ft_putstr_fd(2, "minishell: cd: ");
@@ -34,7 +35,8 @@ int	cd(t_cmd const *cmd, char **envp_ptr[], int last_exit_code)
 		ft_putstr_fd(2, ": ");
 		ft_putstr_fd(2, strerror(errno));
 		ft_putchar_fd(2, '\n');
-		return (1);
 	}
-	return (0);
+	else
+		return (0);
+	return (1);
 }
