@@ -51,7 +51,7 @@ static int		count_to_unset(char **args, char **envp, int *exit_code)
 		}
 		if (!name_valid)
 		{
-			ft_putstr_fd(2, "bash: unset: `");
+			ft_putstr_fd(2, "minishell: unset: `");
 			ft_putstr_fd(2, args[i]);
 			ft_putstr_fd(2, "': not a valid identifier'\n");
 			*exit_code = 1;

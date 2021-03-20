@@ -99,7 +99,7 @@ int				count_valid_var(char **args, char **envp, int *exit_code)
 		}
 		else if (!name_valid)
 		{
-			ft_putstr_fd(2, "bash: export: `");
+			ft_putstr_fd(2, "minishell: export: `");
 			ft_putstr_fd(2, args[i]);
 			ft_putstr_fd(2, "': not a valid identifier\n");
 			*exit_code = 1;
