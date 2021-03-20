@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 19:04:29 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/17 08:06:39 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/20 20:03:25 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ typedef struct					s_parse_cmd
 	const char	*str_cmd;
 	char		**envp;
 	char		*buf;
-	int		last_exit_code;
+	int			last_exit_code;
 }								t_parse_cmd;
 
 #endif

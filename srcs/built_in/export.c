@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 19:04:47 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/19 21:47:51 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/03/20 19:40:06 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,33 +66,6 @@ static void		add_new_var(t_cmd const *cmd, char **new_envp,
 	}
 }
 
-static void		print_sorted_var(char **envp)
-{
-	int		i;
-	char	*tmp;
-
-	i = 0;
-	while (envp[i + 1] != NULL)
-	{
-		if (ft_strcmp(envp[i], envp[i + 1]) > 0)
-		{
-			tmp = envp[i];
-			envp[i] = envp[i + 1];
-			envp[i + 1] = tmp;
-			i = -1;
-		}
-		i++;
-	}
-	i = 0;
-	while (envp[i] != NULL)
-	{
-		ft_putstr_fd(1, "declare -x ");
-		ft_putstr_fd(1, envp[i]);
-		ft_putstr_fd(1, "\n");
-		i++;
-	}
-}
-
 int				export_cmd(t_cmd const *cmd, char **envp_ptr[],
 				int last_exit_code)
 {
@@ -102,11 +75,11 @@ int				export_cmd(t_cmd const *cmd, char **envp_ptr[],
 	int		exit_code;
 
 	(void)last_exit_code;
+	original_size = count_initial_elem(*envp_ptr);
 	if (cmd->args[1] == NULL)
-		print_sorted_var(*envp_ptr);
+		return (print_sorted_vars(*envp_ptr, original_size));
 	exit_code = 0;
 	count = count_valid_var(cmd->args, *envp_ptr, &exit_code);
-	original_size = count_initial_elem(*envp_ptr);
 	new_envp = malloc(sizeof(char *) * (count + original_size + 1));
 	if (!new_envp)
 		return (1);

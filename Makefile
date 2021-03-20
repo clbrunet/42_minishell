@@ -35,16 +35,17 @@ SRCS=	srcs/main/main.c		\
 		srcs/parsing/parse_cmd_7.c	\
 		srcs/parsing/parse_cmd_8.c	\
 		srcs/parsing/parse_cmd_9.c	\
-		srcs/built_in/echo.c	\
-		srcs/built_in/cd.c		\
-		srcs/built_in/pwd.c		\
-		srcs/built_in/export.c	\
-		srcs/built_in/export_2.c	\
-		srcs/built_in/export_3.c	\
-		srcs/built_in/unset.c	\
-		srcs/built_in/unset_2.c	\
-		srcs/built_in/env.c		\
-		srcs/built_in/exit.c		\
+		srcs/built_in/echo.c			\
+		srcs/built_in/cd.c				\
+		srcs/built_in/pwd.c				\
+		srcs/built_in/export.c			\
+		srcs/built_in/export_sort_env.c	\
+		srcs/built_in/export_2.c		\
+		srcs/built_in/export_3.c		\
+		srcs/built_in/unset.c			\
+		srcs/built_in/unset_2.c			\
+		srcs/built_in/env.c				\
+		srcs/built_in/exit.c			\
 		srcs/execution/execute_cmds.c		\
 		srcs/execution/execute_cmds2.c		\
 		srcs/execution/execute_cmds_utils.c	\
