@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 09:09:02 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/20 12:11:28 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/20 13:03:51 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int	exit_cmd(t_cmd const *cmd, char **envp_ptr[], int last_exit_code)
 			return (1);
 		}
 		i = 0;
+		if (cmd->args[1][0] == '-' || cmd->args[1][0] == '+')
+			i = 1;
 		while (ft_isdigit(cmd->args[1][i]))
 			i++;
 		if (cmd->args[1][i])
