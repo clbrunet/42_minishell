@@ -6,7 +6,7 @@
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 15:13:13 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/03/20 18:23:42 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/03/20 19:54:26 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ static int		check_between_args(t_parse_cmd *p, int *i, int len)
 		return (1);
 	return (0);
 }
-#include <stdio.h>
+
 char			**fill_args(t_parse_cmd *p, int *i, int len, int arg_nb)
 {
 	char		**args;
@@ -131,10 +131,7 @@ char			**fill_args(t_parse_cmd *p, int *i, int len, int arg_nb)
 			j++;
 		}
 		else
-		{
-			printf("salut\n");
 			*i = *i + real_component_size(*p, *i, len);
-		}
 	}
 	return (args);
 }

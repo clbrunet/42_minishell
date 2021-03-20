@@ -6,7 +6,7 @@
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 15:12:58 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/03/18 16:02:18 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/03/20 19:41:35 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ static void		size_no_quote(t_parse_cmd p, int *i, int *size, int len)
 	while (*i < len && p.str_cmd[*i] != ' ' &&
 			!(p.str_cmd[*i] == '>' && !to_escape) &&
 			!(p.str_cmd[*i] == '<' && !to_escape) &&
-			!(p.str_cmd[*i] == '|' && !to_escape))
+			!(p.str_cmd[*i] == '|' && !to_escape) &&
+			!(p.str_cmd[*i] == '"' && !to_escape))
 	{
 		if (p.str_cmd[*i] == '\\' && !to_escape)
 		{
