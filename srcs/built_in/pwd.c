@@ -28,7 +28,10 @@ int		pwd(t_cmd const *cmd, char **envp_ptr[], int last_exit_code)
 		return (2);
 	}
 	if (getcwd(cwd, PATH_MAX) == NULL)
+	{
+		ft_putstr_fd(2, "minishell: pwd: getcwd failed\n");
 		return (1);
+	}
 	ft_putstr_fd(1, cwd);
 	ft_putchar_fd(1, '\n');
 	return (0);
