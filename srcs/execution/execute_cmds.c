@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 06:27:50 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/20 14:33:55 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/20 17:48:15 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,9 @@ static int	execute_cmd(t_cmd const *cmd, int len, char **envp_ptr[],
 	unsigned int	i;
 
 	pids = malloc((len) * sizeof(int));
+	pipes = NULL;
 	if (pids == NULL || get_pipes(&pipes, len))
-		return (-1);
+		return (execute_cmd_error(pids, pipes));
 	i = 0;
 	while (cmd)
 	{
@@ -55,7 +56,7 @@ static int	execute_cmd(t_cmd const *cmd, int len, char **envp_ptr[],
 		if (pids[i] == 0)
 		{
 			if (dup_io(cmd, pipes, i))
-				return (-1);
+				return (execute_cmd_error(pids, pipes));
 			exit(cmd_process((int const *const *)pipes, cmd, envp_ptr,
 						last_exit_code));
 		}

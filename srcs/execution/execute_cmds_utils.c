@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 13:55:27 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/10 15:11:53 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/20 18:07:39 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,15 +53,16 @@ int			kill_cmd_processes(int *pids)
 	return (0);
 }
 
-static int	get_pipes_error(int **pipes, int **iter)
+static int	get_pipes_error(int ***pipes, int **iter)
 {
 	if (*iter)
 	{
 		free(*iter);
 		*iter = NULL;
 	}
-	close_pipes_fds((int const *const *)pipes);
-	free_pipes(pipes);
+	close_pipes_fds((int const *const *)*pipes);
+	free_pipes(*pipes);
+	*pipes = NULL;
 	return (1);
 }
 
@@ -77,7 +78,7 @@ int			get_pipes(int ***pipes, int len)
 	{
 		*iter = malloc(2 * sizeof(int));
 		if (*iter == NULL || pipe(*iter) == -1)
-			return (get_pipes_error(*pipes, iter));
+			return (get_pipes_error(pipes, iter));
 		iter++;
 		len--;
 	}

@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 16:04:03 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/20 14:28:34 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/20 18:02:48 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,11 @@ int	pipeless_cmd_process(t_cmd const *cmd, char **envp_ptr[])
 		return (127);
 	}
 	return (1);
+}
+
+int	execute_cmd_error(int *pids, int **pipes)
+{
+	free(pids);
+	free_pipes(pipes);
+	return (-1);
 }
