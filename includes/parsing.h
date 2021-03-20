@@ -32,8 +32,8 @@ int			check_cmd(char const *cmd, int len);
 int			check_line(char const *line);
 
 t_cmd		**parse_line(char *line, char **envp[], int last_exit_code);
-
-t_cmd		*parse_cmd(char const *cmd, int len, char **envp[]);
+t_cmd		*parse_cmd(char const *cmd, int len, char **envp[],
+			int *last_exit_code);
 int			size_component(t_parse_cmd p, int i, int len);
 void		skip_redirection(char const *str, int *i, int len);
 void		skip_no_quote(char const *str, int *i, int len);

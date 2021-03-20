@@ -34,5 +34,6 @@ char	*ft_strdup(char const *s);
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
 int		ft_isalnum(int c);
+int		ft_size_nb(int nb);
 
 #endif

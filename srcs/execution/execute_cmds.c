@@ -110,7 +110,7 @@ int			execute_cmds(char *line, char **envp_ptr[], int *last_exit_code)
 	t_cmd	**cmds;
 	t_cmd	**begin_cmds;
 
-	cmds = parse_line(line, envp_ptr, *last_exit_code);
+	cmds = parse_line(line, envp_ptr, last_exit_code);
 	free(line);
 	if (cmds == NULL)
 		return (0);

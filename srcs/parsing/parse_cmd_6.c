@@ -37,13 +37,18 @@ int				dollar_size(t_parse_cmd p, int *size, int *i, int to_escape)
 	int		size_name;
 
 	size_name = 0;
-	if (p.str_cmd[*i] == '$' && !to_escape && !ft_isalpha(p.str_cmd[*i + 1])
+	if (p.str_cmd[*i] == '$' && !to_escape && p.str_cmd[*i + 1] == '?')
+	{
+		*size = *size + ft_size_nb(p.last_exit_code);
+		return (1);
+	}
+	else if (p.str_cmd[*i] == '$' && !to_escape && !ft_isalpha(p.str_cmd[*i + 1])
 		&& p.str_cmd[*i] != '_')
 	{
 		*size = *size + 1;
 		return (0);
 	}
-	if (p.str_cmd[*i] == '$' && !to_escape)
+	else if (p.str_cmd[*i] == '$' && !to_escape)
 	{
 		while (ft_isalnum(p.str_cmd[(*i + 1) + size_name]))
 			size_name++;

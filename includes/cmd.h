@@ -46,6 +46,7 @@ typedef struct					s_parse_cmd
 	const char	*str_cmd;
 	char		**envp;
 	char		*buf;
+	int		last_exit_code;
 }								t_parse_cmd;
 
 #endif

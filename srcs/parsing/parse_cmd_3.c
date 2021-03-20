@@ -90,6 +90,15 @@ static int		cpy_var(t_parse_cmd *p, int i, int *j, int size_name)
 	}
 	return (-1);
 }
+#include <stdio.h>
+
+void				fill_last_exit_code(int last_exit_code, char *buf, int *j)
+{
+	if (last_exit_code >= 10)
+		fill_last_exit_code(last_exit_code / 10, buf, j);
+	buf[*j] = ((last_exit_code % 10) + 48);
+	*j = *j + 1;
+}
 
 int				fill_dollar(t_parse_cmd *p, int i, int *j, int to_escape)
 {
@@ -97,7 +106,13 @@ int				fill_dollar(t_parse_cmd *p, int i, int *j, int to_escape)
 	int		error;
 
 	size_name = 0;
-	if (p->str_cmd[i] == '$' && !to_escape && !ft_isalpha(p->str_cmd[i + 1])
+	if (p->str_cmd[i] == '$' && !to_escape && p->str_cmd[i + 1] == '?')
+	{
+		fill_last_exit_code(p->last_exit_code, p->buf, j);
+		p->buf[*j] = '\0';
+		return (1);
+	}
+	else if (p->str_cmd[i] == '$' && !to_escape && !ft_isalpha(p->str_cmd[i + 1])
 		&& p->str_cmd[i] != '_')
 	{
 		p->buf[*j] = '$';

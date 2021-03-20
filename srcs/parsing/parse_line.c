@@ -42,6 +42,7 @@ static int			count_cmds(char const *line)
 	return (count);
 }
 
+<<<<<<< HEAD
 static char const	*get_cmd_end(char const *line)
 {
 	char	is_escaped;
@@ -60,8 +61,7 @@ static char const	*get_cmd_end(char const *line)
 	return (line);
 }
 
-static int			fill_cmds(t_cmd **cmds, char const *line, char **envp[],
-		int last_exit_code)
+static int			fill_cmds(t_cmd **cmds, char const *line, char **envp[], int last_exit_code)
 {
 	char const	*backup;
 	int			count;
@@ -71,6 +71,17 @@ static int			fill_cmds(t_cmd **cmds, char const *line, char **envp[],
 	{
 		backup = line;
 		line = get_cmd_end(line);
+		is_escaped = 0;
+		while (*line && !(*line == ';' && !is_escaped))
+		{
+			if (ft_strchr("'\"", *line) && !is_escaped)
+				line = trim_inner_quotes(line, *line);
+			else if (*line == '\\')
+				is_escaped = !is_escaped;
+			else
+				is_escaped = 0;
+			line++;
+		}
 		*cmds = parse_cmd(backup, line - backup, envp, last_exit_code);
 		if (*cmds == NULL)
 			return (1);
