@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 17:36:01 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/19 15:16:43 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/03/20 13:32:14 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ t_built_in_ft	search_built_in(t_cmd const *cmd)
 		return (&echo);
 	else if (ft_strcmp(cmd->exe, "cd") == 0)
 		return (&cd);
+	else if (ft_strcmp(cmd->exe, "pwd") == 0)
+		return (&pwd);
 	else if (ft_strcmp(cmd->exe, "export") == 0)
 		return (&export_cmd);
 	else if (ft_strcmp(cmd->exe, "unset") == 0)
