@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 16:04:03 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/17 18:14:34 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/20 14:28:34 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	cmd_process(int const *const *pipes, t_cmd const *cmd,
 		{
 			ft_putstr_fd(2, cmd->exe);
 			ft_putstr_fd(2, ": command not found\n");
+			return (127);
 		}
 		return (1);
 	}
@@ -63,6 +64,7 @@ int	pipeless_cmd_process(t_cmd const *cmd, char **envp_ptr[])
 	{
 		ft_putstr_fd(2, cmd->exe);
 		ft_putstr_fd(2, ": command not found\n");
+		return (127);
 	}
 	return (1);
 }
