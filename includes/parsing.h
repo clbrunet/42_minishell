@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 06:38:17 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/17 18:47:12 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/20 09:50:45 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int			syntax_error(char const *unexpected_token);
 int			check_cmd(char const *cmd, int len);
 int			check_line(char const *line);
 
-t_cmd		**parse_line(char *line, char **envp[]);
+t_cmd		**parse_line(char *line, char **envp[], int last_exit_code);
 
 t_cmd		*parse_cmd(char const *cmd, int len, char **envp[]);
 int			size_component(t_parse_cmd p, int i, int len);

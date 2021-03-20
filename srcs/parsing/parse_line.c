@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 13:34:20 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/17 08:36:05 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/20 09:51:15 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,26 +42,35 @@ static int	count_cmds(char const *line)
 	return (count);
 }
 
-static int	fill_cmds(t_cmd **cmds, char const *line, int count, char **envp[])
+static char const	*get_cmd_end(char const *line)
+{
+	char	is_escaped;
+
+	is_escaped = 0;
+	while (*line && !(*line == ';' && !is_escaped))
+	{
+		if (ft_strchr("'\"", *line) && !is_escaped)
+			line = trim_inner_quotes(line, *line);
+		else if (*line == '\\')
+			is_escaped = !is_escaped;
+		else
+			is_escaped = 0;
+		line++;
+	}
+	return (line);
+}
+
+static int	fill_cmds(t_cmd **cmds, char const *line, char **envp[], int last_exit_code)
 {
 	char const	*backup;
-	char		is_escaped;
+	int			count;
 
+	count = count_cmds(line);
 	while (count--)
 	{
 		backup = line;
-		is_escaped = 0;
-		while (*line && !(*line == ';' && !is_escaped))
-		{
-			if (ft_strchr("'\"", *line) && !is_escaped)
-				line = trim_inner_quotes(line, *line);
-			else if (*line == '\\')
-				is_escaped = !is_escaped;
-			else
-				is_escaped = 0;
-			line++;
-		}
-		*cmds = parse_cmd(backup, line - backup, envp);
+		line = get_cmd_end(line);
+		*cmds = parse_cmd(backup, line - backup, envp, last_exit_code);
 		if (*cmds == NULL)
 			return (1);
 		line++;
@@ -71,19 +80,17 @@ static int	fill_cmds(t_cmd **cmds, char const *line, int count, char **envp[])
 	return (0);
 }
 
-t_cmd		**parse_line(char *line, char **envp[])
+t_cmd		**parse_line(char *line, char **envp[], int last_exit_code)
 {
 	t_cmd	**cmds;
-	int		count;
 
 	str_substitute(line, '\t', ' ');
 	if (check_line(line))
 		return (NULL);
-	count = count_cmds(line);
-	cmds = malloc((count + 1) * sizeof(t_cmd *));
+	cmds = malloc((count_cmds(line) + 1) * sizeof(t_cmd *));
 	if (cmds == NULL)
 		return (NULL);
-	if (fill_cmds(cmds, line, count, envp))
+	if (fill_cmds(cmds, line, envp, last_exit_code))
 	{
 		free_cmds(cmds);
 		return (NULL);
