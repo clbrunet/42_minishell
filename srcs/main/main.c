@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 20:30:10 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/20 13:05:01 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/20 17:28:03 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	main_error(int ret, char *envp[], int last_exit_code)
 	if (ret == 1)
 	{
 		ft_putstr_fd(1, "exit\n");
-		return (last_exit_code);
+		return ((unsigned char)last_exit_code);
 	}
 	return (1);
 }
