@@ -13,7 +13,55 @@
 #include "parsing.h"
 #include "ft.h"
 
-int				count_arg(char const *str, int i, int len)
+#include <stdio.h>
+int				exist_if_dollar(char const *str, int i, char **envp, int len)
+{
+	int	j;
+	int	size_name;
+
+	if (str[i] == '$')
+	{
+		i++;
+		if (str[i] == '?')
+			return (1);
+		if (ft_isdigit(str[i]) || (!ft_isalnum(str[i]) && str[i] != '_'))
+		{
+			i++;
+			if (i >= len || str[i] == ' ' || str[i] == '<' || str[i] == '>' || str[i] == '|')
+				return (0);
+			else
+				return (1);
+		}
+		else
+		{
+			size_name = 0;
+			while (ft_isalnum(str[i]) || str[i] == '_')
+			{
+				size_name++;
+				i++;
+			}
+			i -= size_name;
+			j = 0;
+			while (envp[j] != NULL)
+			{
+				if (ft_strncmp(envp[j], &str[i], size_name) == 0)
+				{
+					if (envp[j][size_name] == '=')
+						return (1);
+				}
+				j++;
+			}
+			if ((i + size_name) >= len || str[i + size_name] == ' ' || str[i + size_name] == '<'
+				|| str[i + size_name] == '>' || str[i + size_name] == '|')
+			{
+				return (0);
+			}
+			return (1);
+		}
+	}
+	return (1);
+}
+int				count_arg(char const *str, int i, int len, char **envp)
 {
 	int		count;
 
@@ -26,10 +74,12 @@ int				count_arg(char const *str, int i, int len)
 			skip_redirection(str, &i, len);
 		if (str[i] == '|')
 			return (count);
-		if (i != len)
+		printf("exist = %d\n", exist_if_dollar(str, i, envp,len));
+		if (i != len && exist_if_dollar(str, i, envp, len))
 			count++;
 		skip_strings(str, &i, len);
 	}
+	printf("count = %d", count);
 	return (count);
 }
 

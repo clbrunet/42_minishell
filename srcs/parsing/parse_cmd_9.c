@@ -76,7 +76,7 @@ char	**parse_arguments(int *i, int size, int len, t_parse_cmd *p)
 	char	**args;
 
 	*i = *i + size;
-	arg_nb = count_arg(p->str_cmd, *i, len);
+	arg_nb = count_arg(p->str_cmd, *i, len, p->envp);
 	args = fill_args(p, i, len, arg_nb);
 	if (!args)
 		return (NULL);

@@ -40,7 +40,7 @@ void		skip_no_quote(char const *str, int *i, int len);
 void		skip_single_quote(char const *str, int *i);
 void		skip_quote(char const *str, int *i);
 
-int			count_arg(char const *str, int i, int len);
+int			count_arg(char const *str, int i, int len, char **envp);
 int			size_var(t_parse_cmd p, int i, int j, int size_name);
 int			fill_dollar(t_parse_cmd *p, int i, int *j, int to_escape);
 
