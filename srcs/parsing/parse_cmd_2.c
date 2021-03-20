@@ -6,9 +6,11 @@
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 18:42:21 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/03/17 15:10:11 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/03/18 16:24:25 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "parsing.h"
 
 void	skip_quote(char const *str, int *i)
 {
@@ -59,12 +61,7 @@ void	skip_redirection(char const *str, int *i, int len)
 	{
 		while (str[*i] == ' ')
 			*i = *i + 1;
-		if (str[*i] == '"')
-			skip_quote(str, i);
-		else if (str[*i] == '\'')
-			skip_single_quote(str, i);
-		else
-			skip_no_quote(str, i, len);
+		skip_strings(str, i, len);
 		while (str[*i] == ' ')
 			*i = *i + 1;
 		if ((str[*i] == '<' || str[*i] == '>') && *i < len)

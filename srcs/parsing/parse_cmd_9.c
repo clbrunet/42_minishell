@@ -6,11 +6,55 @@
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 15:13:20 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/03/17 16:00:26 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/03/18 16:34:23 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
+
+void	real_no_quote_size(t_parse_cmd p, int *i, int *size, int len)
+{
+	int		to_escape;
+
+	to_escape = 0;
+	while (*i < len && p.str_cmd[*i] != ' ' && !(p.str_cmd[*i] == '|' &&
+				!to_escape) && !(p.str_cmd[*i] == '>' && !to_escape)
+			&& !(p.str_cmd[*i] == '<' && !to_escape))
+	{
+		if (p.str_cmd[*i] == '\\' && !to_escape)
+			to_escape = 1;
+		else
+			to_escape = 0;
+		*size = *size + 1;
+		*i = *i + 1;
+	}
+}
+
+void	skip_strings(char const *str, int *i, int len)
+{
+	while (str[*i] == '"' || str[*i] == '\'' || (*i < len && str[*i] != ' '
+			&& str[*i] != '|' && str[*i] != '<' && str[*i] != '>'))
+	{
+		if (str[*i] == '"')
+			skip_quote(str, i);
+		else if (str[*i] == '\'')
+			skip_single_quote(str, i);
+		else
+			skip_no_quote(str, i, len);
+	}
+}
+
+void	fill_single_quote(t_parse_cmd *p, int *i, int *j)
+{
+	*i = *i + 1;
+	while (p->str_cmd[*i] != '\'')
+	{
+		p->buf[*j] = p->str_cmd[*i];
+		*i = *i + 1;
+		*j = *j + 1;
+	}
+	*i = *i + 1;
+}
 
 int		set_previous_pipe(t_parse_cmd *p, int *i)
 {

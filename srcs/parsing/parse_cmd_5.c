@@ -6,7 +6,7 @@
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 15:12:50 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/03/17 16:14:14 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/03/18 16:31:04 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,17 @@ void			fill_buf(t_parse_cmd *p, int len, int i)
 
 	j = 0;
 	to_escape = 0;
-	if (p->str_cmd[i] == '"')
-		fill_quote(p, &i, &j);
-	else if (p->str_cmd[i] == '\'')
+	while (p->str_cmd[i] == '"' || p->str_cmd[i] == '\'' ||
+			(p->str_cmd[i] != ' ' && p->str_cmd[i] != '<'
+			&& p->str_cmd[i] != '>' && p->str_cmd[i] != '|' && i < len))
 	{
-		i++;
-		while (p->str_cmd[i] != '\'')
-		{
-			p->buf[j] = p->str_cmd[i];
-			j++;
-			i++;
-		}
+		if (p->str_cmd[i] == '"')
+			fill_quote(p, &i, &j);
+		else if (p->str_cmd[i] == '\'')
+			fill_single_quote(p, &i, &j);
+		else
+			fill_no_quote(p, &i, &j, len);
 	}
-	else
-		fill_no_quote(p, &i, &j, len);
 	p->buf[j] = '\0';
 }
 
@@ -65,19 +62,23 @@ static void		real_quote_size(t_parse_cmd p, int *size, int *i, int len)
 {
 	int		to_escape;
 
-	*size = *size + 1;
-	*i = *i + 1;
-	to_escape = 0;
-	while (*i < len && !(p.str_cmd[*i] == '"' && !to_escape))
+	while (*i < len && p.str_cmd[*i] == '"')
 	{
-		if (p.str_cmd[*i] == '\\' && !to_escape)
-			to_escape = 1;
-		else
-			to_escape = 0;
+		*size = *size + 1;
+		*i = *i + 1;
+		to_escape = 0;
+		while (*i < len && !(p.str_cmd[*i] == '"' && !to_escape))
+		{
+			if (p.str_cmd[*i] == '\\' && !to_escape)
+				to_escape = 1;
+			else
+				to_escape = 0;
+			*size = *size + 1;
+			*i = *i + 1;
+		}
 		*size = *size + 1;
 		*i = *i + 1;
 	}
-	*size = *size + 1;
 }
 
 static void		real_single_quote_size(t_parse_cmd p, int *i, int *size)
@@ -90,32 +91,24 @@ static void		real_single_quote_size(t_parse_cmd p, int *i, int *size)
 		*i = *i + 1;
 	}
 	*size = *size + 1;
+	*i = *i + 1;
 }
 
 int				real_component_size(t_parse_cmd p, int i, int len)
 {
 	int		size;
-	int		to_escape;
 
-	to_escape = 0;
 	size = 0;
-	if (p.str_cmd[i] == '"')
-		real_quote_size(p, &size, &i, len);
-	else if (p.str_cmd[i] == '\'')
-		real_single_quote_size(p, &i, &size);
-	else
+	while (p.str_cmd[i] == '"' || p.str_cmd[i] == '\'' ||
+		(i < len && p.str_cmd[i] != ' ' && p.str_cmd[i] != '|'
+		&& p.str_cmd[i] != '>' && p.str_cmd[i] != '<'))
 	{
-		while (i < len && p.str_cmd[i] != ' ' && !(p.str_cmd[i] == '|' &&
-			!to_escape) && !(p.str_cmd[i] == '>' && !to_escape)
-			&& !(p.str_cmd[i] == '<' && !to_escape))
-		{
-			if (p.str_cmd[i] == '\\' && !to_escape)
-				to_escape = 1;
-			else
-				to_escape = 0;
-			size++;
-			i++;
-		}
+		if (p.str_cmd[i] == '"')
+			real_quote_size(p, &size, &i, len);
+		else if (p.str_cmd[i] == '\'')
+			real_single_quote_size(p, &i, &size);
+		else
+			real_no_quote_size(p, &i, &size, len);
 	}
 	return (size);
 }
