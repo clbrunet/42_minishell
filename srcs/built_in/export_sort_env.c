@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 19:29:40 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/20 19:59:54 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/20 20:36:24 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	copy_envp(char **sorted_vars, char **envp)
 	*sorted_vars = *envp;
 }
 
-static void	sort_sorted_vars(char **sorted_vars)
+static void	sort_vars(char **sorted_vars)
 {
 	char	*tmp;
 	char	**backup;
@@ -67,6 +67,8 @@ static void	sort_sorted_vars(char **sorted_vars)
 
 void		print_var(char *var)
 {
+	if (ft_strncmp(var, "_=", 2) == 0)
+		return ;
 	ft_putstr_fd(1, "declare -x ");
 	while (*var != '=')
 	{
@@ -75,7 +77,13 @@ void		print_var(char *var)
 	}
 	ft_putstr_fd(1, "=\"");
 	var++;
-	ft_putstr_fd(1, var);
+	while (*var)
+	{
+		if (*var == '\\' || *var == '"')
+			ft_putchar_fd(1, '\\');
+		ft_putchar_fd(1, *var);
+		var++;
+	}
 	ft_putstr_fd(1, "\"\n");
 }
 
@@ -88,7 +96,7 @@ int			print_sorted_vars(char **envp, int original_size)
 	if (sorted_vars == NULL)
 		return (1);
 	copy_envp(sorted_vars, envp);
-	sort_sorted_vars(sorted_vars);
+	sort_vars(sorted_vars);
 	i = 0;
 	while (sorted_vars[i] != NULL)
 	{
