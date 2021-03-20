@@ -6,74 +6,12 @@
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 15:12:35 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/03/20 20:55:31 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/03/20 21:34:10 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 #include "ft.h"
-
-int				dollar_exist(char **envp, char const *str, int i,
-				int size_name)
-{
-	int		j;
-
-	j = 0;
-	while (envp[j] != NULL)
-	{
-		if (ft_strncmp(envp[j], &str[i], size_name) == 0)
-		{
-			if (envp[j][size_name] == '=')
-				return (1);
-		}
-		j++;
-	}
-	return (0);
-}
-
-int				exist_if_dollar(char const *str, int i, char **envp, int len)
-{
-	int	size_name;
-
-	if (str[i] == '$')
-	{
-		i++;
-		size_name = 0;
-		while (ft_isalnum(str[i]) || str[i] == '_')
-		{
-			size_name++;
-			i++;
-		}
-		i -= size_name;
-		if (dollar_exist(envp, str, i, size_name))
-			return (1);
-		if ((i + size_name) >= len || str[i + size_name] == ' ' || str[i + size_name] == '<'
-				|| str[i + size_name] == '>' || str[i + size_name] == '|')
-			return (0);
-		return (1);
-	}
-	return (1);
-}
-
-int				count_arg(char const *str, int i, int len, char **envp)
-{
-	int		count;
-
-	count = 0;
-	while (i < len)
-	{
-		while (str[i] == ' ')
-			i++;
-		if ((str[i] == '>' || str[i] == '<'))
-			skip_redirection(str, &i, len);
-		if (str[i] == '|')
-			return (count);
-		if (i != len && exist_if_dollar(str, i, envp, len))
-			count++;
-		skip_strings(str, &i, len);
-	}
-	return (count);
-}
 
 int				size_var(t_parse_cmd p, int i, int j, int size_name)
 {
@@ -133,7 +71,7 @@ static int		cpy_var(t_parse_cmd *p, int i, int *j, int size_name)
 	return (-1);
 }
 
-void				fill_last_exit_code(int last_exit_code, char *buf, int *j)
+void			fill_last_exit_code(int last_exit_code, char *buf, int *j)
 {
 	if (last_exit_code >= 10)
 		fill_last_exit_code(last_exit_code / 10, buf, j);
@@ -153,13 +91,9 @@ int				fill_dollar(t_parse_cmd *p, int i, int *j, int to_escape)
 		p->buf[*j] = '\0';
 		return (1);
 	}
-	else if (p->str_cmd[i] == '$' && !to_escape && !ft_isalpha(p->str_cmd[i + 1])
-		&& p->str_cmd[i] != '_')
-	{
-		p->buf[*j] = '$';
-		p->buf[*j + 1] = '\0';
-		*j = *j + 1;
-	}
+	else if (p->str_cmd[i] == '$' && !to_escape
+		&& !ft_isalpha(p->str_cmd[i + 1]) && p->str_cmd[i] != '_')
+		fill_one_dollar(p, j);
 	else if (p->str_cmd[i] == '$' && !to_escape)
 	{
 		while (ft_isalnum(p->str_cmd[(i + 1) + size_name]))

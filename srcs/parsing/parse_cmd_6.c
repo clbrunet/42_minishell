@@ -6,7 +6,7 @@
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 15:12:58 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/03/20 19:41:35 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/03/20 21:29:24 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ int				dollar_size(t_parse_cmd p, int *size, int *i, int to_escape)
 		*size = *size + ft_size_nb(p.last_exit_code);
 		return (1);
 	}
-	else if (p.str_cmd[*i] == '$' && !to_escape && !ft_isalpha(p.str_cmd[*i + 1])
-		&& p.str_cmd[*i] != '_')
+	else if (p.str_cmd[*i] == '$' && !to_escape
+		&& !ft_isalpha(p.str_cmd[*i + 1]) && p.str_cmd[*i] != '_')
 	{
 		*size = *size + 1;
 		return (0);

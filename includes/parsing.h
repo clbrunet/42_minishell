@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 06:38:17 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/20 17:53:43 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/03/20 21:43:27 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,7 @@ void		fill_single_quote(t_parse_cmd *p, int *i, int *j);
 void		skip_strings(char const *str, int *i, int len);
 void		real_no_quote_size(t_parse_cmd p, int *i, int *size, int len);
 int			exist_if_dollar(char const *str, int i, char **envp, int len);
+void		fill_one_dollar(t_parse_cmd *p, int *j);
+char		*fill_buf_with_arg(t_parse_cmd *p, int *i, int len);
 
 #endif

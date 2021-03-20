@@ -35,6 +35,7 @@ SRCS=	srcs/main/main.c		\
 		srcs/parsing/parse_cmd_7.c	\
 		srcs/parsing/parse_cmd_8.c	\
 		srcs/parsing/parse_cmd_9.c	\
+		srcs/parsing/parse_cmd_10.c \
 		srcs/built_in/echo.c			\
 		srcs/built_in/cd.c				\
 		srcs/built_in/pwd.c				\

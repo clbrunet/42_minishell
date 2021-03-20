@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 07:16:13 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/20 21:05:01 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/03/20 21:14:36 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ static int		init_cmd_exe(int *i, t_parse_cmd *p, int len, int *size)
 	return (1);
 }
 
-static void		init_parsing(t_parse_cmd *p, char const *str_cmd, char **envp, int last_exit_code)
+static void		init_parsing(t_parse_cmd *p, char const *str_cmd,
+				char **envp, int last_exit_code)
 {
 	p->p_cmd = NULL;
 	p->first_cmd = NULL;
@@ -103,7 +104,8 @@ static void		init_parsing(t_parse_cmd *p, char const *str_cmd, char **envp, int 
 	p->last_exit_code = last_exit_code;
 }
 
-t_cmd			*parse_cmd(char const *str_cmd, int len, char **envp[], int last_exit_code)
+t_cmd			*parse_cmd(char const *str_cmd, int len, char **envp[],
+				int last_exit_code)
 {
 	int				i;
 	int				size;

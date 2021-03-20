@@ -6,7 +6,7 @@
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 15:13:13 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/03/20 19:54:26 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/03/20 21:42:42 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,6 @@ static int		check_between_args(t_parse_cmd *p, int *i, int len)
 char			**fill_args(t_parse_cmd *p, int *i, int len, int arg_nb)
 {
 	char		**args;
-	int			size;
 	int			j;
 
 	args = init_args(arg_nb, *p);
@@ -120,12 +119,9 @@ char			**fill_args(t_parse_cmd *p, int *i, int len, int arg_nb)
 			return (args);
 		if (exist_if_dollar(p->str_cmd, *i, p->envp, len))
 		{
-			size = size_component_formated(*p, *i, len);
-			p->buf = malloc(sizeof(char) * size + 1);
-			if (!p->buf)
+			args[j] = fill_buf_with_arg(p, i, len);
+			if (!args[j])
 				return (NULL);
-			fill_buf(p, len, *i);
-			args[j] = p->buf;
 			p->buf = NULL;
 			*i = *i + real_component_size(*p, *i, len);
 			j++;
