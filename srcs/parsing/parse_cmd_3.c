@@ -6,7 +6,7 @@
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 15:12:35 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/03/18 16:23:36 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/03/20 18:30:53 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,42 +22,27 @@ int				exist_if_dollar(char const *str, int i, char **envp, int len)
 	if (str[i] == '$')
 	{
 		i++;
-		if (str[i] == '?')
-			return (1);
-		if (ft_isdigit(str[i]) || (!ft_isalnum(str[i]) && str[i] != '_'))
+		size_name = 0;
+		while (ft_isalnum(str[i]) || str[i] == '_')
 		{
+			size_name++;
 			i++;
-			if (i >= len || str[i] == ' ' || str[i] == '<' || str[i] == '>' || str[i] == '|')
-				return (0);
-			else
-				return (1);
 		}
-		else
+		i -= size_name;
+		j = 0;
+		while (envp[j] != NULL)
 		{
-			size_name = 0;
-			while (ft_isalnum(str[i]) || str[i] == '_')
+			if (ft_strncmp(envp[j], &str[i], size_name) == 0)
 			{
-				size_name++;
-				i++;
+				if (envp[j][size_name] == '=')
+					return (1);
 			}
-			i -= size_name;
-			j = 0;
-			while (envp[j] != NULL)
-			{
-				if (ft_strncmp(envp[j], &str[i], size_name) == 0)
-				{
-					if (envp[j][size_name] == '=')
-						return (1);
-				}
-				j++;
-			}
-			if ((i + size_name) >= len || str[i + size_name] == ' ' || str[i + size_name] == '<'
-				|| str[i + size_name] == '>' || str[i + size_name] == '|')
-			{
-				return (0);
-			}
-			return (1);
+			j++;
 		}
+		if ((i + size_name) >= len || str[i + size_name] == ' ' || str[i + size_name] == '<'
+				|| str[i + size_name] == '>' || str[i + size_name] == '|')
+			return (0);
+		return (1);
 	}
 	return (1);
 }
