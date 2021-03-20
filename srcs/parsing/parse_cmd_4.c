@@ -6,7 +6,7 @@
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 15:12:43 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/03/18 18:32:42 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/03/20 19:48:16 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,9 @@ void			fill_no_quote(t_parse_cmd *p, int *i, int *j, int len)
 	to_escape = 0;
 	while (*i < len && p->str_cmd[*i] != ' ' &&
 	!(p->str_cmd[*i] == '<' && !to_escape) && !(p->str_cmd[*i] == '>' &&
-	!to_escape) && !(p->str_cmd[*i] == '|' && !to_escape))
+	!to_escape) && !(p->str_cmd[*i] == '|' && !to_escape)
+	&& !(p->str_cmd[*i] == '"' && !to_escape)
+	&& !(p->str_cmd[*i] == '\'' && !to_escape))
 	{
 		if (p->str_cmd[*i] == '\\' && !to_escape)
 			to_escape = 1;

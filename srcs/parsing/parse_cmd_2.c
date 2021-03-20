@@ -6,7 +6,7 @@
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 18:42:21 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/03/18 16:24:25 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/03/20 19:36:35 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,9 @@ void	skip_no_quote(char const *str, int *i, int len)
 	int		to_escape;
 
 	to_escape = 0;
-	while (str[*i] != ' ' && !(str[*i] == '|' && !to_escape) && *i < len)
+	while (str[*i] != ' ' && !(str[*i] == '"' && !to_escape) &&
+			!(str[*i] == '\'' && !to_escape) &&
+			!(str[*i] == '|' && !to_escape) && *i < len)
 	{
 		if (str[*i] == '\\' && !to_escape)
 			to_escape = 1;

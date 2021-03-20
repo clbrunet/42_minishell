@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 06:38:17 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/20 09:54:50 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/20 17:53:43 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void		skip_no_quote(char const *str, int *i, int len);
 void		skip_single_quote(char const *str, int *i);
 void		skip_quote(char const *str, int *i);
 
-int			count_arg(char const *str, int i, int len);
+int			count_arg(char const *str, int i, int len, char **envp);
 int			size_var(t_parse_cmd p, int i, int j, int size_name);
 int			fill_dollar(t_parse_cmd *p, int i, int *j, int to_escape);
 
@@ -69,5 +69,6 @@ char		**parse_arguments(int *i, int size, int len, t_parse_cmd *p);
 void		fill_single_quote(t_parse_cmd *p, int *i, int *j);
 void		skip_strings(char const *str, int *i, int len);
 void		real_no_quote_size(t_parse_cmd p, int *i, int *size, int len);
+int			exist_if_dollar(char const *str, int i, char **envp, int len);
 
 #endif

@@ -6,14 +6,56 @@
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 15:12:35 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/03/18 16:23:36 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/03/20 20:55:31 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 #include "ft.h"
 
-int				count_arg(char const *str, int i, int len)
+int				dollar_exist(char **envp, char const *str, int i,
+				int size_name)
+{
+	int		j;
+
+	j = 0;
+	while (envp[j] != NULL)
+	{
+		if (ft_strncmp(envp[j], &str[i], size_name) == 0)
+		{
+			if (envp[j][size_name] == '=')
+				return (1);
+		}
+		j++;
+	}
+	return (0);
+}
+
+int				exist_if_dollar(char const *str, int i, char **envp, int len)
+{
+	int	size_name;
+
+	if (str[i] == '$')
+	{
+		i++;
+		size_name = 0;
+		while (ft_isalnum(str[i]) || str[i] == '_')
+		{
+			size_name++;
+			i++;
+		}
+		i -= size_name;
+		if (dollar_exist(envp, str, i, size_name))
+			return (1);
+		if ((i + size_name) >= len || str[i + size_name] == ' ' || str[i + size_name] == '<'
+				|| str[i + size_name] == '>' || str[i + size_name] == '|')
+			return (0);
+		return (1);
+	}
+	return (1);
+}
+
+int				count_arg(char const *str, int i, int len, char **envp)
 {
 	int		count;
 
@@ -26,7 +68,7 @@ int				count_arg(char const *str, int i, int len)
 			skip_redirection(str, &i, len);
 		if (str[i] == '|')
 			return (count);
-		if (i != len)
+		if (i != len && exist_if_dollar(str, i, envp, len))
 			count++;
 		skip_strings(str, &i, len);
 	}

@@ -6,7 +6,7 @@
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 15:13:20 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/03/18 16:34:23 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/03/20 21:03:43 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ void	real_no_quote_size(t_parse_cmd p, int *i, int *size, int len)
 	to_escape = 0;
 	while (*i < len && p.str_cmd[*i] != ' ' && !(p.str_cmd[*i] == '|' &&
 				!to_escape) && !(p.str_cmd[*i] == '>' && !to_escape)
-			&& !(p.str_cmd[*i] == '<' && !to_escape))
+			&& !(p.str_cmd[*i] == '<' && !to_escape)
+			&& !(p.str_cmd[*i] == '"' && !to_escape)
+			&& !(p.str_cmd[*i] == '\'' && !to_escape))
 	{
 		if (p.str_cmd[*i] == '\\' && !to_escape)
 			to_escape = 1;
@@ -76,7 +78,7 @@ char	**parse_arguments(int *i, int size, int len, t_parse_cmd *p)
 	char	**args;
 
 	*i = *i + size;
-	arg_nb = count_arg(p->str_cmd, *i, len);
+	arg_nb = count_arg(p->str_cmd, *i, len, p->envp);
 	args = fill_args(p, i, len, arg_nb);
 	if (!args)
 		return (NULL);

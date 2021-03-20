@@ -6,11 +6,12 @@
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 15:13:13 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/03/18 16:08:34 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/03/20 19:54:26 by mlebrun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
+#include "ft.h"
 
 static int		determine_red_type(t_parse_cmd *p, int *i,
 		t_redirection_type *red_type, int *in_out)
@@ -117,15 +118,20 @@ char			**fill_args(t_parse_cmd *p, int *i, int len, int arg_nb)
 	{
 		if (check_between_args(p, i, len))
 			return (args);
-		size = size_component_formated(*p, *i, len);
-		p->buf = malloc(sizeof(char) * size + 1);
-		if (!p->buf)
-			return (NULL);
-		fill_buf(p, len, *i);
-		args[j] = p->buf;
-		p->buf = NULL;
-		*i = *i + real_component_size(*p, *i, len);
-		j++;
+		if (exist_if_dollar(p->str_cmd, *i, p->envp, len))
+		{
+			size = size_component_formated(*p, *i, len);
+			p->buf = malloc(sizeof(char) * size + 1);
+			if (!p->buf)
+				return (NULL);
+			fill_buf(p, len, *i);
+			args[j] = p->buf;
+			p->buf = NULL;
+			*i = *i + real_component_size(*p, *i, len);
+			j++;
+		}
+		else
+			*i = *i + real_component_size(*p, *i, len);
 	}
 	return (args);
 }
