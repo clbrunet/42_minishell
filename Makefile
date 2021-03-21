@@ -15,6 +15,7 @@ SRCS=	srcs/main/main.c		\
 		srcs/ft/ft_strcmp.c		\
 		srcs/ft/ft_lstsize.c	\
 		srcs/ft/ft_strdup.c		\
+		srcs/ft/ft_strndup.c	\
 		srcs/ft/ft_isalpha.c	\
 		srcs/ft/ft_isdigit.c	\
 		srcs/ft/ft_isalnum.c	\

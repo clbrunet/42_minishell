@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 07:16:13 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/20 21:14:36 by mlebrun          ###   ########.fr       */
+/*   Updated: 2021/03/21 11:02:14 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,6 @@ t_cmd			*parse_cmd(char const *str_cmd, int len, char **envp[],
 		p.cmd->args = parse_arguments(&i, size, len, &p);
 		if (!p.cmd->args)
 		{
-			free_cmd_content(p.first_cmd, p.first_cmd);
 			free_cmd(p.first_cmd);
 			return (NULL);
 		}

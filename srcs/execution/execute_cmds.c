@@ -6,13 +6,14 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 06:27:50 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/21 07:49:15 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/21 10:54:46 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 #include "parsing.h"
 #include "ft.h"
+#include "main.h"
 
 static int	execute_cmd_end(t_cmd const *cmd, int *pids, unsigned int i,
 		int **pipes)
@@ -94,21 +95,24 @@ static int	execute_pipeless_cmd(t_cmd const *cmd, char **envp_ptr[],
 static int	execute_cmd_node(t_cmd *cmd, char **envp_ptr[],
 		int *last_exit_code)
 {
+	if (cmd == NULL)
+	{
+		*last_exit_code = 2;
+		return (2);
+	}
 	if (cmd->pipe)
 		*last_exit_code = execute_cmd(cmd, ft_lstsize(cmd), envp_ptr,
 				*last_exit_code);
 	else
 	{
 		*last_exit_code = execute_pipeless_cmd(cmd, envp_ptr, *last_exit_code);
-		if (ft_strcmp(cmd->exe, "exit") == 0)
+		if (ft_strcmp(cmd->exe, "exit") == 0 && *last_exit_code == -1) 
 		{
-			if (*last_exit_code == -1)
-			{
-				*last_exit_code = 1;
-				return (2);
-			}
-			return (1);
+			*last_exit_code = 1;
+			return (2);
 		}
+		else if (ft_strcmp(cmd->exe, "exit") == 0)
+			return (1);
 	}
 	if (*last_exit_code == -1)
 	{
@@ -120,29 +124,28 @@ static int	execute_cmd_node(t_cmd *cmd, char **envp_ptr[],
 
 int			execute_cmds(char *line, char **envp_ptr[], int *last_exit_code)
 {
-	t_cmd	**cmds;
-	t_cmd	**begin_cmds;
+	char	**s_cmds;
+	char	**s_cmds_backup;
+	t_cmd	*cmd;
 	int		ret;
 
-	cmds = parse_line(line, envp_ptr, *last_exit_code);
+	s_cmds = parse_line(line);
 	free(line);
-	if (cmds == NULL)
-	{
-		*last_exit_code = 2;
+	if (s_cmds == NULL)
 		return (0);
-	}
-	begin_cmds = cmds;
-	while (*cmds)
+	s_cmds_backup = s_cmds;
+	while (*s_cmds)
 	{
-		if ((ret = execute_cmd_node(*cmds, envp_ptr, last_exit_code)))
+		cmd = parse_cmd(*s_cmds, ft_strlen(*s_cmds), envp_ptr, *last_exit_code);
+		if ((ret = execute_cmd_node(cmd, envp_ptr, last_exit_code)))
 		{
-			free_cmds(begin_cmds);
-			if (ret == 2)
-				return (0);
-			return (1);
+			free_cmd(cmd);
+			free_strs(s_cmds_backup);
+			return ((ret == 2) ? 0 : 1);
 		}
-		cmds++;
+		free_cmd(cmd);
+		s_cmds++;
 	}
-	free_cmds(begin_cmds);
+	free_strs(s_cmds_backup);
 	return (0);
 }

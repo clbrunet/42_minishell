@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 08:59:28 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/17 09:02:24 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/21 11:03:07 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void		free_cmd_redirections(t_redirection **lst)
 	*lst = (t_redirection *)NULL;
 }
 
-void			free_cmd(t_cmd *cmd)
+static void		free_one_cmd(t_cmd *cmd)
 {
 	int	i;
 
@@ -73,27 +73,11 @@ void			free_cmd(t_cmd *cmd)
 	free(cmd);
 }
 
-t_cmd			*free_cmd_content(t_cmd *cmd, t_cmd *first_cmd)
+void			free_cmd(t_cmd *cmd)
 {
 	if (cmd != NULL)
 	{
-		free_cmd_content(cmd->pipe, first_cmd);
-		if (cmd != first_cmd)
-			free_cmd(cmd);
+		free_cmd(cmd->pipe);
+		free_one_cmd(cmd);
 	}
-	return (cmd);
-}
-
-void			free_cmds(t_cmd **cmds)
-{
-	int		i;
-
-	i = 0;
-	while (cmds[i] != NULL)
-	{
-		free_cmd_content(cmds[i], cmds[i]);
-		free_cmd(cmds[i]);
-		i++;
-	}
-	free(cmds);
 }
