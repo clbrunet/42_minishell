@@ -6,7 +6,7 @@
 /*   By: mlebrun <mlebrun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/26 14:57:07 by mlebrun           #+#    #+#             */
-/*   Updated: 2021/03/17 18:20:46 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/21 06:25:08 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ static int	try_without_path(t_cmd const *cmd, char *envp[])
 {
 	int		fd;
 
-	if (!ft_strchr(cmd->exe, '/'))
-		return (0);
 	fd = open(cmd->exe, __O_PATH);
 	if (fd < 0)
 	{
@@ -26,7 +24,7 @@ static int	try_without_path(t_cmd const *cmd, char *envp[])
 		ft_putstr_fd(2, cmd->exe);
 		ft_putstr_fd(2, ": ");
 		ft_putstr_fd(2, "No such file or directory\n");
-		return (1);
+		return (127);
 	}
 	close(fd);
 	execve(cmd->exe, cmd->args, envp);
@@ -94,16 +92,16 @@ int			search_cmd(t_cmd const *cmd, char *envp[])
 	int		path_id;
 	int		i;
 
-	if (try_without_path(cmd, envp))
-		return (1);
 	path_id = find_path_id(envp);
-	if (path_id == -1)
-		return (1);
+	if (ft_strchr(cmd->exe, '/') || path_id == -1)
+		return (try_without_path(cmd, envp));
 	i = 4;
 	while (envp[path_id][i] != '\n' && envp[path_id][i] != '\0')
 	{
 		if (try_path(cmd, envp, &i, path_id))
 			return (1);
 	}
-	return (0);
+	ft_putstr_fd(2, cmd->exe);
+	ft_putstr_fd(2, ": command not found\n");
+	return (127);
 }
