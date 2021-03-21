@@ -46,7 +46,7 @@ static int	count_cmds(char const *line)
 static int	fill_cmds(char **cmds, char const *line, int count)
 {
 	char const	*backup;
-	char	is_escaped;
+	char		is_escaped;
 
 	while (count--)
 	{
