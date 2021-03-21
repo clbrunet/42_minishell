@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 06:27:50 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/20 17:48:15 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/21 07:49:15 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,9 +100,20 @@ static int	execute_cmd_node(t_cmd *cmd, char **envp_ptr[],
 	else
 	{
 		*last_exit_code = execute_pipeless_cmd(cmd, envp_ptr, *last_exit_code);
-		if (ft_strcmp(cmd->exe, "exit") == 0 &&
-				(!cmd->args[1] || !cmd->args[2]))
+		if (ft_strcmp(cmd->exe, "exit") == 0)
+		{
+			if (*last_exit_code == -1)
+			{
+				*last_exit_code = 1;
+				return (2);
+			}
 			return (1);
+		}
+	}
+	if (*last_exit_code == -1)
+	{
+		*last_exit_code = 130;
+		return (2);
 	}
 	return (0);
 }
@@ -111,6 +122,7 @@ int			execute_cmds(char *line, char **envp_ptr[], int *last_exit_code)
 {
 	t_cmd	**cmds;
 	t_cmd	**begin_cmds;
+	int		ret;
 
 	cmds = parse_line(line, envp_ptr, *last_exit_code);
 	free(line);
@@ -122,13 +134,13 @@ int			execute_cmds(char *line, char **envp_ptr[], int *last_exit_code)
 	begin_cmds = cmds;
 	while (*cmds)
 	{
-		if (execute_cmd_node(*cmds, envp_ptr, last_exit_code))
+		if ((ret = execute_cmd_node(*cmds, envp_ptr, last_exit_code)))
 		{
 			free_cmds(begin_cmds);
+			if (ret == 2)
+				return (0);
 			return (1);
 		}
-		if (*last_exit_code == -1)
-			*last_exit_code = 130;
 		cmds++;
 	}
 	free_cmds(begin_cmds);
