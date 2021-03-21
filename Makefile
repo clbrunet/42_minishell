@@ -60,8 +60,7 @@ SRCS=	srcs/main/main.c		\
 OBJS=	$(SRCS:.c=.o)
 
 CC=		clang
-CFLAGS=	-Wall -Wextra -Werror -I./includes/ -g3 -fsanitize=address
-# CFLAGS=	-Wall -Wextra -Werror -I./includes/ -g3
+CFLAGS=	-Wall -Wextra -Werror -I./includes/
 
 all:	$(NAME)
 
