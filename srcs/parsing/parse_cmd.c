@@ -12,42 +12,7 @@
 
 #include "parsing.h"
 #include "ft.h"
-#include <stdio.h>
-/*
-static void		print_cmds(t_cmd *p)
-{
-	int	i;
 
-	while (p != NULL)
-	{
-		printf("Cmd = %p\n", p);
-		printf("Exe = %s\n", p->exe);
-		i = 0;
-		while (p->args[i] != NULL)
-		{
-			printf("Arg #%d: %s\n", i, p->args[i]);
-			i++;
-		}
-		i = 0;
-		while (p->in_redirection != NULL)
-		{
-			printf("In red #%d: type = %d path_or_endstr = %s \n",
-			i, p->in_redirection->type, p->in_redirection->path_or_endstr);
-			p->in_redirection = p->in_redirection->next;
-			i++;
-		}
-		i = 0;
-		while (p->out_redirection != NULL)
-		{
-			printf("Out red #%d: type = %d path_or_endstr = %s \n",
-			i, p->out_redirection->type, p->out_redirection->path_or_endstr);
-			p->out_redirection = p->out_redirection->next;
-			i++;
-		}
-		p = p->pipe;
-	}
-}
-*/
 static t_cmd	*init_cmd(t_parse_cmd *p, int *i)
 {
 	t_cmd	*cmd;
@@ -126,6 +91,5 @@ t_cmd			*parse_cmd(char const *str_cmd, int len, char **envp[],
 		if (!set_previous_pipe(&p, &i) || i > len)
 			break ;
 	}
-//	print_cmds(p.first_cmd);
 	return (p.first_cmd);
 }
