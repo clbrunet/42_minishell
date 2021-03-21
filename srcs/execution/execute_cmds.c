@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 06:27:50 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/21 11:32:48 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/21 11:40:10 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,10 +129,9 @@ int			execute_cmds(char *line, char **envp_ptr[], int *last_exit_code)
 	t_cmd	*cmd;
 	int		ret;
 
-	s_cmds = parse_line(line);
-	free(line);
-	if (s_cmds == NULL)
+	if ((s_cmds = parse_line(line)) == NULL)
 		*last_exit_code = 2;
+	free(line);
 	if (s_cmds == NULL)
 		return (0);
 	s_cmds_backup = s_cmds;
