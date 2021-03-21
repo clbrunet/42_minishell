@@ -6,7 +6,7 @@
 /*   By: clbrunet <clbrunet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 06:27:50 by clbrunet          #+#    #+#             */
-/*   Updated: 2021/03/21 10:54:46 by clbrunet         ###   ########.fr       */
+/*   Updated: 2021/03/21 11:16:37 by clbrunet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ static int	execute_cmd_node(t_cmd *cmd, char **envp_ptr[],
 	else
 	{
 		*last_exit_code = execute_pipeless_cmd(cmd, envp_ptr, *last_exit_code);
-		if (ft_strcmp(cmd->exe, "exit") == 0 && *last_exit_code == -1) 
+		if (ft_strcmp(cmd->exe, "exit") == 0 && *last_exit_code == -1)
 		{
 			*last_exit_code = 1;
 			return (2);
